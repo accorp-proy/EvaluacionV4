@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	<ui:define name="title">Dashboard</ui:define>
+	<style type="text/css">
+.main-content {
+	padding: 0;
+}
+</style>
+
+	<ui:define name="content">
+
+		<style type="text/css">
+.gestion {
+	background-color: #DDEBF7 !important;
+	background-image: none !important;
+	color: #000000 !important;
+}
+</style>
+		<style type="text/css">
+.porcentaje {
+	background-color: #62F6BD !important;
+	background-image: none !important;
+	color: #000000 !important;
+}
+</style>
+		<h:form id="frm_pln_013">
+			<p:layout fullPage="false" id="lyt_pdr">
+				<p:layoutUnit position="west" id="lyt_centes">
+					<p:panelGrid styleClass="sinborde w200" columns="3">
+						<p:row>
+
+							<p:panelGrid columns="1" styleClass="sinborde">
+								<h:outputText id="labelResponsable" />
+								<h:panelGroup>
+									<p:selectOneMenu id="cmbAnio" style="width:100% !important"
+										value="#{TableroControlInvBn.anioSeleccionado}"
+										converter="#{parametrosConverter}">
+										<f:selectItem itemLabel="Año" />
+										<f:selectItems value="#{TableroControlInvBn.anioList}"
+											var="anio" itemLabel="#{anio.nombreLista}"
+											itemValue="#{anio}" />
+
+									</p:selectOneMenu>
+								</h:panelGroup>
+								<p:selectCheckboxMenu id="cmbMeses"
+									style="width:100% !important"
+									value="#{TableroControlInvBn.mesesSeleccionados}" label="Meses"
+									converter="#{parametrosConverter}" filter="false">
+									<f:selectItems value="#{TableroControlInvBn.mesList}" var="mes"
+										itemLabel="#{mes.nombreLista}" itemValue="#{mes}"></f:selectItems>
+								</p:selectCheckboxMenu>
+								<p:selectCheckboxMenu style="width:100% !important"
+									id="cmbTipoEstacion" label="Negocio" filter="false"
+									value="#{TableroControlInvBn.tipoEstacionSeleccionados}"
+									converter="#{tipoEstacionConverter}">
+									<f:selectItems value="#{TableroControlInvBn.tipoEstacionList}"
+										var="tipoE" itemLabel="#{tipoE.descripcion}"
+										itemValue="#{tipoE}"></f:selectItems>
+								</p:selectCheckboxMenu>
+								<p:selectCheckboxMenu style="width:100% !important" id="cmbZona"
+									value="#{TableroControlInvBn.zonaSeleccionadas}" filter="false"
+									label="Zona" converter="#{zonaConverter}">
+									<f:selectItems value="#{TableroControlInvBn.zonaList}"
+										var="zona" itemLabel="#{zona.nombreZona}" itemValue="#{zona}"></f:selectItems>
+									<p:ajax event="change" process="@this cmbTipoEstacion,cmbZona"
+										update="frm_pln_013:cmbEstacion"></p:ajax>
+								</p:selectCheckboxMenu>
+								<p:selectOneMenu id="cmbEstacion" style="width:100% !important"
+									value="#{TableroControlInvBn.estacionSeleccionada}"
+									converter="#{agenciaConverter}" var="t" filter="true"
+									filterMatchMode="contains">
+									<f:selectItem itemLabel="Estación" />
+									<f:selectItems value="#{TableroControlInvBn.agenciaList}"
+										var="estacion" itemLabel="#{estacion.nombreAgencia}"
+										itemValue="#{estacion}" />
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nombre" />
+										</f:facet>
+										<h:outputText value="#{t.nombreAgencia}" />
+									</p:column>
+								</p:selectOneMenu>
+								<p:commandButton value="Filtrar"
+									action="#{TableroControlInvBn.filtrarModel()}"
+									process="@this frm_pln_013"
+									update="frm_pln_013:tabWiewDash,frm_pln_013:labelResponsable"></p:commandButton>
+
+							</p:panelGrid>
+
+						</p:row>
+					</p:panelGrid>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center" id="lyt_center">
+					<p:tabView id="tabWiewDash" style="width: 100;height: 100%;">
+						<p:tab title="Gráficos" id="tabGrafico">
+							<div class="ui-g dashboard">
+								<p:panelGrid styleClass="sinborde">
+									<div class="ui-g-12 ui-md-6 ui-lg-3">
+										<div class="ui-g card colorbox colorbox-1">
+											<div class="ui-g-3" style="background-color: #03A9F4">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.numeroTienda}
+												</span>
+											</div>
+											<div class="ui-g-9" style="background-color: #03A9F4">
+												<span class="colorbox-name"># Estación/Tienda</span>
+											</div>
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde"
+									rendered="#{TableroControlInvBn.tableroC.evaluacion01 ne '0'}">
+									<div class="ui-g-12 ui-md-6 ui-lg-3">
+										<div class="ui-g card colorbox colorbox-1">
+											<div class="ui-g-12">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion01}</span>
+											</div>
+
+
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde"
+									rendered="#{TableroControlInvBn.tableroC.evaluacion02 ne '0'}">
+									<div class="ui-g-12 ui-md-6 ui-lg-3">
+										<div class="ui-g card colorbox colorbox-2">
+											<div class="ui-g-12">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion02}</span>
+											</div>
+
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde"
+									rendered="#{TableroControlInvBn.tableroC.evaluacion03 ne '0'}">
+									<div class="ui-g-12 ui-md-3 ui-lg-2,ui-lg-2">
+										<div class="ui-g card colorbox colorbox-3">
+											<div class="ui-g-12">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion03}</span>
+											</div>
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde"
+									rendered="#{TableroControlInvBn.tableroC.evaluacion04 ne '0'}">
+									<div class="ui-g-12 ui-md-3 ui-lg-2,ui-lg-2">
+										<div class="ui-g card colorbox colorbox-4">
+											<div class="ui-g-12">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion04}</span>
+											</div>
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde"
+									rendered="#{TableroControlInvBn.tableroC.evaluacion05 ne '0'}">
+									<div class="ui-g-12 ui-md-6 ui-lg-3">
+										<div class="ui-g card colorbox colorbox-5">
+											<div class="ui-g-12">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion05}</span>
+											</div>
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde"
+									rendered="#{TableroControlInvBn.tableroC.evaluacion06 ne '0'}">
+									<div class="ui-g-12 ui-md-6 ui-lg-3">
+										<div class="ui-g card colorbox colorbox-6">
+											<div class="ui-g-12">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion06}</span>
+											</div>
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde"
+									rendered="#{TableroControlInvBn.tableroC.evaluacion07 ne '0'}">
+									<div class="ui-g-12 ui-md-6 ui-lg-3">
+										<div class="ui-g card colorbox colorbox-7">
+											<div class="ui-g-12">
+												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion07}</span>
+											</div>
+
+										</div>
+									</div>
+								</p:panelGrid>
+
+							</div>
+							<div align="right">
+								<p:commandButton icon="fa fa-file-excel-o" ajax="false"
+									immediate="true"
+									actionListener="#{ReporteBn.imprimirExcel(24,appMain.usuario.idUsuario.toString(),TableroControlInvBn.nivel01,TableroControlInvBn.nivel02,TableroControlInvBn.nivel03,TableroControlInvBn.nivel04,TableroControlInvBn.nivel05,TableroControlInvBn.nivel06,TableroControlInvBn.porcentajeC,TableroControlInvBn.porcentajeE,null,true)}">
+									<p:fileDownload value="#{appMain.download}"></p:fileDownload>
+								</p:commandButton>
+							</div>
+							<div class="ui-g-6">
+								<p:dataTable id="dtbEvaluacionZona"
+									emptyMessage="No existe información"
+									value="#{TableroControlInvBn.tabla1}" var="tabla">
+									<f:facet name="header">
+										<div align="center">
+											<p:outputLabel value="# Inventarios por Zona " />
+										</div>
+									</f:facet>
+									<p:column headerText="Zona" style="width:80px;font-weight:bold">
+										<div align="center">
+											<p:outputLabel value="#{tabla.zona}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel01}"
+										rendered="#{TableroControlInvBn.nivel01 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel01}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel02}"
+										rendered="#{TableroControlInvBn.nivel02 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel02}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel03}"
+										rendered="#{TableroControlInvBn.nivel03 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel03}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel04}"
+										rendered="#{TableroControlInvBn.nivel04 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel04}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel05}"
+										rendered="#{TableroControlInvBn.nivel05 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel05}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel06}"
+										rendered="#{TableroControlInvBn.nivel06 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel06}" />
+										</div>
+									</p:column>
+									<p:column headerText="Total">
+										<div align="center">
+											<p:outputLabel value="#{tabla.total}" />
+										</div>
+									</p:column>
+									<p:columnGroup type="footer">
+										<p:row>
+											<p:column style="font-weight:bold" styleClass="gestion"
+												footerText="TOTAL" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel01 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel01T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel02 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel02T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel03 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel03T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel04 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel04T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel05 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel05T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel06 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel06T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												footerText="#{TableroControlInvBn.nivelT}" />
+										</p:row>
+										
+									</p:columnGroup>
+								</p:dataTable>
+							</div>
+
+
+
+							<div class="ui-g-6">
+								<p:dataTable id="dtbEvaluacionMes"
+									emptyMessage="No existe información"
+									value="#{TableroControlInvBn.tabla4}" var="tabla">
+									<f:facet name="header">
+										<div align="center">
+											<p:outputLabel value="# Inventarios por Mes "></p:outputLabel>
+										</div>
+									</f:facet>
+									<p:column headerText="Mes" style="width:60px;font-weight:bold">
+										<div align="center">
+											<p:outputLabel value="#{tabla.mes}"></p:outputLabel>
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel01}"
+										rendered="#{TableroControlInvBn.nivel01 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel01}"></p:outputLabel>
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel02}"
+										rendered="#{TableroControlInvBn.nivel02 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel02}"></p:outputLabel>
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel03}"
+										rendered="#{TableroControlInvBn.nivel03 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel03}"></p:outputLabel>
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel04}"
+										rendered="#{TableroControlInvBn.nivel04 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel04}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel05}"
+										rendered="#{TableroControlInvBn.nivel05 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel05}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel06}"
+										rendered="#{TableroControlInvBn.nivel06 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel06}" />
+										</div>
+									</p:column>
+									<p:column headerText="Total">
+										<div align="center">
+											<p:outputLabel value="#{tabla.total}" />
+										</div>
+									</p:column>
+									<p:columnGroup type="footer">
+										<p:row>
+											<p:column style="font-weight:bold" styleClass="gestion"
+												footerText="TOTAL" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel01 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel01T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel02 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel02T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel03 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel03T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel04 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel04T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel05 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel05T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel06 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel06T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												footerText="#{TableroControlInvBn.nivelT}" />
+										</p:row>
+									</p:columnGroup>
+								</p:dataTable>
+							</div>
+							<div class="ui-g-12">
+								<p:dataTable id="dtbDetalleEstacion" scrollable="true"
+									scrollHeight="280" emptyMessage="No existe información"
+									value="#{TableroControlInvBn.tabla3}" var="tabla">
+									<f:facet name="header">
+										<div align="center">
+											<p:outputLabel value="Detalle de Estaciones de Servicio " />
+										</div>
+									</f:facet>
+									<p:column headerText="Agencia"
+										style="width:150px;font-weight:bold">
+										<div align="left">
+											<p:outputLabel value="#{tabla.agencia}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel01}"
+										rendered="#{TableroControlInvBn.nivel01 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel01}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel02}"
+										rendered="#{TableroControlInvBn.nivel02 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel02}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel03}"
+										rendered="#{TableroControlInvBn.nivel03 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel03}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel04}"
+										rendered="#{TableroControlInvBn.nivel04 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel04}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel05}"
+										rendered="#{TableroControlInvBn.nivel05 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel05}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{TableroControlInvBn.nivel06}"
+										rendered="#{TableroControlInvBn.nivel06 ne '0'}">
+										<div align="center">
+											<p:outputLabel value="#{tabla.nivel06}" />
+										</div>
+									</p:column>
+									<p:column headerText="Total">
+										<div align="center">
+											<p:outputLabel value="#{tabla.total}" />
+										</div>
+									</p:column>
+									<p:columnGroup type="footer">
+										<p:row>
+											<p:column style="font-weight:bold" styleClass="gestion"
+												footerText="TOTAL" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel01 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel01T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel02 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel02T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel03 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel03T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel04 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel04T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel05 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel05T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												rendered="#{TableroControlInvBn.nivel06 ne '0'}"
+												footerText="#{TableroControlInvBn.nivel06T}" />
+											<p:column style="font-weight:bold" styleClass="gestion"
+												footerText="#{TableroControlInvBn.nivelT}" />
+										</p:row>
+									</p:columnGroup>
+								</p:dataTable>
+
+							</div>
+						</p:tab>
+					</p:tabView>
+				</p:layoutUnit>
+			</p:layout>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog responsive="true" widgetVar="dlg_par_021_1"
+		id="dlg_par_021_1" appendTo="@(body)" resizable="true" width="900px">
+		<f:facet name="header">
+			<h:outputLabel value="Adjuntos KPI’s" />
+			<p:outputLabel value="par_021_1.xhtml"
+				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
+		</f:facet>
+		<h:form id="frm_par_021_1">
+			<p:growl showDetail="false" id="mensajes">
+			</p:growl>
+			<p:panelGrid styleClass="sinborde w100" layout="grid" columns="1"
+				columnClasses="ui-grid-col-12">
+				<p:dataTable id="dtbAdjunto" emptyMessage="sin adjuntos"
+					value="#{TreePlanAccionBn.checkListKpis}" var="checkListAdjunto">
+					<p:column headerText="KPI’s" width="200">
+					<h:outputText
+							value="#{checkListAdjunto.checkListKpiEjecucion.descripcion}"
+							styleClass="w100" />
+					</p:column>
+					<p:column headerText="Nombre del Archivo" width="100">
+						<h:outputText value="#{checkListAdjunto.nombreAdjunto}" />
+					</p:column>
+					<p:column headerText="Ruta" width="75">
+						<p:commandButton immediate="true" value="Descargar" ajax="false"
+							actionListener="#{appMain.fileDownloadPath(checkListAdjunto.checkListKpiEjecucion.idCheckListKpiEjecucion , checkListAdjunto.nombreAdjunto)}"
+							process="@this">
+							<p:fileDownload value="#{appMain.download}" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Categoría" style="width:30%">
+						<h:outputText
+							value="#{checkListAdjunto.parametroCategoria.nombreLista}"
+							styleClass="w100" />
+					</p:column>
+					<p:column headerText="Descripción" style="width:40%">
+						<h:outputText value="#{checkListAdjunto.detalle}"
+							styleClass="w100" />
+					</p:column>
+				</p:dataTable>
+
+			</p:panelGrid>
+
+		</h:form>
+	</p:dialog>
+</ui:composition>
