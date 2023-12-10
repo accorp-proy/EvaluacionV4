@@ -1,5 +1,6 @@
 package com.primax.bean.vs;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,15 +9,24 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import com.primax.bean.ss.AppMain;
 import com.primax.bean.vs.base.BaseBean;
+import com.primax.enm.gen.RutaFileEnum;
+import com.primax.enm.gen.UtilEnum;
+import com.primax.enm.msg.Mensajes;
+import com.primax.exc.gen.EntidadNoGrabadaException;
+import com.primax.jpa.enums.EstadoEnum;
 import com.primax.jpa.gen.PlanAccionOrganizacion;
 import com.primax.jpa.param.AgenciaEt;
 import com.primax.jpa.param.EvaluacionEt;
@@ -37,8 +47,11 @@ import com.primax.jpa.sec.UsuarioEt;
 import com.primax.srv.idao.IAgenciaDao;
 import com.primax.srv.idao.ICheckListEjecucionDao;
 import com.primax.srv.idao.ICheckListEjecucionPlnAdjuntoDao;
+import com.primax.srv.idao.ICheckListKpiEjecucionAdjuntoDao;
+import com.primax.srv.idao.ICheckListKpiEjecucionDao;
 import com.primax.srv.idao.IEvaluacionDao;
 import com.primax.srv.idao.IFrecuenciaVisitaDao;
+import com.primax.srv.idao.IGeneralUtilsDao;
 import com.primax.srv.idao.IParametrolGeneralDao;
 import com.primax.srv.idao.IPlanAccionAnioDao;
 import com.primax.srv.idao.IPlanAccionChekListDao;
@@ -66,6 +79,8 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 	@EJB
 	private IEvaluacionDao iEvaluacionDao;
 	@EJB
+	private IGeneralUtilsDao iGeneralUtilsDao;
+	@EJB
 	private IPlanAccionMesDao iPlanAccionMesDao;
 	@EJB
 	private IPlanAccionAnioDao iPlanAccionAnioDao;
@@ -82,7 +97,11 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 	@EJB
 	private IPlanAccionChekListDao iPlanAccionChekListDao;
 	@EJB
+	private ICheckListKpiEjecucionDao iCheckListKpiEjecucionDao;
+	@EJB
 	private ICheckListEjecucionPlnAdjuntoDao iCheckListEjecucionPlnAdjuntoDao;
+	@EJB
+	private ICheckListKpiEjecucionAdjuntoDao iCheckListKpiEjecucionAdjuntoDao;
 
 	@Inject
 	private AppMain appMain;
@@ -94,15 +113,23 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 	private EvaluacionEt evaluacionSeleccionada;
 	private ParametrosGeneralesEt anioSeleccionado;
 	private CheckListEjecucionEt checkListEjecucion;
+	private CheckListEjecucionEt checkListEjecucionR;
+	private List<CheckListKpiEjecucionEt> checkListKpis;
 	private List<ParametrosGeneralesEt> mesesSeleccionados;
-	private List<CheckListKpiEjecucionAdjuntoEt> checkListKpis;
 	private PlanAccionOrganizacion planAccionOrganizacionSelect;
+	private CheckListKpiEjecucionEt checkListKpiEjecucionSeleccionado;
+	private List<CheckListKpiEjecucionAdjuntoEt> checkListKpiEjecucionAdjuntoEliminado;
 
 	@Override
 	protected void init() {
 		generar();
 		disenarTree();
+		inicializarObj();
 
+	}
+
+	public void inicializarObj() {
+		checkListKpiEjecucionAdjuntoEliminado = new ArrayList<>();
 	}
 
 	public void generar() {
@@ -226,20 +253,109 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 		}
 	}
 
+	public void guardarAdj() {
+		try {
+			UsuarioEt usuario = appMain.getUsuario();
+			if (!checkListKpiEjecucionAdjuntoEliminado.isEmpty()) {
+				for (CheckListKpiEjecucionAdjuntoEt checkListKpiEjecucionAdjunto : checkListKpiEjecucionAdjuntoEliminado) {
+					iCheckListKpiEjecucionAdjuntoDao.guardarCheckListKpiEjecucionAdjunto(checkListKpiEjecucionAdjunto,
+							usuario);
+				}
+			}
+			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucionSeleccionado, usuario);
+			showInfo("Dato Guardado", FacesMessage.SEVERITY_INFO, null, null);
+			RequestContext.getCurrentInstance().execute("PF('dlg_par_021_2').hide();");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método guardar " + " " + e.getMessage());
+		}
+	}
+
+	public void checkListR(Long id) {
+		try {
+			checkListEjecucionR = iCheckListEjecucionDao.getCheckListEjecucionPlanAccion(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método adjuntoKPI " + " " + e.getMessage());
+		}
+	}
+
 	public void adjuntoKPI(Long id) {
 		try {
 			checkListKpis = new ArrayList<>();
 			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucionPlanAccion(id);
 			for (CheckListProcesoEjecucionEt proceso : checkListEjecucion.getCheckListProcesoEjecucion()) {
 				for (CheckListKpiEjecucionEt kpi : proceso.getCheckListKpiEjecucion()) {
-					for (CheckListKpiEjecucionAdjuntoEt adjunto : kpi.getCheckListKpiEjecucionAdjunto()) {
-						checkListKpis.add(adjunto);
-					}
+					checkListKpis.add(kpi);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método adjuntoKPI " + " " + e.getMessage());
+		}
+
+	}
+
+	public void adjuntoKPIAdj(CheckListKpiEjecucionEt kpi) {
+		try {
+			System.out.println("Prueba Jema");
+			checkListKpiEjecucionSeleccionado = kpi;
+			if (checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto() == null
+					|| checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto().isEmpty()) {
+				checkListKpiEjecucionSeleccionado.setCheckListKpiEjecucionAdjunto(new ArrayList<>());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método adjuntoKPI " + " " + e.getMessage());
+		}
+	}
+
+	public void upload(FileUploadEvent event) throws EntidadNoGrabadaException {
+		String ruta;
+		String nombreArchivo = "";
+		try {
+			CheckListKpiEjecucionEt checkListKpiEjecucion = checkListKpiEjecucionSeleccionado;
+			nombreArchivo = event.getFile().getFileName();
+			CheckListKpiEjecucionAdjuntoEt reg = new CheckListKpiEjecucionAdjuntoEt();
+			reg.setNombreAdjunto(nombreArchivo);
+			reg.setCheckListKpiEjecucion(checkListKpiEjecucionSeleccionado);
+			reg.setFile(event.getFile().getInputstream());
+			for (CheckListKpiEjecucionAdjuntoEt doc : checkListKpiEjecucion.getCheckListKpiEjecucionAdjunto()) {
+				if (doc.getNombreAdjunto().equals(reg.getNombreAdjunto())) {
+					showInfo("" + Mensajes._ERROR_UPLOAD_DOCUMENTO.getDescripcion(), FacesMessage.SEVERITY_ERROR);
+					return;
+				}
+			}
+			if (nombreArchivo.toLowerCase().contains(".png") || nombreArchivo.toLowerCase().contains(".jpg")) {
+				ruta = iGeneralUtilsDao.creaRuta(checkListKpiEjecucionSeleccionado.getIdCheckListKpiEjecucion(),
+						RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
+			} else {
+				ruta = iGeneralUtilsDao.creaRuta(checkListKpiEjecucionSeleccionado.getIdCheckListKpiEjecucion(),
+						RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
+			}
+			iGeneralUtilsDao.copyFile(reg.getNombreAdjunto(), reg.getFile(), ruta);
+			checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto().add(reg);
+			FacesMessage msg = new FacesMessage("Satisfactorio! ",
+					event.getFile().getFileName() + "  " + "Esta subido Correctamente.");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage("Error! ",
+					event.getFile().getFileName() + "  " + "El archivo no se subio.");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			e.printStackTrace();
+		}
+	}
+
+	public void quitarAdjunto(CheckListKpiEjecucionAdjuntoEt checkListKpiEjecucionAdjunto) {
+		try {
+			Date fechaRegistro = UtilEnum.FECHA_REGISTRO.getValue();
+			checkListKpiEjecucionAdjunto.setFechaModificacion(fechaRegistro);
+			checkListKpiEjecucionAdjunto.setEstado(EstadoEnum.INA);
+			checkListKpiEjecucionAdjuntoEliminado.add(checkListKpiEjecucionAdjunto);
+			checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto().remove(checkListKpiEjecucionAdjunto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método quitarAdjunto " + " " + e.getMessage());
 		}
 
 	}
@@ -361,6 +477,18 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 		return agencias;
 	}
 
+	public List<ParametrosGeneralesEt> getTipoCategoriaList() {
+		List<ParametrosGeneralesEt> parametrosGenerales = new ArrayList<ParametrosGeneralesEt>();
+		try {
+			ParametrosGeneralesEt parametrosGeneral = iParametrolGeneralDao.getObjPadre("65");
+			parametrosGenerales = iParametrolGeneralDao.getListaHIjos(parametrosGeneral);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método getTipoCategoriaList " + " " + e.getMessage());
+		}
+		return parametrosGenerales;
+	}
+
 	public TreeNode getRoot() {
 		return root;
 	}
@@ -433,12 +561,28 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 		this.checkListEjecucion = checkListEjecucion;
 	}
 
-	public List<CheckListKpiEjecucionAdjuntoEt> getCheckListKpis() {
+	public List<CheckListKpiEjecucionEt> getCheckListKpis() {
 		return checkListKpis;
 	}
 
-	public void setCheckListKpis(List<CheckListKpiEjecucionAdjuntoEt> checkListKpis) {
+	public void setCheckListKpis(List<CheckListKpiEjecucionEt> checkListKpis) {
 		this.checkListKpis = checkListKpis;
+	}
+
+	public CheckListKpiEjecucionEt getCheckListKpiEjecucionSeleccionado() {
+		return checkListKpiEjecucionSeleccionado;
+	}
+
+	public void setCheckListKpiEjecucionSeleccionado(CheckListKpiEjecucionEt checkListKpiEjecucionSeleccionado) {
+		this.checkListKpiEjecucionSeleccionado = checkListKpiEjecucionSeleccionado;
+	}
+
+	public CheckListEjecucionEt getCheckListEjecucionR() {
+		return checkListEjecucionR;
+	}
+
+	public void setCheckListEjecucionR(CheckListEjecucionEt checkListEjecucionR) {
+		this.checkListEjecucionR = checkListEjecucionR;
 	}
 
 	@Override
@@ -454,7 +598,9 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 		iPlanAccionChekListDao.remove();
 		iPlanAccionEstacionDao.remove();
 		iCheckListEjecucionDao.remove();
+		iCheckListKpiEjecucionDao.remove();
 		iCheckListEjecucionPlnAdjuntoDao.remove();
+		iCheckListKpiEjecucionAdjuntoDao.remove();
 	}
 
 }

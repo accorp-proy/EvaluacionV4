@@ -6,7 +6,7 @@
 	<p:dialog responsive="true" widgetVar="dlg_par_021_1"
 		id="dlg_par_021_1" appendTo="@(body)" resizable="true" width="900px">
 		<f:facet name="header">
-			<h:outputLabel value="Adjuntos KPI’s" />
+			<h:outputLabel value="Evidencia Plan Acción " />
 			<p:outputLabel value="par_021_1.xhtml"
 				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
 		</f:facet>
@@ -16,35 +16,31 @@
 			<p:panelGrid styleClass="sinborde w100" layout="grid" columns="1"
 				columnClasses="ui-grid-col-12">
 				<p:dataTable id="dtbAdjunto" emptyMessage="sin adjuntos"
-					value="#{TreePlanAccionBn.checkListKpis}" var="checkListAdjunto">
-					<p:column headerText="KPI’s" width="200">
-					<h:outputText
-							value="#{checkListAdjunto.checkListKpiEjecucion.descripcion}"
-							styleClass="w100" />
-					</p:column>
-					<p:column headerText="Nombre del Archivo" width="100">
-						<h:outputText value="#{checkListAdjunto.nombreAdjunto}" />
-					</p:column>
-					<p:column headerText="Ruta" width="75">
-						<p:commandButton immediate="true" value="Descargar" ajax="false"
-							actionListener="#{appMain.fileDownloadPath(checkListAdjunto.checkListKpiEjecucion.idCheckListKpiEjecucion , checkListAdjunto.nombreAdjunto)}"
-							process="@this">
-							<p:fileDownload value="#{appMain.download}" />
-						</p:commandButton>
-					</p:column>
-					<p:column headerText="Categoría" style="width:30%">
+					value="#{TreePlanAccionBn.checkListKpis}" var="checkListKpi">
+					<p:column headerText="Proceso">
 						<h:outputText
-							value="#{checkListAdjunto.parametroCategoria.nombreLista}"
+							value="#{checkListKpi.checkListProcesoEjecucion.descripcion}"
 							styleClass="w100" />
 					</p:column>
-					<p:column headerText="Descripción" style="width:40%">
-						<h:outputText value="#{checkListAdjunto.detalle}"
+					<p:column headerText="KPI’s">
+						<h:outputText value="#{checkListKpi.descripcion}"
 							styleClass="w100" />
+					</p:column>
+					<p:column headerText="Comentario Plan Acción">
+						<h:outputText value="#{checkListKpi.comentarioPlanAccion}" />
+					</p:column>
+					<p:column headerText="Evidencia Plan Acción">
+						<div align="center">
+							<p:commandButton oncomplete="PF('dlg_par_021_2').show();"
+								action="#{TreePlanAccionBn.adjuntoKPIAdj(checkListKpi)}"
+								update=":frm_par_021_2"
+								title="Permite subir archivos Adjuntos al KPI’s"
+								icon="fa fa-file-archive-o"></p:commandButton>
+						</div>
 					</p:column>
 				</p:dataTable>
-
 			</p:panelGrid>
-
 		</h:form>
+		<ui:include src="/pages/parametros/par_021_2.xhtml"></ui:include>
 	</p:dialog>
 </ui:composition>

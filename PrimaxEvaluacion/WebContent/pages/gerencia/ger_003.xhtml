@@ -89,7 +89,6 @@
 					<p:row>
 						<p:column headerText="KPI’s" style="width:40px" />
 						<p:column headerText="Criterio Evaluación" style="width:20px" />
-						<p:column headerText="Adjunto" style="width:10px" />
 						<p:column headerText="Comentario Plan Acción" style="width:30px" />
 					</p:row>
 				</p:columnGroup>
@@ -98,7 +97,6 @@
 					<p:columnGroup type="header">
 						<p:row>
 							<p:column headerText="#{detalle.descripcion}" />
-							<p:column />
 							<p:column />
 							<p:column />
 						</p:row>
@@ -113,16 +111,6 @@
 						</div>
 					</p:column>
 					<p:column>
-						<div align="center">
-							<p:commandButton
-							oncomplete="PF('dlg_ger_003_1').show();"
-								action="#{GerenciaCriterioEBn.adjuntoKPI(checkListKpi)}"
-								update=":frm_ger_003_1"
-								title="Permite subir archivos Adjuntos al KPI’s"
-								icon="fa fa-file-archive-o"></p:commandButton>
-						</div>
-					</p:column>
-					<p:column>
 						<div align="left">
 							<p:inputTextarea value="#{checkListKpi.comentarioPlanAccion}"
 								placeholder="Ingresar plan de acción" rows="4" styleClass="w100"
@@ -133,7 +121,6 @@
 			</p:dataTable>
 
 		</h:form>
-		<ui:include src="/pages/gerencia/ger_003_1.xhtml"></ui:include>
 		<p:confirmDialog widgetVar="dlg_conf_0" header="Confirmar"
 			appendTo="@(body)" message="Esta seguro de guardar Plan de Acción ?"
 			severity="alert" closeOnEscape="true" showEffect="fade"

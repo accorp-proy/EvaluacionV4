@@ -114,6 +114,13 @@
 									process="@this">
 									<p:fileDownload value="#{appMain.download}" />
 								</p:commandButton>
+								<p:commandButton icon="ui-icon-event-available"
+									update=":frm_par_021_3"
+									rendered="#{document.tipo eq 'Plan'}"
+									action="#{TreePlanAccionBn.checkListR(document.id0)}"
+									title="Botón permite descargar y visualizar reportes"
+									oncomplete="PF('dlg_par_021_3').show()">
+								</p:commandButton>
 								<p:commandButton rendered="#{document.tipo eq 'Plan'}"
 									icon="fa fa-file-text-o" immediate="true" ajax="false"
 									title="Descargar Plan Acción"
@@ -130,6 +137,7 @@
 								<p:commandButton rendered="#{document.tipo eq 'Plan'}"
 									value="#{TreePlanAccionBn.adjuntoKPI(document.id0)}"
 									oncomplete="PF('dlg_par_021_1').show();"
+									title="Evidencias del Plan de Acción"
 									update=":frm_par_021_1" icon="fa fa-file-archive-o"></p:commandButton>
 							</div>
 						</p:column>
@@ -138,6 +146,7 @@
 				</div>
 			</h:form>
 			<ui:include src="/pages/parametros/par_021_1.xhtml"></ui:include>
+			<ui:include src="/pages/parametros/par_021_3.xhtml"></ui:include>
 		</div>
 	</ui:define>
 </ui:composition>

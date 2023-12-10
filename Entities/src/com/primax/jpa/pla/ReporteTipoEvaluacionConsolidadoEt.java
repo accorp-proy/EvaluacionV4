@@ -104,6 +104,78 @@ public class ReporteTipoEvaluacionConsolidadoEt extends EntityBase implements Se
 	@Column(name = "mes_12")
 	private Double mes12;
 
+	@Column(name = "mes_01_a")
+	private Double mes01A;
+
+	@Column(name = "mes_02_a")
+	private Double mes02A;
+
+	@Column(name = "mes_03_a")
+	private Double mes03A;
+
+	@Column(name = "mes_04_a")
+	private Double mes04A;
+
+	@Column(name = "mes_05_a")
+	private Double mes05A;
+
+	@Column(name = "mes_06_a")
+	private Double mes06A;
+
+	@Column(name = "mes_07_a")
+	private Double mes07A;
+
+	@Column(name = "mes_08_a")
+	private Double mes08A;
+
+	@Column(name = "mes_09_a")
+	private Double mes09A;
+
+	@Column(name = "mes_10_a")
+	private Double mes10A;
+
+	@Column(name = "mes_11_a")
+	private Double mes11A;
+
+	@Column(name = "mes_12_a")
+	private Double mes12A;
+
+	@Column(name = "mes_01_t")
+	private Long mes01T;
+
+	@Column(name = "mes_02_t")
+	private Long mes02T;
+
+	@Column(name = "mes_03_t")
+	private Long mes03T;
+
+	@Column(name = "mes_04_t")
+	private Long mes04T;
+
+	@Column(name = "mes_05_t")
+	private Long mes05T;
+
+	@Column(name = "mes_06_t")
+	private Long mes06T;
+
+	@Column(name = "mes_07_t")
+	private Long mes07T;
+
+	@Column(name = "mes_08_t")
+	private Long mes08T;
+
+	@Column(name = "mes_09_t")
+	private Long mes09T;
+
+	@Column(name = "mes_10_t")
+	private Long mes10T;
+
+	@Column(name = "mes_11_t")
+	private Long mes11T;
+
+	@Column(name = "mes_12_t")
+	private Long mes12T;
+
 	@Column(name = "mes_01_c")
 	private String mes01C;
 
@@ -419,6 +491,102 @@ public class ReporteTipoEvaluacionConsolidadoEt extends EntityBase implements Se
 
 	public void setMes12C(String mes12c) {
 		mes12C = mes12c;
+	}
+
+	public Long getMes01T() {
+		return mes01T;
+	}
+
+	public void setMes01T(Long mes01t) {
+		mes01T = mes01t;
+	}
+
+	public Long getMes02T() {
+		return mes02T;
+	}
+
+	public void setMes02T(Long mes02t) {
+		mes02T = mes02t;
+	}
+
+	public Long getMes03T() {
+		return mes03T;
+	}
+
+	public void setMes03T(Long mes03t) {
+		mes03T = mes03t;
+	}
+
+	public Long getMes04T() {
+		return mes04T;
+	}
+
+	public void setMes04T(Long mes04t) {
+		mes04T = mes04t;
+	}
+
+	public Long getMes05T() {
+		return mes05T;
+	}
+
+	public void setMes05T(Long mes05t) {
+		mes05T = mes05t;
+	}
+
+	public Long getMes06T() {
+		return mes06T;
+	}
+
+	public void setMes06T(Long mes06t) {
+		mes06T = mes06t;
+	}
+
+	public Long getMes07T() {
+		return mes07T;
+	}
+
+	public void setMes07T(Long mes07t) {
+		mes07T = mes07t;
+	}
+
+	public Long getMes08T() {
+		return mes08T;
+	}
+
+	public void setMes08T(Long mes08t) {
+		mes08T = mes08t;
+	}
+
+	public Long getMes09T() {
+		return mes09T;
+	}
+
+	public void setMes09T(Long mes09t) {
+		mes09T = mes09t;
+	}
+
+	public Long getMes10T() {
+		return mes10T;
+	}
+
+	public void setMes10T(Long mes10t) {
+		mes10T = mes10t;
+	}
+
+	public Long getMes11T() {
+		return mes11T;
+	}
+
+	public void setMes11T(Long mes11t) {
+		mes11T = mes11t;
+	}
+
+	public Long getMes12T() {
+		return mes12T;
+	}
+
+	public void setMes12T(Long mes12t) {
+		mes12T = mes12t;
 	}
 
 	@Override
