@@ -29,7 +29,7 @@ public class PlanAccionAnioDao extends GenericDao<PlanAccionAnioEt, Long> implem
 	public PlanAccionAnioDao() {
 		super(PlanAccionAnioEt.class);
 	}
-	
+
 	private StringBuilder sql;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -44,7 +44,7 @@ public class PlanAccionAnioDao extends GenericDao<PlanAccionAnioEt, Long> implem
 		em.flush();
 		em.clear();
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public String generar(Long anio, Date fechaDesde, Date fechaHasta, Long idZona, Long idEstacion, Long idEvaluacion, Long idUsuario) {
 		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("getGenerarOrgPlnAnio");
@@ -59,11 +59,14 @@ public class PlanAccionAnioDao extends GenericDao<PlanAccionAnioEt, Long> implem
 		return respuesta;
 
 	}
+
 	@Override
-	public List<PlanAccionAnioEt> getPlanAccionAnioList() {
+	public List<PlanAccionAnioEt> getPlanAccionAnioList(UsuarioEt usuario) {
 		sql = new StringBuilder("FROM PlanAccionAnioEt o ");
 		sql.append("WHERE o.estado = :estado ");
+		sql.append("AND o.usuarioRegistra = :usuario ");
 		TypedQuery<PlanAccionAnioEt> query = em.createQuery(sql.toString(), PlanAccionAnioEt.class);
+		query.setParameter("usuario", usuario);
 		query.setParameter("estado", EstadoEnum.ACT);
 		List<PlanAccionAnioEt> result = query.getResultList();
 		return result;

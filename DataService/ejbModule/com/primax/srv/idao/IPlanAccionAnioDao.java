@@ -12,7 +12,7 @@ public interface IPlanAccionAnioDao extends IGenericDao<PlanAccionAnioEt, Long> 
 
 	public void remove();
 
-	public List<PlanAccionAnioEt> getPlanAccionAnioList();
+	public List<PlanAccionAnioEt> getPlanAccionAnioList(UsuarioEt usuario);
 
 	public void guardarPlanAccionAnio(PlanAccionAnioEt planAccionAnio, UsuarioEt usuario) throws EntidadNoGrabadaException;
 

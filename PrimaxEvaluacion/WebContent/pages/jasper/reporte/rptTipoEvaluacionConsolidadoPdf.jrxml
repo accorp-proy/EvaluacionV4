@@ -1104,7 +1104,7 @@ from reporte_tipo_evaluacion_consolidado_et rpt where aud_usuario=$P{par_id_usua
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{m01}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{m01}.equals(0D) ? null : $F{m01}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1126,7 +1126,7 @@ from reporte_tipo_evaluacion_consolidado_et rpt where aud_usuario=$P{par_id_usua
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{m02}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{m02}.equals(0D) ? null : $F{m02}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1148,7 +1148,7 @@ from reporte_tipo_evaluacion_consolidado_et rpt where aud_usuario=$P{par_id_usua
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{m03}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{m03}.equals(0D) ? null : $F{m03}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1170,7 +1170,7 @@ from reporte_tipo_evaluacion_consolidado_et rpt where aud_usuario=$P{par_id_usua
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{m04}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{m04}.equals(0D) ? null : $F{m04}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1192,7 +1192,7 @@ from reporte_tipo_evaluacion_consolidado_et rpt where aud_usuario=$P{par_id_usua
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{m05}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{m05}.equals(0D) ? null : $F{m05}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1214,7 +1214,7 @@ from reporte_tipo_evaluacion_consolidado_et rpt where aud_usuario=$P{par_id_usua
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{m06}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{m06}.equals(0D) ? null : $F{m06}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

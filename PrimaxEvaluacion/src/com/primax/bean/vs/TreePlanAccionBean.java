@@ -31,6 +31,7 @@ import com.primax.jpa.gen.PlanAccionOrganizacion;
 import com.primax.jpa.param.AgenciaEt;
 import com.primax.jpa.param.EvaluacionEt;
 import com.primax.jpa.param.ParametrosGeneralesEt;
+import com.primax.jpa.param.ResponsableEt;
 import com.primax.jpa.param.ZonaEt;
 import com.primax.jpa.param.ZonaUsuarioEt;
 import com.primax.jpa.pla.CheckListEjecucionEt;
@@ -43,6 +44,8 @@ import com.primax.jpa.pla.PlanAccionChekListEt;
 import com.primax.jpa.pla.PlanAccionEstacionEt;
 import com.primax.jpa.pla.PlanAccionMesEt;
 import com.primax.jpa.pla.PlanAccionZonaEt;
+import com.primax.jpa.sec.RolEt;
+import com.primax.jpa.sec.RolUsuarioEt;
 import com.primax.jpa.sec.UsuarioEt;
 import com.primax.srv.idao.IAgenciaDao;
 import com.primax.srv.idao.ICheckListEjecucionDao;
@@ -58,6 +61,8 @@ import com.primax.srv.idao.IPlanAccionChekListDao;
 import com.primax.srv.idao.IPlanAccionEstacionDao;
 import com.primax.srv.idao.IPlanAccionMesDao;
 import com.primax.srv.idao.IPlanAccionZonaDao;
+import com.primax.srv.idao.IResponsableDao;
+import com.primax.srv.idao.IRolEtDao;
 import com.primax.srv.idao.IUsuarioDao;
 import com.primax.srv.idao.IZonaDao;
 
@@ -73,11 +78,15 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 	@EJB
 	private IZonaDao iZonaDao;
 	@EJB
+	private IRolEtDao iRolEtDao;
+	@EJB
 	private IUsuarioDao iUsuarioDao;
 	@EJB
 	private IAgenciaDao iAgenciaDao;
 	@EJB
 	private IEvaluacionDao iEvaluacionDao;
+	@EJB
+	private IResponsableDao iResponsableDao;
 	@EJB
 	private IGeneralUtilsDao iGeneralUtilsDao;
 	@EJB
@@ -109,6 +118,8 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 	private TreeNode root;
 	private TreeNode selectedNode;
 	private ZonaEt zonaSeleccionada;
+	private boolean tipoGerente = false;
+	private boolean tipoAuditor = false;
 	private AgenciaEt estacionSeleccionada;
 	private EvaluacionEt evaluacionSeleccionada;
 	private ParametrosGeneralesEt anioSeleccionado;
@@ -122,10 +133,22 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 
 	@Override
 	protected void init() {
-		generar();
-		disenarTree();
+		List<RolUsuarioEt> rolUsuario = null;
+		RolEt rol = iRolEtDao.getRolbyId(9L);
+		UsuarioEt usuario = appMain.getUsuario();
+		rolUsuario = usuario.getRolesUsario();
+		if (containsRol(rolUsuario, rol)) {
+			tipoGerente = true;
+		} else {
+			tipoAuditor = true;
+		}
+		disenarTree(usuario);
 		inicializarObj();
 
+	}
+
+	public boolean containsRol(final List<RolUsuarioEt> list, final RolEt rol) {
+		return list.stream().filter(o -> o.getRol().equals(rol)).findFirst().isPresent();
 	}
 
 	public void inicializarObj() {
@@ -135,9 +158,16 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 	public void generar() {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			if (anioSeleccionado != null) {
+			if (tipoAuditor) {
+				if (anioSeleccionado != null) {
+					generarTree(Integer.parseInt(anioSeleccionado.getValorLista()), usuario);
+				}
+			} else if (tipoGerente) {
+				ResponsableEt responsable = iResponsableDao.getResponsableEstacion(usuario.getPersonaUsuario());
+				estacionSeleccionada = responsable.getAgencia();
 				generarTree(Integer.parseInt(anioSeleccionado.getValorLista()), usuario);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método generar " + " " + e.getMessage());
@@ -169,18 +199,18 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 				iPlanAccionAnioDao.generar(idAnio, fechaDesde, fechaHasta, idZona, idEstacion, idEvaluacion,
 						usuario.getIdUsuario());
 			}
-			disenarTree();
+			disenarTree(usuario);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método generar " + " " + e.getMessage());
 		}
 	}
 
-	public void disenarTree() {
+	public void disenarTree(UsuarioEt usuario) {
 		Long idPlanAccion = 0L;
 		try {
 			root = new DefaultTreeNode("Files", null);
-			List<PlanAccionAnioEt> anios = iPlanAccionAnioDao.getPlanAccionAnioList();
+			List<PlanAccionAnioEt> anios = iPlanAccionAnioDao.getPlanAccionAnioList(usuario);
 			for (PlanAccionAnioEt anio : anios) {
 				idPlanAccion = anio.getIdPlanAccionAnio();
 				TreeNode node0 = new DefaultTreeNode(
@@ -585,11 +615,29 @@ public class TreePlanAccionBean extends BaseBean implements Serializable {
 		this.checkListEjecucionR = checkListEjecucionR;
 	}
 
+	public boolean isTipoGerente() {
+		return tipoGerente;
+	}
+
+	public void setTipoGerente(boolean tipoGerente) {
+		this.tipoGerente = tipoGerente;
+	}
+
+	public boolean isTipoAuditor() {
+		return tipoAuditor;
+	}
+
+	public void setTipoAuditor(boolean tipoAuditor) {
+		this.tipoAuditor = tipoAuditor;
+	}
+
 	@Override
 	protected void onDestroy() {
 		iZonaDao.remove();
+		iRolEtDao.remove();
 		iAgenciaDao.remove();
 		iEvaluacionDao.remove();
+		iResponsableDao.remove();
 		iPlanAccionMesDao.remove();
 		iPlanAccionAnioDao.remove();
 		iPlanAccionZonaDao.remove();
