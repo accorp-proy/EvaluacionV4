@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog modal="true" widgetVar="dialog_24_1" id="dialog_24_1"
+		closeOnEscape="true" hideEffect="drop" showHeader="true"
+		appendTo="@(body)" resizable="true" responsive="true">
+		<f:facet name="header">
+			<h:outputText value="Categoría Inventariot " />
+			<p:outputLabel value="par_024_1.xhtml"
+				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
+		</f:facet>
+		<h:form id="frm_par_024_1">
+			<div align="right">
+				<p:commandButton title="Guardar" icon="ui-icon-check"
+					action="#{CategoriaInventarioBn.guardar()}"
+					update=":frm_par_024,:frm_par_024:msg"
+					oncomplete="PF('dialog_24_1').hide()" />
+			</div>
+			<p:panelGrid columns="2" styleClass="fullsize sinborde">
+				<p:outputLabel value="Código " />
+				<p:outputLabel
+					value="#{CategoriaInventarioBn.categoriaInventarioSeleccionado.codigo}"></p:outputLabel>
+				<p:outputLabel value="Tipo Inventario :" />
+				<p:selectOneMenu style="width:80% !important" required="true"
+					value="#{CategoriaInventarioBn.tipoInventarioSeleccionado}"
+					converter="#{tipoInventarioConverter}">
+					<f:selectItem itemLabel="Tipo Inventario" />
+					<f:selectItems value="#{CategoriaInventarioBn.tipoInventarioList}"
+						var="evaluacion" itemValue="#{evaluacion}"
+						itemLabel="#{evaluacion.descripcion}" />
+				</p:selectOneMenu>
+				<p:outputLabel value="Categoría " />
+				<p:inputText
+					value="#{CategoriaInventarioBn.categoriaInventarioSeleccionado.descripcion}"
+					required="true" requiredMessage="Valor de Nombre es requerido"></p:inputText>
+				<p:outputLabel> Estado </p:outputLabel>
+				<p:selectOneMenu style="width:50% !important" editable="false"
+					value="#{CategoriaInventarioBn.categoriaInventarioSeleccionado.estado}">
+					<f:selectItems value="#{CategoriaInventarioBn.estadosActIna}" />
+				</p:selectOneMenu>
+
+			</p:panelGrid>
+		</h:form>
+
+	</p:dialog>
+
+</ui:composition>

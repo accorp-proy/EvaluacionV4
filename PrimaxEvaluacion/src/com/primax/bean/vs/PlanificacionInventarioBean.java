@@ -147,9 +147,9 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 
 	public void enviarEmail(PlanificacionInventarioEt planificacion) {
 
-		// String email0 = "";
+		String email = "";
 
-		// StringBuilder recipient = new StringBuilder();
+		StringBuilder recipient = new StringBuilder();
 		try {
 			CorreoEt config = iCorreoDao.getCorreoExiste(1L);
 			MessageFactory msg = new MessageFactory(MessageType.MAIL);
@@ -157,22 +157,17 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 			msc.setSubject(planificacion.getAgencia().getNombreAgencia() + " :Visita de Control Interno");
 			msc.setFrom("notificacionControlInterno@atimasa.com.ec");
 			msc.setMessage(mensajeCorreo(planificacion));
-			// email0 = appMain.getUsuario().getPersonaUsuario().getEmail();
-			// for (Planificacio planificacionAuditor :
-			// planificacionSeleccionada.getPlanificacionAuditor()) {
-			// if
-			// (planificacionAuditor.getUsuarioAuditor().getPersonaUsuario().getEmail()
-			// != null) {
-			// email =
-			// planificacionAuditor.getUsuarioAuditor().getPersonaUsuario().getEmail()
-			// + ",";
-			// recipient.append(email);
-			// }
-			// }
-			// email1 = recipient.toString() + email0;
-			// System.out.println(email1);
+			email = appMain.getUsuario().getPersonaUsuario().getEmail();
+			for (PlanificacionParticipanteEt planificacionParticipante : planificacionSeleccionada.getPlanificacionParticipante()) {
+				if (planificacionParticipante.getUsuarioParticipante().getPersonaUsuario().getEmail() != null) {
+					email = planificacionParticipante.getUsuarioParticipante().getPersonaUsuario().getEmail() + ",";
+					recipient.append(email);
+				}
+			}
+			email = recipient.toString();
+			System.out.println(email);
 			msc.setRecipient("acorrea@accorp.com.ec,jeffersonmaji@hotmail.com");
-			// msc.setRecipient(email1);
+			//msc.setRecipient(email);
 			msc.setConfig(config);
 			msc.sendMessage();
 		} catch (Exception e) {
@@ -280,40 +275,35 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 							estado = "ESTADO:" + " " + planificacion.getEstadoInventario().getDescripcion() + "<br/>";
 							estacion = planificacion.getAgencia().getNombreAgencia() + "<br/>";
 							responsable = "RESPONSABLE:" + " ";
-							for (PlanificacionResponsableEt responsableC : planificacion
-									.getPlanificacionResponsable()) {
-								responsable += responsableC.getUsuarioResponsable().getPersonaUsuario()
-										.getNombreCompleto() + "<br/>";
+							for (PlanificacionResponsableEt responsableC : planificacion.getPlanificacionResponsable()) {
+								responsable += responsableC.getUsuarioResponsable().getPersonaUsuario().getNombreCompleto() + "<br/>";
 							}
 							participante = "PARTICIPANTE:" + " ";
-							for (PlanificacionParticipanteEt participanteC : planificacion
-									.getPlanificacionParticipante()) {
-								participante += participanteC.getUsuarioParticipante().getPersonaUsuario()
-										.getNombreCompleto() + "<br/>";
+							for (PlanificacionParticipanteEt participanteC : planificacion.getPlanificacionParticipante()) {
+								participante += participanteC.getUsuarioParticipante().getPersonaUsuario().getNombreCompleto() + "<br/>";
 							}
 							leyenda0 = estacion + responsable + participante + estado + inventario;
 							switch (planificacion.getEstadoInventario().getDescripcion()) {
-								case "AGENDADA":
-									tema = "schedule-agendada";
-									break;
-								case "EN EJECUCION":
-									tema = "schedule-en-ejecucion";
-									break;
-								case "EJECUTADO":
-									tema = "schedule-ejecutado";
-									break;
-								case "NO EJECUTADO":
-									tema = "schedule-no-ejecutado";
-									break;
-								case "INCONCLUSO":
-									tema = "schedule-inconcluso";
-									break;
+							case "AGENDADA":
+								tema = "schedule-agendada";
+								break;
+							case "EN EJECUCION":
+								tema = "schedule-en-ejecucion";
+								break;
+							case "EJECUTADO":
+								tema = "schedule-ejecutado";
+								break;
+							case "NO EJECUTADO":
+								tema = "schedule-no-ejecutado";
+								break;
+							case "INCONCLUSO":
+								tema = "schedule-inconcluso";
+								break;
 							}
 
 							String strDate = dateFormat.format(planificacion.getFechaPlanificacion());
 							Date fechaD = dateFormat.parse(strDate);
-							scheduleEventAllDay = new DefaultScheduleEvent(
-									planificacion.getAgencia().getNombreAgencia(), fechaD, fechaD, tema);
+							scheduleEventAllDay = new DefaultScheduleEvent(planificacion.getAgencia().getNombreAgencia(), fechaD, fechaD, tema);
 							scheduleEventAllDay.setData(planificacion);
 							scheduleEventAllDay.setId(String.valueOf(planificacion.getIdPlanificacionInventario()));
 							scheduleEventAllDay.setDescription(leyenda0);
@@ -382,16 +372,13 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 		estacionSeleccionada = planificacionSeleccionada.getAgencia();
 		zonaSeleccionada = planificacionSeleccionada.getZona();
 		bloqueo = true;
-		for (PlanificacionResponsableEt planificacionResponsable : planificacionSeleccionada
-				.getPlanificacionResponsable()) {
+		for (PlanificacionResponsableEt planificacionResponsable : planificacionSeleccionada.getPlanificacionResponsable()) {
 			responsableSeleccionados.add(planificacionResponsable.getUsuarioResponsable());
 		}
-		for (PlanificacionParticipanteEt planificacionParticipante : planificacionSeleccionada
-				.getPlanificacionParticipante()) {
+		for (PlanificacionParticipanteEt planificacionParticipante : planificacionSeleccionada.getPlanificacionParticipante()) {
 			participanteSeleccionados.add(planificacionParticipante.getUsuarioParticipante());
 		}
-		for (PlanificacionInventarioTipoEt planificacionInv : planificacionSeleccionada
-				.getPlanificacionInventarioTipo()) {
+		for (PlanificacionInventarioTipoEt planificacionInv : planificacionSeleccionada.getPlanificacionInventarioTipo()) {
 			if (planificacionInv.isEjecutado()) {
 				tipoInventarioSeleccionados.add(planificacionInv.getTipoInventario());
 			}
@@ -600,8 +587,7 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 		return checkListProcesoEjecucionSeleccionados;
 	}
 
-	public void setCheckListProcesoEjecucionSeleccionados(
-			List<CheckListProcesoEjecucionEt> checkListProcesoEjecucionSeleccionados) {
+	public void setCheckListProcesoEjecucionSeleccionados(List<CheckListProcesoEjecucionEt> checkListProcesoEjecucionSeleccionados) {
 		this.checkListProcesoEjecucionSeleccionados = checkListProcesoEjecucionSeleccionados;
 	}
 
@@ -622,30 +608,21 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 			String horaS = horaFormat.format(planificacion.getFechaPlanificacion());
 			String estacion = planificacion.getAgencia().getNombreAgencia();
 			String tipoEstacion = planificacion.getAgencia().getTipoEstacion().getDescripcion();
-			String categoria = planificacion.getAgencia().getTipoEstacion().getTipoCategoriaEstacion().get(0)
-					.getCategoriaEstacion().getDescripcion();
-			msj.append(
-					"Usted ha sido designado para participar en un Inventario. A continuación el detalle:  <br/> <br/> ");
-			msj.append("EESS:" + "                  "
-					+ "&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;"
-					+ estacion + "<br/>");
+			String categoria = planificacion.getAgencia().getTipoEstacion().getTipoCategoriaEstacion().get(0).getCategoriaEstacion().getDescripcion();
+			msj.append("Usted ha sido designado para participar en un Inventario. A continuación el detalle:  <br/> <br/> ");
+			msj.append("EESS:" + "                  " + "&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;" + estacion + "<br/>");
 			msj.append("FECHA PLANIFICADA:" + "     " + "&ensp; &ensp; &ensp; &ensp;" + fechaS + "<br/>");
-			msj.append("HORA:" + "                  "
-					+ "&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;" + horaS
-					+ "<br/>");
-			msj.append("TIPO ESTACION:" + "         " + "&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;"
-					+ tipoEstacion + "<br/>");
+			msj.append("HORA:" + "                  " + "&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;" + horaS + "<br/>");
+			msj.append("TIPO ESTACION:" + "         " + "&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;" + tipoEstacion + "<br/>");
 			msj.append("CATEGORIA DE ESTACION:" + " " + "&ensp;" + categoria + "<br/> <br/>");
 			msj.append("RESPONSABLES:      " + "<br/>");
 			for (PlanificacionResponsableEt responsable : planificacion.getPlanificacionResponsable()) {
-				msj.append(
-						"* " + responsable.getUsuarioResponsable().getPersonaUsuario().getNombreCompleto() + "<br/>");
+				msj.append("* " + responsable.getUsuarioResponsable().getPersonaUsuario().getNombreCompleto() + "<br/>");
 			}
 			msj.append("<br/>");
 			msj.append("PARTICIPANTES:    " + "<br/>");
 			for (PlanificacionParticipanteEt participante : planificacion.getPlanificacionParticipante()) {
-				msj.append(
-						"* " + participante.getUsuarioParticipante().getPersonaUsuario().getNombreCompleto() + "<br/>");
+				msj.append("* " + participante.getUsuarioParticipante().getPersonaUsuario().getNombreCompleto() + "<br/>");
 			}
 			msj.append("<br/>");
 			msj.append("INVENTARIOS AGENDADOS EN EL SISTEMA EVALUACION 360G: <br/> <br/>");
@@ -653,10 +630,8 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 				msj.append("* " + tipo.getTipoInventario().getDescripcion() + "<br/>");
 			}
 			msj.append("<br/> <br/>");
-			msj.append(
-					"Los inventarios asignados podran ser visualizados en el sistema ingresando con sus credenciales y solo podran ser ejecutados en la fecha planificada <br/> <br/>");
-			msj.append(
-					"Los auditores que no tengan Inventarios agendados colaboraran en actividades que se les asignara durante la visita. <br/> <br/> <br/>");
+			msj.append("Los inventarios asignados podran ser visualizados en el sistema ingresando con sus credenciales y solo podran ser ejecutados en la fecha planificada <br/> <br/>");
+			msj.append("Los auditores que no tengan Inventarios agendados colaboraran en actividades que se les asignara durante la visita. <br/> <br/> <br/>");
 			msj.append("Gracias por su confianza, <br/>");
 			msj.append(appMain.getUsuario().getPersonaUsuario().getNombreCompleto() + " <br/>");
 			msj.append("Responsable de Control <br/>  <br/>");

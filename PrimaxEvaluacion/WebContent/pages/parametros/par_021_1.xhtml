@@ -38,6 +38,12 @@
 								icon="fa fa-file-archive-o"></p:commandButton>
 						</div>
 					</p:column>
+					<p:column headerText="Estado">
+						<div align="center">
+							<h:graphicImage value="/resources/images/iconos/cargado.jpg"
+								rendered="#{checkListKpi.checkListKpiEjecucionAdjunto.size() ne 0}" />
+						</div>
+					</p:column>
 				</p:dataTable>
 			</p:panelGrid>
 		</h:form>
