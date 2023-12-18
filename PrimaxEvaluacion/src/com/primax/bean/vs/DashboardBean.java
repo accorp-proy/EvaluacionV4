@@ -22,6 +22,7 @@ import com.primax.bean.vs.base.BaseBean;
 import com.primax.exc.gen.EntidadNoEncontradaException;
 import com.primax.jpa.enums.EstadoCheckListEnum;
 import com.primax.jpa.enums.EstadoEnum;
+import com.primax.jpa.enums.EstadoPlanAccionInvEnum;
 import com.primax.jpa.param.AgenciaEt;
 import com.primax.jpa.param.EvaluacionEt;
 import com.primax.jpa.param.ResponsableEt;
@@ -29,6 +30,8 @@ import com.primax.jpa.param.TipoChecKListEt;
 import com.primax.jpa.param.TipoInventarioEt;
 import com.primax.jpa.pla.CheckListEjecucionEt;
 import com.primax.jpa.pla.CheckListEjecucionFirmaEt;
+import com.primax.jpa.pla.PlanAccionInventarioEt;
+import com.primax.jpa.pla.PlanAccionInventarioTipoEt;
 import com.primax.jpa.pla.PlanificacionEt;
 import com.primax.jpa.pla.PlanificacionInventarioEt;
 import com.primax.jpa.pla.PlanificacionInventarioTipoEt;
@@ -39,6 +42,8 @@ import com.primax.srv.idao.IAgenciaDao;
 import com.primax.srv.idao.ICheckListEjecucionDao;
 import com.primax.srv.idao.ICheckListEjecucionFirmaDao;
 import com.primax.srv.idao.IEvaluacionDao;
+import com.primax.srv.idao.IPlanAccionInventarioDao;
+import com.primax.srv.idao.IPlanAccionInventarioTipoDao;
 import com.primax.srv.idao.IPlanificacionDao;
 import com.primax.srv.idao.IPlanificacionInventarioDao;
 import com.primax.srv.idao.IPlanificacionInventarioTipoDao;
@@ -78,9 +83,13 @@ public class DashboardBean extends BaseBean implements Serializable {
 	@EJB
 	private ICheckListEjecucionDao iCheckListEjecucionDao;
 	@EJB
+	private IPlanAccionInventarioDao iPlanAccionInventarioDao;
+	@EJB
 	private ICheckListEjecucionFirmaDao iCheckListEjecucionFirmaDao;
 	@EJB
 	private IPlanificacionInventarioDao iPlanificacionInventarioDao;
+	@EJB
+	private IPlanAccionInventarioTipoDao iPlanAccionInventarioTipoDao;
 	@EJB
 	private IPlanificacionInventarioTipoDao iPlanificacionInventarioTipoDao;
 
@@ -168,8 +177,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 						String estacion = "";
 						String responsable = "";
 						UsuarioEt usuario = appMain.getUsuario();
-						planificaciones = iPlanificacionDao.getPlanificacionList(evaluacionSeleccionada,
-								tipoChecKListSeleccionado, desde, hasta, usuario);
+						planificaciones = iPlanificacionDao.getPlanificacionList(evaluacionSeleccionada, tipoChecKListSeleccionado, desde, hasta, usuario);
 						DefaultScheduleEvent scheduleEventAllDay;
 						for (PlanificacionEt planificacion : planificaciones) {
 							String leyenda0 = "";
@@ -179,9 +187,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 								codigo = "EVALUACIÓN:" + " " + checkListE.getCodigo() + "<br/>";
 								estado = "ESTADO:" + " " + checkListE.getEstadoCheckList().getDescripcion() + "<br/>";
 								estacion = checkListE.getPlanificacion().getAgencia().getNombreAgencia() + "<br/>";
-								responsable = "RESPONSABLE:" + " "
-										+ checkListE.getUsuarioAsignado().getPersonaUsuario().getNombreCompleto()
-										+ "<br/>";
+								responsable = "RESPONSABLE:" + " " + checkListE.getUsuarioAsignado().getPersonaUsuario().getNombreCompleto() + "<br/>";
 								if (leyenda0.equals("")) {
 									leyenda0 = estacion + codigo + responsable + estado;
 								} else {
@@ -189,27 +195,26 @@ public class DashboardBean extends BaseBean implements Serializable {
 									leyenda0 += "<br/>" + leyenda1;
 								}
 								switch (checkListE.getEstadoCheckList().getDescripcion()) {
-									case "AGENDADA":
-										tema = "schedule-agendada";
-										break;
-									case "EN EJECUCION":
-										tema = "schedule-en-ejecucion";
-										break;
-									case "EJECUTADO":
-										tema = "schedule-ejecutado";
-										break;
-									case "NO EJECUTADO":
-										tema = "schedule-no-ejecutado";
-										break;
-									case "INCONCLUSO":
-										tema = "schedule-inconcluso";
-										break;
+								case "AGENDADA":
+									tema = "schedule-agendada";
+									break;
+								case "EN EJECUCION":
+									tema = "schedule-en-ejecucion";
+									break;
+								case "EJECUTADO":
+									tema = "schedule-ejecutado";
+									break;
+								case "NO EJECUTADO":
+									tema = "schedule-no-ejecutado";
+									break;
+								case "INCONCLUSO":
+									tema = "schedule-inconcluso";
+									break;
 								}
 							}
 							String strDate = dateFormat.format(planificacion.getFechaPlanificacion());
 							Date fechaD = dateFormat.parse(strDate);
-							scheduleEventAllDay = new DefaultScheduleEvent(
-									planificacion.getAgencia().getNombreAgencia(), fechaD, fechaD, tema);
+							scheduleEventAllDay = new DefaultScheduleEvent(planificacion.getAgencia().getNombreAgencia(), fechaD, fechaD, tema);
 							scheduleEventAllDay.setData(planificacion);
 							scheduleEventAllDay.setId(String.valueOf(planificacion.getIdPlanificacion()));
 							scheduleEventAllDay.setDescription(leyenda0);
@@ -241,12 +246,11 @@ public class DashboardBean extends BaseBean implements Serializable {
 						String estado = "";
 						String codigo = "";
 						String estacion = "";
-						//String inventario = "";
+						// String inventario = "";
 						String responsable = "";
 
 						UsuarioEt usuario = appMain.getUsuario();
-						planificacionesIventario = iPlanificacionInventarioDao.getPlanificacionInventarioList(desde,
-								hasta, usuario);
+						planificacionesIventario = iPlanificacionInventarioDao.getPlanificacionInventarioList(desde, hasta, usuario);
 						DefaultScheduleEvent scheduleEventAllDay;
 						for (PlanificacionInventarioEt planificacion : planificacionesIventario) {
 							String leyenda0 = "";
@@ -268,27 +272,26 @@ public class DashboardBean extends BaseBean implements Serializable {
 								leyenda0 += "<br/>" + leyenda1;
 							}
 							switch (planificacion.getEstadoInventario().getDescripcion()) {
-								case "AGENDADA":
-									tema = "schedule-agendada";
-									break;
-								case "EN EJECUCION":
-									tema = "schedule-en-ejecucion";
-									break;
-								case "EJECUTADO":
-									tema = "schedule-ejecutado";
-									break;
-								case "NO EJECUTADO":
-									tema = "schedule-no-ejecutado";
-									break;
-								case "INCONCLUSO":
-									tema = "schedule-inconcluso";
-									break;
+							case "AGENDADA":
+								tema = "schedule-agendada";
+								break;
+							case "EN EJECUCION":
+								tema = "schedule-en-ejecucion";
+								break;
+							case "EJECUTADO":
+								tema = "schedule-ejecutado";
+								break;
+							case "NO EJECUTADO":
+								tema = "schedule-no-ejecutado";
+								break;
+							case "INCONCLUSO":
+								tema = "schedule-inconcluso";
+								break;
 							}
 
 							String strDate = dateFormat.format(planificacion.getFechaPlanificacion());
 							Date fechaD = dateFormat.parse(strDate);
-							scheduleEventAllDay = new DefaultScheduleEvent(
-									planificacion.getAgencia().getNombreAgencia(), fechaD, fechaD, tema);
+							scheduleEventAllDay = new DefaultScheduleEvent(planificacion.getAgencia().getNombreAgencia(), fechaD, fechaD, tema);
 							scheduleEventAllDay.setData(planificacion);
 							scheduleEventAllDay.setId(String.valueOf(planificacion.getIdPlanificacionInventario()));
 							scheduleEventAllDay.setDescription(leyenda0);
@@ -328,12 +331,10 @@ public class DashboardBean extends BaseBean implements Serializable {
 		Date fechaEjecucion = null;
 		if (visualizar) {
 			planificacion = (PlanificacionInventarioEt) event.getData();
-			planificacionInventarioSeleccionada = iPlanificacionInventarioDao
-					.getPlanificacionInventarioById(planificacion.getIdPlanificacionInventario());
+			planificacionInventarioSeleccionada = iPlanificacionInventarioDao.getPlanificacionInventarioById(planificacion.getIdPlanificacionInventario());
 			fechaEjecucion = planificacionInventarioSeleccionada.getFechaPlanificacion();
 			estacionSeleccionada = planificacionInventarioSeleccionada.getAgencia();
-			for (PlanificacionInventarioTipoEt planificacionInv : planificacionInventarioSeleccionada
-					.getPlanificacionInventarioTipo()) {
+			for (PlanificacionInventarioTipoEt planificacionInv : planificacionInventarioSeleccionada.getPlanificacionInventarioTipo()) {
 				if (planificacionInv.isEjecutado()) {
 					tipoInventarioSeleccionados.add(planificacionInv.getTipoInventario());
 				}
@@ -347,8 +348,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 		String fechaActual = dateFormat.format(new Date());
 		String fechaEjecucionS = dateFormat.format(fechaEjecucion.getTime());
 		if (!fechaActual.equals(fechaEjecucionS)) {
-			showInfo("CheckList solo puede ser ejecutado en la fecha planificada.", FacesMessage.SEVERITY_INFO, null,
-					"");
+			showInfo("CheckList solo puede ser ejecutado en la fecha planificada.", FacesMessage.SEVERITY_INFO, null, "");
 		}
 	}
 
@@ -394,26 +394,23 @@ public class DashboardBean extends BaseBean implements Serializable {
 				if (evaluacion != null) {
 					String codigo = evaluacion.isCriterio() == true ? "1" : "2";
 					switch (codigo) {
-						case "1":
-							pagina = "/PrimaxEvaluacionPruebas/pages/ejecucion/eje_001.xhtml";
-							break;
-						case "2":
-							pagina = "/PrimaxEvaluacionPruebas/pages/ejecucion/eje_002.xhtml";
-							break;
-						default:
-							break;
+					case "1":
+						pagina = "/PrimaxEvaluacionPruebas/pages/ejecucion/eje_001.xhtml";
+						break;
+					case "2":
+						pagina = "/PrimaxEvaluacionPruebas/pages/ejecucion/eje_002.xhtml";
+						break;
+					default:
+						break;
 					}
 				}
 				if (checkListEjecucionSeleccionado.getEstadoCheckList().equals(EstadoCheckListEnum.AGENDADA)) {
-					List<ResponsableEt> responsables = iResponsableDao.getResponsableByAgencia1List(
-							checkListEjecucionSeleccionado.getPlanificacion().getAgencia());
+					List<ResponsableEt> responsables = iResponsableDao.getResponsableByAgencia1List(checkListEjecucionSeleccionado.getPlanificacion().getAgencia());
 					if (responsables != null && !responsables.isEmpty()) {
-						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirma(
-								checkListEjecucionSeleccionado.getCheckListEjecucionFirma(), usuario);
+						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirma(checkListEjecucionSeleccionado.getCheckListEjecucionFirma(), usuario);
 						iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucionSeleccionado, usuario);
 						for (ResponsableEt responsable : responsables) {
-							if (responsable.getTipoCargo().getDescripcion().equals("GERENTE")
-									|| responsable.getTipoCargo().getDescripcion().equals("SOPORTE OPERATIVO")) {
+							if (responsable.getTipoCargo().getDescripcion().equals("GERENTE") || responsable.getTipoCargo().getDescripcion().equals("SOPORTE OPERATIVO")) {
 								CheckListEjecucionFirmaEt checkListEjecucionFirma = new CheckListEjecucionFirmaEt();
 								Long orden = responsable.getTipoCargo().getDescripcion().equals("GERENTE") ? 2L : 1L;
 								checkListEjecucionFirma.setOrden(orden);
@@ -422,20 +419,17 @@ public class DashboardBean extends BaseBean implements Serializable {
 								checkListEjecucionFirma.setCheckListEjecucion(checkListEjecucionSeleccionado);
 								checkListEjecucionFirma.setCargo(responsable.getTipoCargo().getDescripcion());
 								checkListEjecucionFirma.setNombre(responsable.getPersona().getNombreCompleto());
-								checkListEjecucionFirma
-										.setIdentificacion(responsable.getPersona().getIdentificacionPersona());
+								checkListEjecucionFirma.setIdentificacion(responsable.getPersona().getIdentificacionPersona());
 								if (responsable.getPersona().getFirma() != null) {
 									checkListEjecucionFirma.setContieneFirma(true);
 									checkListEjecucionFirma.setFirma(responsable.getPersona().getFirma());
 								} else {
 									checkListEjecucionFirma.setContieneFirma(false);
 								}
-								if (checkListEjecucionSeleccionado.getCheckListEjecucionFirma() == null
-										|| checkListEjecucionSeleccionado.getCheckListEjecucionFirma().isEmpty()) {
+								if (checkListEjecucionSeleccionado.getCheckListEjecucionFirma() == null || checkListEjecucionSeleccionado.getCheckListEjecucionFirma().isEmpty()) {
 									checkListEjecucionSeleccionado.setCheckListEjecucionFirma(new ArrayList<>());
 								}
-								checkListEjecucionSeleccionado.getCheckListEjecucionFirma()
-										.add(checkListEjecucionFirma);
+								checkListEjecucionSeleccionado.getCheckListEjecucionFirma().add(checkListEjecucionFirma);
 							}
 						}
 						CheckListEjecucionFirmaEt checkListEjecucionFirma = new CheckListEjecucionFirmaEt();
@@ -446,8 +440,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 						checkListEjecucionFirma.setCheckListEjecucion(checkListEjecucionSeleccionado);
 						checkListEjecucionFirma.setIdPersona(usuarioA.getPersonaUsuario().getIdPersona());
 						checkListEjecucionFirma.setNombre(usuarioA.getPersonaUsuario().getNombreCompleto());
-						checkListEjecucionFirma
-								.setIdentificacion(usuarioA.getPersonaUsuario().getIdentificacionPersona());
+						checkListEjecucionFirma.setIdentificacion(usuarioA.getPersonaUsuario().getIdentificacionPersona());
 						if (usuarioA.getPersonaUsuario().getFirma() != null) {
 							checkListEjecucionFirma.setContieneFirma(true);
 							checkListEjecucionFirma.setFirma(usuarioA.getPersonaUsuario().getFirma());
@@ -483,12 +476,21 @@ public class DashboardBean extends BaseBean implements Serializable {
 	public void guardarInv() {
 		Long check0 = 0L;
 		Long check1 = 0L;
+		PlanAccionInventarioEt planAccionInv = null;
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
+			if (!planificacionInventarioSeleccionada.isPlanAccion()) {
+				generarPlanAccion(planificacionInventarioSeleccionada, usuario);
+				planificacionInventarioSeleccionada.setPlanAccion(true);
+			}
+			planAccionInv = iPlanAccionInventarioDao.getPlanAccionInvExiste(planificacionInventarioSeleccionada);
 			for (TipoInventarioEt tipoInv : tipoInventarioSeleccionados) {
-				PlanificacionInventarioTipoEt tipo = iPlanificacionInventarioTipoDao
-						.getPlanificacionInv(planificacionInventarioSeleccionada, tipoInv);
+				PlanificacionInventarioTipoEt tipo = iPlanificacionInventarioTipoDao.getPlanificacionInv(planificacionInventarioSeleccionada, tipoInv);
 				tipo.setEjecutado(true);
+				if (!tipo.isPlanAccion()) {
+					generarPlanAccionTipo(planAccionInv, tipoInv, usuario);
+					tipo.setPlanAccion(true);
+				}
 				iPlanificacionInventarioTipoDao.guardarPlanificacionInv(tipo, usuario);
 				planificacionInventarioSeleccionada.setEstadoInventario(EstadoCheckListEnum.EN_EJECUCION);
 			}
@@ -511,8 +513,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
 			ResponsableEt responsable = iResponsableDao.getResponsableEstacion(usuario.getPersonaUsuario());
-			List<CheckListEjecucionEt> checkListEjecutando = iCheckListEjecucionDao
-					.getCheckListIngresandoPlanAccion(responsable.getAgencia());
+			List<CheckListEjecucionEt> checkListEjecutando = iCheckListEjecucionDao.getCheckListIngresandoPlanAccion(responsable.getAgencia());
 			if (checkListEjecutando != null && !checkListEjecutando.isEmpty()) {
 				for (CheckListEjecucionEt checkListEjecucionC : checkListEjecutando) {
 					checkListEjecucionC.setPlanAccion(false);
@@ -525,14 +526,14 @@ public class DashboardBean extends BaseBean implements Serializable {
 			if (evaluacion != null) {
 				String codigo = evaluacion.isCriterio() == true ? "1" : "2";
 				switch (codigo) {
-					case "1":
-						pagina = "/PrimaxEvaluacionPruebas/pages/gerencia/ger_002.xhtml";
-						break;
-					case "2":
-						pagina = "/PrimaxEvaluacionPruebas/pages/gerencia/ger_003.xhtml";
-						break;
-					default:
-						break;
+				case "1":
+					pagina = "/PrimaxEvaluacionPruebas/pages/gerencia/ger_002.xhtml";
+					break;
+				case "2":
+					pagina = "/PrimaxEvaluacionPruebas/pages/gerencia/ger_003.xhtml";
+					break;
+				default:
+					break;
 				}
 				iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucionSeleccionado, usuario);
 				contex.getExternalContext().redirect(pagina);
@@ -542,6 +543,33 @@ public class DashboardBean extends BaseBean implements Serializable {
 			System.out.println("Error :Método redireccionar" + " " + " " + e.getMessage());
 		}
 
+	}
+
+	public void generarPlanAccion(PlanificacionInventarioEt planificacionInv, UsuarioEt usuario) {
+		try {
+			PlanAccionInventarioEt planAccionInv = new PlanAccionInventarioEt();
+			planAccionInv.setUsuarioRegistra(usuario);
+			planAccionInv.setPlanificacionInventario(planificacionInv);
+			planAccionInv.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.PENDIENTE);
+			iPlanAccionInventarioDao.guardarPlanAccionInventario(planAccionInv, usuario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método generarPlanAccion" + " " + " " + e.getMessage());
+		}
+	}
+
+	public void generarPlanAccionTipo(PlanAccionInventarioEt planAccionInv, TipoInventarioEt tipoInventario, UsuarioEt usuario) {
+		try {
+			PlanAccionInventarioTipoEt planAccionInvTipo = new PlanAccionInventarioTipoEt();
+			planAccionInvTipo.setUsuarioRegistra(usuario);
+			planAccionInvTipo.setTipoInventario(tipoInventario);
+			planAccionInvTipo.setPlanAccionInventario(planAccionInv);
+			planAccionInvTipo.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.PENDIENTE);
+			iPlanAccionInventarioTipoDao.guardarPlanAccionInvTipo(planAccionInvTipo, usuario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método generarPlanAccionTipo" + " " + " " + e.getMessage());
+		}
 	}
 
 	public void buscar() {
@@ -801,8 +829,10 @@ public class DashboardBean extends BaseBean implements Serializable {
 		iTipoChecListDao.remove();
 		iPlanificacionDao.remove();
 		iCheckListEjecucionDao.remove();
+		iPlanAccionInventarioDao.remove();
 		iCheckListEjecucionFirmaDao.remove();
 		iPlanificacionInventarioDao.remove();
+		iPlanAccionInventarioTipoDao.remove();
 		iPlanificacionInventarioTipoDao.remove();
 	}
 

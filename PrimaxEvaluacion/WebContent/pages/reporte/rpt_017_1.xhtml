@@ -6,12 +6,12 @@
 	<p:dialog responsive="true" widgetVar="dlg_rpt_017_1"
 		id="dlg_rpt_017_1" appendTo="@(body)" resizable="true">
 		<f:facet name="header">
-			<h:outputLabel value="Check List Asignados " />
+			<h:outputLabel value="Tipos de Inventarios Ejecutados" />
 			<p:outputLabel value="rpt_017_1.xhtml"
 				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
 		</f:facet>
 		<h:form id="frm_rpt_017_1">
-			<p:growl showDetail="false" id="mensajes">
+			<p:growl showDetail="false" id="msj">
 			</p:growl>
 
 			<p:panelGrid styleClass="sinborde w100" layout="grid" columns="4"
@@ -21,7 +21,7 @@
 				</p:column>
 				<p:column>
 					<p:outputLabel
-						value="#{CalendarPlanAccionInvBn.estacionSeleccionada.nombreAgencia}"></p:outputLabel>
+						value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.planificacionInventario.agencia.nombreAgencia}"></p:outputLabel>
 				</p:column>
 				<p:column>
 					<p:outputLabel value="Fecha de Planificación"
@@ -29,23 +29,23 @@
 				</p:column>
 				<p:column>
 					<p:outputLabel title="Fecha de Planificación"
-						value="#{CalendarPlanAccionInvBn.fechaPlanificacion}">
+						value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.planificacionInventario.fechaPlanificacion}">
 						<f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
 					</p:outputLabel>
 				</p:column>
 				<p:column>
-					<p:outputLabel value="Ejecución" style="font-weight: bold;"></p:outputLabel>
+					<p:outputLabel value="Tipos Inventarios" style="font-weight: bold;"></p:outputLabel>
 				</p:column>
 				<p:column>
 					<p:selectManyMenu id="selectManyTipoInv" showCheckbox="true"
-						converter="#{tipoInventarioConverter}" var="t"
+						converter="#{planAccionInvTipoConverter}" var="t"
 						value="#{CalendarPlanAccionInvBn.tipoInventarioSeleccionados}">
-						<f:selectItems var="tipoInv" itemValue="#{tipoInv.tipoInventario}"
+						<f:selectItems var="tipoInv" itemValue="#{tipoInv}"
 							itemDisabled="#{tipoInv.ejecutado}"
-							value="#{CalendarPlanAccionInvBn.planificacionInventarioSeleccionada.planificacionInventarioTipo}"
+							value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.planAccionInventarioTipo}"
 							itemLabel="#{tipoInv.tipoInventario.descripcion}" />
 						<p:column>
-							<h:outputText value="#{t.descripcion}" />
+							<h:outputText value="#{t.tipoInventario.descripcion}" />
 						</p:column>
 					</p:selectManyMenu>
 				</p:column>
@@ -53,76 +53,33 @@
 					<p:outputLabel value="Responsables" style="font-weight: bold;"></p:outputLabel>
 				</p:column>
 				<p:column>
-					<p:commandButton oncomplete="PF('dlg_pln_010').show();"
+					<p:commandButton oncomplete="PF('dlg_rpt_017_2').show();"
 						title="Información Responsables" icon="fa fa-eye"
-						update=":frm_pln_010"></p:commandButton>
+						update=":frm_rpt_017_2"></p:commandButton>
 				</p:column>
 				<p:column>
-					<p:outputLabel value="Estado Inventario" style="font-weight: bold;"></p:outputLabel>
+					<p:outputLabel value="Estado Plan Acción"
+						style="font-weight: bold;"></p:outputLabel>
 				</p:column>
 				<p:column>
 					<p:outputLabel
-						value="#{CalendarPlanAccionInvBn.planificacionInventarioSeleccionada.estadoInventario.descripcion}"
+						value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.estadoPlanAccionInv.descripcion}"
 						style="font-weight: bold;"></p:outputLabel>
 				</p:column>
 				<p:column>
 					<p:commandButton value="Inventario" title="Guardar Inventario"
 						onclick="PF('dlg_conf_2').show()"
-						disabled="#{CalendarPlanAccionInvBn.planificacionInventarioSeleccionada.estadoInventario.descripcion eq 'EJECUTADO'}"></p:commandButton>
+						disabled="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.estadoPlanAccionInv.descripcion eq 'EJECUTADO'}"></p:commandButton>
 					<p:spacer width="3"></p:spacer>
 
 				</p:column>
 
 			</p:panelGrid>
-			<p:dataTable paginator="true" rows="7" reflow="true"
-				
-				tableStyle="table-layout: auto;" style="margin-bottom:20px"
-				emptyMessage="No existe Formatos" id="dtbCheckList"
-				value="#{CalendarPlanAccionInvBn.planificacionSeleccionada.checkListEjecucion}"
-				var="checkList">
-				<p:column headerText="Código">
-					<h:outputText value="#{checkList.codigo}"></h:outputText>
-				</p:column>
-				<p:column headerText="Evaluación">
-					<h:outputText value="#{checkList.evaluacion.descripcion}"></h:outputText>
-				</p:column>
-				<p:column headerText="Tipo CheckList">
-					<h:outputText value="#{checkList.tipoChecKList.descripcion}"></h:outputText>
-				</p:column>
-				<p:column headerText="Estado">
-					<h:outputText value="#{checkList.estadoCheckList.descripcion}"></h:outputText>
-				</p:column>
-				<p:column width="30px" headerText="Ejecutar">
-					<p:commandButton icon="ui-icon-event-available"
-						title="Botón permite ejecutar checkList"
-						rendered="#{checkList.estadoCheckList.descripcion eq 'AGENDADA'}"
-						action="#{CalendarPlanAccionInvBn.modificarCheckListEjecucion(checkList)}"
-						onclick="PF('dlg_conf_1').show()"
-						disabled="#{CalendarPlanAccionInvBn.validarFecha()}"></p:commandButton>
-					<p:commandButton icon="ui-icon-event-available"
-						title="Botón permite continuar ejecucion de checkList"
-						rendered="#{checkList.estadoCheckList.descripcion eq 'EN EJECUCION'}"
-						action="#{CalendarPlanAccionInvBn.modificarCheckListEjecucion(checkList)}"></p:commandButton>
-				</p:column>
-			</p:dataTable>
 		</h:form>
-		<ui:include src="/pages/planificacion/pln_010.xhtml"></ui:include>
-		<p:confirmDialog widgetVar="dlg_conf_1" header="Confirmar"
-			appendTo="@(body)" message="Esta seguro de Ejecutar CheckList ?"
-			severity="alert" closeOnEscape="true" showEffect="fade"
-			hideEffect="fade">
-			<div align="center">
-				<p:commandButton styleClass="ui-confirmdialog-no"
-					icon="ui-icon-close" value="Cancelar" immediate="true"
-					oncomplete="PF('dlg_conf_1').hide()"></p:commandButton>
-				<p:commandButton value="Aceptar" styleClass="ui-confirmdialog-yes"
-					immediate="true" icon="ui-icon-check"
-					oncomplete="PF('dlg_conf_1').hide()" update="frm_rpt_017_1"
-					action="#{CalendarPlanAccionInvBn.redireccionar()}" process="@this"></p:commandButton>
-			</div>
-		</p:confirmDialog>
+		<ui:include src="/pages/reporte/rpt_017_2.xhtml"></ui:include>
 		<p:confirmDialog widgetVar="dlg_conf_2" header="Confirmar"
-			appendTo="@(body)" message="Esta seguro de guardar Inventario ?"
+			appendTo="@(body)"
+			message="Esta seguro de ejecutar Plan de Acción de Inventario ?"
 			severity="alert" closeOnEscape="true" showEffect="fade"
 			hideEffect="fade">
 			<div align="center">
@@ -131,7 +88,7 @@
 					oncomplete="PF('dlg_conf_2').hide()"></p:commandButton>
 				<p:commandButton value="Aceptar" styleClass="ui-confirmdialog-yes"
 					immediate="true" icon="ui-icon-check"
-					oncomplete="PF('dlg_conf_2').hide()" update="frm_rpt_017"
+					oncomplete="PF('dlg_conf_2').hide()" update="frm_rpt_017_1:msj,frm_rpt_017"
 					action="#{CalendarPlanAccionInvBn.guardarInv()}" process="@this"></p:commandButton>
 			</div>
 		</p:confirmDialog>

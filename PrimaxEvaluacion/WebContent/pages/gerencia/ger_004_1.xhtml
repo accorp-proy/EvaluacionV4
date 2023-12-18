@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog responsive="true" widgetVar="dlg_ger_004_1"
+		id="dlg_ger_004_1" appendTo="@(body)" width="300px">
+		<f:facet name="header">
+			<h:outputLabel value="Seleccionar  Categoría " />
+			<p:outputLabel value="ger_004_1.xhtml"
+				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
+		</f:facet>
+		<h:form id="frm_ger_004_1">
+			<div align="right">
+				<p:commandButton process="frm_ger_004_1" value="Agregar"
+					update=":frm_ger_004:msj,:frm_ger_004:dtbInvCategoria"
+					styleClass="secondary" title="Guardar"
+					action="#{GerenciaInventarioBn.anadirCategoria()}">
+				</p:commandButton>
+			</div>
+			<br />
+			<p:panelGrid styleClass="sinborde w100">
+				<p:row>
+					<p:column>
+						<p:outputLabel
+							value="Categoría #{GerenciaInventarioBn.planAccionInvTipo.tipoInventario.descripcion.toLowerCase()}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="cmbCategoria" style="width:100% !important"
+							converter="#{categoriaInvConverter}"
+							value="#{GerenciaInventarioBn.categoriaInvSeleccionada}">
+							<f:selectItem itemLabel="Categorías" />
+							<f:selectItems value="#{GerenciaInventarioBn.categoriasInv}"
+								var="cat" itemValue="#{cat}" itemLabel="#{cat.descripcion}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

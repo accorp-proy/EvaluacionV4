@@ -16,6 +16,7 @@ import com.primax.exc.gen.EntidadNoEncontradaException;
 import com.primax.exc.gen.EntidadNoGrabadaException;
 import com.primax.jpa.enums.EstadoEnum;
 import com.primax.jpa.param.CategoriaInventarioEt;
+import com.primax.jpa.param.TipoInventarioEt;
 import com.primax.jpa.sec.UsuarioEt;
 import com.primax.srv.dao.base.GenericDao;
 import com.primax.srv.idao.ICategoriaInventarioDao;
@@ -69,6 +70,18 @@ public class CategoriaInventarioDao extends GenericDao<CategoriaInventarioEt, Lo
 		if (condicion != null && !condicion.isEmpty()) {
 			query.setParameter("condicion", "%" + QUL.getString(condicion) + "%");
 		}
+		List<CategoriaInventarioEt> result = query.getResultList();
+		return result;
+	}
+
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public List<CategoriaInventarioEt> getCategoriaInvByTipoInv(TipoInventarioEt tipoInventario) throws EntidadNoEncontradaException {
+		sql = new StringBuilder("FROM CategoriaInventarioEt o ");
+		sql.append(" WHERE o.estado  = :estado   ");
+		sql.append(" AND o.tipoInventario = :tipoInventario ");
+		TypedQuery<CategoriaInventarioEt> query = em.createQuery(sql.toString(), CategoriaInventarioEt.class);
+		query.setParameter("estado", EstadoEnum.ACT);
+		query.setParameter("tipoInventario", tipoInventario);
 		List<CategoriaInventarioEt> result = query.getResultList();
 		return result;
 	}

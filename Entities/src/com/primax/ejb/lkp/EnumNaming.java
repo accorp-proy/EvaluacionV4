@@ -43,10 +43,12 @@ public enum EnumNaming {
 	IPoliticaSeguridadDao("PoliticaSeguridadDao"),
 	ICriterioEvaluacionDao("CriterioEvaluacionDao"),
 	ICheckListEjecucionDao("CheckListEjecucionDao"),
+	ICategoriaInventarioDao("CategoriaInventarioDao"),
 	ISeguimientoPlanAccionDao("SeguimientoPlanAccionDao"),
 	ICheckListKpiEjecucionDao("CheckListKpiEjecucionDao"),
 	INivelEvaluacionDetalleDao("NivelEvaluacionDetalleDao"),
 	ICheckListEjecucionFirmaDao("CheckListEjecucionFirmaDao"),
+	IPlanAccionInventarioTipoDao("PlanAccionInventarioTipoDao"),
 	ICheckListEjecucionAdjuntoDao("CheckListEjecucionAdjuntoDao"),
 	ICriterioEvaluacionDetalleDao("CriterioEvaluacionDetalleDao"),
 	ICheckListProcesoEjecucionDao("CheckListProcesoEjecucionDao");

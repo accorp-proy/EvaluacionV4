@@ -70,6 +70,9 @@ public class PlanificacionInventarioEt extends EntityBase implements Serializabl
 	@Column(name = "notificacion")
 	private boolean notificacion;
 
+	@Column(name = "plan_accion")
+	private boolean planAccion;
+
 	@ManyToOne
 	@JoinColumn(name = "id_agencia")
 	private AgenciaEt agencia;
@@ -109,7 +112,9 @@ public class PlanificacionInventarioEt extends EntityBase implements Serializabl
 	private List<PlanificacionParticipanteEt> planificacionParticipante;
 
 	public PlanificacionInventarioEt() {
+		this.planAccion = false;
 		this.notificacion = false;
+
 	}
 
 	public Long getIdPlanificacionInventario() {
@@ -198,6 +203,14 @@ public class PlanificacionInventarioEt extends EntityBase implements Serializabl
 
 	public void setPlanificacionInventarioTipo(List<PlanificacionInventarioTipoEt> planificacionInventarioTipo) {
 		this.planificacionInventarioTipo = planificacionInventarioTipo;
+	}
+
+	public boolean isPlanAccion() {
+		return planAccion;
+	}
+
+	public void setPlanAccion(boolean planAccion) {
+		this.planAccion = planAccion;
 	}
 
 	@Override

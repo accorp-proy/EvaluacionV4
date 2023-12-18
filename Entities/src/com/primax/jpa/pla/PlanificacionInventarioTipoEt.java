@@ -43,8 +43,12 @@ public class PlanificacionInventarioTipoEt extends EntityBase implements Seriali
 	@Column(name = "ejecutado")
 	private boolean ejecutado;
 
+	@Column(name = "plan_accion")
+	private boolean planAccion;
+
 	public PlanificacionInventarioTipoEt() {
 		this.ejecutado = false;
+		this.planAccion = false;
 	}
 
 	public TipoInventarioEt getTipoInventario() {
@@ -54,8 +58,6 @@ public class PlanificacionInventarioTipoEt extends EntityBase implements Seriali
 	public void setTipoInventario(TipoInventarioEt tipoInventario) {
 		this.tipoInventario = tipoInventario;
 	}
-
-	
 
 	public Long getIdPlanificacionInventarioTipo() {
 		return idPlanificacionInventarioTipo;
@@ -79,6 +81,14 @@ public class PlanificacionInventarioTipoEt extends EntityBase implements Seriali
 
 	public void setPlanificacionInventario(PlanificacionInventarioEt planificacionInventario) {
 		this.planificacionInventario = planificacionInventario;
+	}
+
+	public boolean isPlanAccion() {
+		return planAccion;
+	}
+
+	public void setPlanAccion(boolean planAccion) {
+		this.planAccion = planAccion;
 	}
 
 	@Override
