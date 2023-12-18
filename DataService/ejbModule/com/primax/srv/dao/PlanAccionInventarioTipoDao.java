@@ -61,7 +61,7 @@ public class PlanAccionInventarioTipoDao extends GenericDao<PlanAccionInventario
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public Long getPlaInvList(PlanAccionInventarioEt planAccionInv) throws EntidadNoEncontradaException {
+	public Long getPlnInvEjecutado(PlanAccionInventarioEt planAccionInv) throws EntidadNoEncontradaException {
 		Long ejecutada = 0L;
 		sql = new StringBuilder("FROM PlanAccionInventarioTipoEt o ");
 		sql.append(" WHERE o.estado  = :estado ");

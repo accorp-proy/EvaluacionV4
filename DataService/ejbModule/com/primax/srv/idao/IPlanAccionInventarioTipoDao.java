@@ -14,7 +14,7 @@ public interface IPlanAccionInventarioTipoDao extends IGenericDao<PlanAccionInve
 
 	public PlanAccionInventarioTipoEt getTipoInventarioById(long id);
 
-	public Long getPlaInvList(PlanAccionInventarioEt planAccionInv) throws EntidadNoEncontradaException;
+	public Long getPlnInvEjecutado(PlanAccionInventarioEt planAccionInv) throws EntidadNoEncontradaException;
 
 	public PlanAccionInventarioTipoEt getPlanAccionInv(PlanAccionInventarioEt planAccionInv, TipoInventarioEt tipoInv)
 			throws EntidadNoEncontradaException;

@@ -2,6 +2,7 @@ package com.primax.bean.vs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -94,6 +95,8 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 	}
 
 	public void guardar() {
+		Long check0 = 0L;
+		Long check1 = 0L;
 		String mensaje = "";
 		try {
 			mensaje = validarguardar();
@@ -106,6 +109,14 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 			planAccionInvTipo.setEnEjecucion(false);
 			planAccionInvTipo.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.INGRESADO);
 			iPlanAccionInventarioTipoDao.guardarPlanAccionInvTipo(planAccionInvTipo, usuario);
+			check0 = iPlanAccionInventarioTipoDao.getPlnInvEjecutado(planAccionInv);
+			check1 = (long) planAccionInvTipo.getPlanAccionInvCategoria().size();
+			if (check0 == check1) {
+				planAccionInv.setFechaFin(new Date());
+				planAccionInv.setFechaEjecucion(new Date());
+				planAccionInv.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.INGRESADO);
+				iPlanAccionInventarioDao.guardarPlanAccionInventario(planAccionInv, usuario);
+			}
 			retroceder();
 		} catch (Exception e) {
 			e.printStackTrace();
