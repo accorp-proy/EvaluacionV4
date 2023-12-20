@@ -480,6 +480,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
 			if (!planificacionInventarioSeleccionada.isPlanAccion()) {
+				planificacionInventarioSeleccionada.setFechaInicio(new Date());
 				generarPlanAccion(planificacionInventarioSeleccionada, usuario);
 				planificacionInventarioSeleccionada.setPlanAccion(true);
 			}
@@ -497,8 +498,10 @@ public class DashboardBean extends BaseBean implements Serializable {
 			check0 = iPlanificacionInventarioTipoDao.getPlaInvList(planificacionInventarioSeleccionada);
 			check1 = (long) planificacionInventarioSeleccionada.getPlanificacionInventarioTipo().size();
 			if (check0 == check1) {
+				planificacionInventarioSeleccionada.setFechaFin(new Date());
 				planificacionInventarioSeleccionada.setEstadoInventario(EstadoCheckListEnum.EJECUTADO);
 			}
+			planificacionInventarioSeleccionada.setFechaEjecucion(new Date());
 			iPlanificacionInventarioDao.guardarPlanificacionInventario(planificacionInventarioSeleccionada, usuario);
 			RequestContext.getCurrentInstance().execute("PF('dlg_pln_003').hide();");
 

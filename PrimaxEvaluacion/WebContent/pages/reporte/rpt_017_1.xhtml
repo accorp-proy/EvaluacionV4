@@ -24,12 +24,12 @@
 						value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.planificacionInventario.agencia.nombreAgencia}"></p:outputLabel>
 				</p:column>
 				<p:column>
-					<p:outputLabel value="Fecha de Planificación"
+					<p:outputLabel value="Fecha de Ejecución"
 						style="font-weight: bold;"></p:outputLabel>
 				</p:column>
 				<p:column>
-					<p:outputLabel title="Fecha de Planificación"
-						value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.planificacionInventario.fechaPlanificacion}">
+					<p:outputLabel title="Fecha de Ejecución"
+						value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.planificacionInventario.fechaEjecucion}">
 						<f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
 					</p:outputLabel>
 				</p:column>
@@ -50,13 +50,13 @@
 					</p:selectManyMenu>
 				</p:column>
 				<p:column>
-					<p:outputLabel value="Responsables" style="font-weight: bold;"></p:outputLabel>
+					<p:commandButton value="Inventario" title="Guardar Inventario"
+						onclick="PF('dlg_conf_2').show()"
+						disabled="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.estadoPlanAccionInv.descripcion eq 'EJECUTADO'}"></p:commandButton>
+					<p:spacer width="3"></p:spacer>
+
 				</p:column>
-				<p:column>
-					<p:commandButton oncomplete="PF('dlg_rpt_017_2').show();"
-						title="Información Responsables" icon="fa fa-eye"
-						update=":frm_rpt_017_2"></p:commandButton>
-				</p:column>
+				<p:column></p:column>
 				<p:column>
 					<p:outputLabel value="Estado Plan Acción"
 						style="font-weight: bold;"></p:outputLabel>
@@ -66,13 +66,9 @@
 						value="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.estadoPlanAccionInv.descripcion}"
 						style="font-weight: bold;"></p:outputLabel>
 				</p:column>
-				<p:column>
-					<p:commandButton value="Inventario" title="Guardar Inventario"
-						onclick="PF('dlg_conf_2').show()"
-						disabled="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.estadoPlanAccionInv.descripcion eq 'EJECUTADO'}"></p:commandButton>
-					<p:spacer width="3"></p:spacer>
-
-				</p:column>
+				
+				<p:column></p:column>
+				
 
 			</p:panelGrid>
 		</h:form>
@@ -88,7 +84,8 @@
 					oncomplete="PF('dlg_conf_2').hide()"></p:commandButton>
 				<p:commandButton value="Aceptar" styleClass="ui-confirmdialog-yes"
 					immediate="true" icon="ui-icon-check"
-					oncomplete="PF('dlg_conf_2').hide()" update="frm_rpt_017_1:msj,frm_rpt_017"
+					oncomplete="PF('dlg_conf_2').hide()"
+					update="frm_rpt_017_1:msj,frm_rpt_017"
 					action="#{CalendarPlanAccionInvBn.guardarInv()}" process="@this"></p:commandButton>
 			</div>
 		</p:confirmDialog>

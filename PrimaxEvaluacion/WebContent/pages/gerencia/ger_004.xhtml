@@ -67,25 +67,31 @@
 				<p:column headerText="Variación">
 					<p:inputNumber id="inpVariacion" value="#{cat.valorVariacion}"
 						pattern="###0.00">
+						<p:ajax event="change" process="@this dtbInvCategoria"
+							listener="#{GerenciaInventarioBn.guardarEvent(cat)}"></p:ajax>
 					</p:inputNumber>
 				</p:column>
 				<p:column headerText="Revisión">
 					<p:inputNumber id="inpRevision" value="#{cat.valorRevision}"
 						pattern="###0.00">
+						<p:ajax event="change" process="@this dtbInvCategoria"
+							listener="#{GerenciaInventarioBn.guardarEvent(cat)}"></p:ajax>
 					</p:inputNumber>
 				</p:column>
 				<p:column headerText="Plan Acción">
 					<div align="left">
 						<p:inputTextarea value="#{cat.comentarioPlanAccion}"
 							placeholder="Ingresar plan de acción" rows="4" styleClass="w100"
-							maxlength="500"></p:inputTextarea>
+							maxlength="500">
+							<p:ajax event="change" process="@this dtbInvCategoria"
+								listener="#{GerenciaInventarioBn.guardarEvent(cat)}"></p:ajax>
+						</p:inputTextarea>
 					</div>
 				</p:column>
 				<p:column headerText="Eliminar">
 					<div align="center">
 						<p:commandButton icon="ui-icon-trash" title="Eliminar"
-							process="@this dtbInvCategoria"
-							update="dtbInvCategoria"
+							process="@this dtbInvCategoria" update="dtbInvCategoria"
 							action="#{GerenciaInventarioBn.eliminarCategoria(cat)}">
 						</p:commandButton>
 					</div>

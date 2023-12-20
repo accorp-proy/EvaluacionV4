@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog responsive="true" widgetVar="dlg_par_025_1"
+		id="dlg_par_025_1" appendTo="@(body)" resizable="true" width="900px">
+		<f:facet name="header">
+			<h:outputLabel value="Evidencia Plan Acción " />
+			<p:outputLabel value="par_025_1.xhtml"
+				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
+		</f:facet>
+		<h:form id="frm_par_025_1">
+			<p:growl showDetail="false" id="mensajes">
+			</p:growl>
+			<p:panelGrid styleClass="sinborde w100" layout="grid" columns="1"
+				columnClasses="ui-grid-col-12">
+				<p:dataTable id="dtbAdjunto" emptyMessage="sin adjuntos"
+					value="#{TreePlanAccionInvBn.checkListKpis}" var="checkListKpi">
+					<p:column headerText="Proceso">
+						<h:outputText
+							value="#{checkListKpi.checkListProcesoEjecucion.descripcion}"
+							styleClass="w100" />
+					</p:column>
+					<p:column headerText="KPI’s">
+						<h:outputText value="#{checkListKpi.descripcion}"
+							styleClass="w100" />
+					</p:column>
+					<p:column headerText="Comentario Plan Acción">
+						<h:outputText value="#{checkListKpi.comentarioPlanAccion}" />
+					</p:column>
+					<p:column headerText="Evidencia Plan Acción">
+						<div align="center">
+							<p:commandButton oncomplete="PF('dlg_par_025_2').show();"
+								action="#{TreePlanAccionInvBn.adjuntoKPIAdj(checkListKpi)}"
+								update=":frm_par_025_2"
+								title="Permite subir archivos Adjuntos al KPI’s"
+								icon="fa fa-file-archive-o"></p:commandButton>
+						</div>
+					</p:column>
+					<p:column headerText="Estado">
+						<div align="center">
+							<h:graphicImage value="/resources/images/iconos/cargado.jpg"
+								rendered="#{checkListKpi.checkListKpiEjecucionAdjunto.size() ne 0}" />
+						</div>
+					</p:column>
+				</p:dataTable>
+			</p:panelGrid>
+		</h:form>
+		<ui:include src="/pages/parametros/par_025_2.xhtml"></ui:include>
+	</p:dialog>
+</ui:composition>

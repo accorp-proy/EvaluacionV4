@@ -79,9 +79,12 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 						planAccionInvTipo.setPlanAccionInvCategoria(new ArrayList<>());
 						break;
 					}
-					buscarCategoriaInv(planAccionInvTipo.getTipoInventario());
+
 				}
 
+			}
+			if (planAccionInvTipo != null) {
+				buscarCategoriaInv(planAccionInvTipo.getTipoInventario());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,7 +94,20 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 	}
 
 	public void inicializarObj() {
+		planAccionInvTipo = null;
 		categoriaInvSeleccionada = null;
+	}
+
+	public void guardarEvent(PlanAccionInvCategoriaEt cat) {
+		try {
+			UsuarioEt usuario = appMain.getUsuario();
+			//PlanAccionInvCategoriaEt catC = iPlanAccionInvCategoriaDao.getPlanAccionInvCategoriaById(cat.getIdPlanAccionInvCategoria());
+			iPlanAccionInvCategoriaDao.clear();
+			iPlanAccionInvCategoriaDao.guardarPlanAccionInvCategoria(cat, usuario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método guardarEvent " + " " + e.getMessage());
+		}
 	}
 
 	public void guardar() {
@@ -110,7 +126,7 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 			planAccionInvTipo.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.INGRESADO);
 			iPlanAccionInventarioTipoDao.guardarPlanAccionInvTipo(planAccionInvTipo, usuario);
 			check0 = iPlanAccionInventarioTipoDao.getPlnInvEjecutado(planAccionInv);
-			check1 = (long) planAccionInvTipo.getPlanAccionInvCategoria().size();
+			check1 = (long) planAccionInv.getPlanificacionInventario().getPlanificacionInventarioTipo().size();
 			if (check0 == check1) {
 				planAccionInv.setFechaFin(new Date());
 				planAccionInv.setFechaEjecucion(new Date());
@@ -127,14 +143,12 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 	public String validarguardar() {
 		String mensaje = "";
 		try {
-//			for (CheckListProcesoEjecucionEt checkListProceso : checkListEjecucion.getCheckListProcesoEjecucion()) {
-//				for (CheckListKpiEjecucionEt checkListKpi : checkListProceso.getCheckListKpiEjecucion()) {
-//					if (checkListKpi.getComentarioPlanAccion() == null) {
-//						mensaje = "Por favor ingresar plan de acción del KPI " + " " + checkListKpi.getDescripcion();
-//						break;
-//					}
-//				}
-//			}
+			for (PlanAccionInvCategoriaEt planAccionInvCat : planAccionInvTipo.getPlanAccionInvCategoria()) {
+				if (planAccionInvCat.getComentarioPlanAccion() == null) {
+					mensaje = "Por favor ingresar plan de acción de la categoría " + " " + planAccionInvCat.getCategoriaInventario().getDescripcion();
+					break;
+				}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,6 +200,8 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 			planAccionInvCategoriaN.setCategoriaInventario(categoriaInvSeleccionada);
 			planAccionInvTipo.getPlanAccionInvCategoria().add(planAccionInvCategoriaN);
 			iPlanAccionInventarioTipoDao.guardarPlanAccionInvTipo(planAccionInvTipo, appMain.getUsuario());
+			iPlanAccionInventarioTipoDao.clear();
+			planAccionInvTipo = iPlanAccionInventarioTipoDao.getTipoInventarioById(planAccionInvTipo.getIdPlanAccionInventarioTipo());
 			RequestContext.getCurrentInstance().execute("PF('dlg_ger_004_1').hide();");
 		} catch (Exception e) {
 			e.printStackTrace();

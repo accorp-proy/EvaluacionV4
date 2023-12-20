@@ -59,6 +59,10 @@ public class PlanificacionInventarioEt extends EntityBase implements Serializabl
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaPlanificacion;
 
+	@Column(name = "fecha_ejecucion")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEjecucion;
+
 	@Column(name = "fecha_inicio")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaInicio;
@@ -211,6 +215,14 @@ public class PlanificacionInventarioEt extends EntityBase implements Serializabl
 
 	public void setPlanAccion(boolean planAccion) {
 		this.planAccion = planAccion;
+	}
+
+	public Date getFechaEjecucion() {
+		return fechaEjecucion;
+	}
+
+	public void setFechaEjecucion(Date fechaEjecucion) {
+		this.fechaEjecucion = fechaEjecucion;
 	}
 
 	@Override

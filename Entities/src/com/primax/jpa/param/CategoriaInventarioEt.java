@@ -9,8 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OrderBy;
+import javax.persistence.ParameterMode;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
@@ -22,6 +25,11 @@ import com.primax.jpa.sec.UsuarioEt;
 @Entity
 @Table(name = "CATEGORIA_INVENTARIO_ET")
 @Audited
+
+@NamedStoredProcedureQuery(name = "getReporteOrgPlnInvAnio", procedureName = "fun_limpiar_rpt_org_pla_inv", resultClasses = FrecuenciaVisitaEt.class, parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "idUsuario"),
+		@StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "respuesta"), })
+
 public class CategoriaInventarioEt extends EntityBase implements Serializable {
 
 	private static final long serialVersionUID = -3318332355036766787L;

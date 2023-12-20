@@ -9,6 +9,7 @@ import javax.ejb.Stateful;
 import javax.ejb.StatefulTimeout;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 
 import com.primax.enm.gen.ActionAuditedEnum;
@@ -123,6 +124,14 @@ public class CategoriaInventarioDao extends GenericDao<CategoriaInventarioEt, Lo
 			System.out.println("Error :Metodo getOrdenCategoriaInv " + " " + e.getMessage());
 		}
 		return orden;
+	}
+
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public String limpiarReporte(Long idUsuario) {
+		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("getReporteOrgPlnInvAnio");
+		query.setParameter("idUsuario", idUsuario);
+		String respuesta = (String) query.getOutputParameterValue("respuesta");
+		return respuesta;
 	}
 
 	@Remove

@@ -13,6 +13,8 @@ public interface ICategoriaInventarioDao extends IGenericDao<CategoriaInventario
 
 	public void remove();
 
+	public String limpiarReporte(Long idUsuario);
+
 	public CategoriaInventarioEt getCategoriaInventario(long id);
 
 	public Long getOrdenCategoriaInv() throws EntidadNoEncontradaException;

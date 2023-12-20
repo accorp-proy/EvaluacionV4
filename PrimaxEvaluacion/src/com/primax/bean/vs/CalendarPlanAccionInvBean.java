@@ -85,7 +85,6 @@ public class CalendarPlanAccionInvBean extends BaseBean implements Serializable 
 	}
 
 	public void inicializarObj() {
-
 		List<RolUsuarioEt> rolUsuario = null;
 		RolEt rol = iRolEtDao.getRolbyId(9L);
 		UsuarioEt usuario = appMain.getUsuario();
