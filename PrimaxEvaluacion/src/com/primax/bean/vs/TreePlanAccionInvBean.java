@@ -35,15 +35,15 @@ import com.primax.jpa.param.TipoInventarioEt;
 import com.primax.jpa.param.ZonaEt;
 import com.primax.jpa.param.ZonaUsuarioEt;
 import com.primax.jpa.pla.CheckListEjecucionEt;
-import com.primax.jpa.pla.CheckListEjecucionPlnAdjuntoEt;
 import com.primax.jpa.pla.CheckListKpiEjecucionAdjuntoEt;
 import com.primax.jpa.pla.CheckListKpiEjecucionEt;
 import com.primax.jpa.pla.CheckListProcesoEjecucionEt;
-import com.primax.jpa.pla.PlanAccionChekListEt;
 import com.primax.jpa.pla.PlanAccionInvAnioEt;
+import com.primax.jpa.pla.PlanAccionInvEjecutadoEt;
 import com.primax.jpa.pla.PlanAccionInvEstacionEt;
 import com.primax.jpa.pla.PlanAccionInvMesEt;
 import com.primax.jpa.pla.PlanAccionInvZonaEt;
+import com.primax.jpa.pla.PlanificacionInventarioTipoEt;
 import com.primax.jpa.sec.RolEt;
 import com.primax.jpa.sec.RolUsuarioEt;
 import com.primax.jpa.sec.UsuarioEt;
@@ -57,9 +57,11 @@ import com.primax.srv.idao.IGeneralUtilsDao;
 import com.primax.srv.idao.IParametrolGeneralDao;
 import com.primax.srv.idao.IPlanAccionChekListDao;
 import com.primax.srv.idao.IPlanAccionInvAnioDao;
+import com.primax.srv.idao.IPlanAccionInvEjecutadoDao;
 import com.primax.srv.idao.IPlanAccionInvEstacionDao;
 import com.primax.srv.idao.IPlanAccionInvMesDao;
 import com.primax.srv.idao.IPlanAccionInvZonaDao;
+import com.primax.srv.idao.IPlanificacionInventarioTipoDao;
 import com.primax.srv.idao.IResponsableDao;
 import com.primax.srv.idao.IRolEtDao;
 import com.primax.srv.idao.ITipoInventarioDao;
@@ -107,6 +109,10 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 	private IPlanAccionInvEstacionDao iPlanAccionInvEstacionDao;
 	@EJB
 	private ICheckListKpiEjecucionDao iCheckListKpiEjecucionDao;
+	@EJB
+	private IPlanAccionInvEjecutadoDao iPlanAccionInvEjecutadoDao;
+	@EJB
+	private IPlanificacionInventarioTipoDao iPlanificacionInventarioTipoDao;
 	@EJB
 	private ICheckListEjecucionPlnAdjuntoDao iCheckListEjecucionPlnAdjuntoDao;
 	@EJB
@@ -213,38 +219,21 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 			for (PlanAccionInvAnioEt anio : anios) {
 				idPlanAccion = anio.getIdPlanAccionInvAnio();
 				TreeNode node0 = new DefaultTreeNode(new PlanAccionOrganizacion(0L, 0L, anio.getAnio().toString(), "Carpeta"), root);
-
 				List<PlanAccionInvMesEt> meses = iPlanAccionInvMesDao.getPlanAccionMesList(idPlanAccion, anio.getAnio());
 				for (PlanAccionInvMesEt mes : meses) {
 					TreeNode node00 = new DefaultTreeNode(new PlanAccionOrganizacion(0L, 0L, mes.getMesLetra().toString(), "Carpeta"), node0);
 					List<PlanAccionInvZonaEt> zonas = iPlanAccionInvZonaDao.getPlanAccionZonaList(idPlanAccion, anio.getAnio(), mes.getMesNumero());
 					for (PlanAccionInvZonaEt zona : zonas) {
 						TreeNode node000 = new DefaultTreeNode(new PlanAccionOrganizacion(0L, 0L, zona.getZona(), "Carpeta"), node00);
-
 						List<PlanAccionInvEstacionEt> estaciones = iPlanAccionInvEstacionDao.getPlanAccionMesList(idPlanAccion, anio.getAnio(), mes.getMesNumero(), zona.getIdZona());
 						for (PlanAccionInvEstacionEt estacion : estaciones) {
 							TreeNode node0000 = new DefaultTreeNode(new PlanAccionOrganizacion(0L, 0L, estacion.getAgencia(), "Carpeta"), node000);
-
-							List<PlanAccionChekListEt> checks = iPlanAccionChekListDao.getPlanAccionChekListList(idPlanAccion, anio.getAnio(), mes.getMesNumero(), zona.getIdZona(), estacion.getIdAgencia());
-							for (PlanAccionChekListEt check : checks) {
-								List<CheckListEjecucionPlnAdjuntoEt> adjuntos = iCheckListEjecucionPlnAdjuntoDao.getAdjuntoList(check.getIdCheckListEjecucion());
-
-								if (adjuntos.isEmpty()) {
-									TreeNode node00000 = new DefaultTreeNode(new PlanAccionOrganizacion(check.getIdCheckListEjecucion(), 0L, check.getDescripcion(), "Carpeta"), node0000);
-									CheckListEjecucionPlnAdjuntoEt adj = new CheckListEjecucionPlnAdjuntoEt();
-									adj.setIdCheckListEjecucion(check.getIdCheckListEjecucion());
-									adj.setNombreAdjunto("PLAN DE ACCIÓN Y SEGUIMIENTO");
-									node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(adj.getIdCheckListEjecucion(), check.getIdAgencia(), adj.getNombreAdjunto(), "Plan")));
-
-								} else {
-									TreeNode node00000 = new DefaultTreeNode(new PlanAccionOrganizacion(check.getIdCheckListEjecucion(), 0L, check.getDescripcion(), "Carpeta"), node0000);
-									CheckListEjecucionPlnAdjuntoEt adj = new CheckListEjecucionPlnAdjuntoEt();
-									adj.setIdCheckListEjecucion(check.getIdCheckListEjecucion());
-									adj.setNombreAdjunto("PLAN DE ACCIÓN Y SEGUIMIENTO");
-									node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(adj.getIdCheckListEjecucion(), check.getIdAgencia(), adj.getNombreAdjunto(), "Plan")));
-									for (CheckListEjecucionPlnAdjuntoEt adjunto : adjuntos) {
-										node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(adjunto.getCheckListEjecucion().getIdCheckListEjecucion(), 0L, adjunto.getNombreAdjunto(), "Adjunto")));
-									}
+							List<PlanAccionInvEjecutadoEt> checks = iPlanAccionInvEjecutadoDao.getPlanAccionInvEjecutadoList(idPlanAccion, anio.getAnio(), mes.getMesNumero(), zona.getIdZona(), estacion.getIdAgencia());
+							for (PlanAccionInvEjecutadoEt check : checks) {
+								TreeNode node00000 = new DefaultTreeNode(new PlanAccionOrganizacion(check.getIdPlanificacionInventario(), 0L, check.getDescripcion(), "Carpeta"), node0000);
+								List<PlanificacionInventarioTipoEt> tiposInv = iPlanificacionInventarioTipoDao.getPlanificacionInventarioTipoList(check.getIdPlanificacionInventario(), check.getIdTipoInventario());
+								for (PlanificacionInventarioTipoEt tipoInv : tiposInv) {
+									node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(tipoInv.getIdPlanificacionInventarioTipo(), check.getIdAgencia(), tipoInv.getTipoInventario().getDescripcion(), "Plan")));
 								}
 							}
 						}
@@ -615,6 +604,8 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 		iCheckListEjecucionDao.remove();
 		iPlanAccionInvEstacionDao.remove();
 		iCheckListKpiEjecucionDao.remove();
+		iPlanAccionInvEjecutadoDao.remove();
+		iPlanificacionInventarioTipoDao.remove();
 		iCheckListEjecucionPlnAdjuntoDao.remove();
 		iCheckListKpiEjecucionAdjuntoDao.remove();
 	}

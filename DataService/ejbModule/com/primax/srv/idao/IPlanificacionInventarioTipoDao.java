@@ -1,5 +1,7 @@
 package com.primax.srv.idao;
 
+import java.util.List;
+
 import com.primax.exc.gen.EntidadNoEncontradaException;
 import com.primax.exc.gen.EntidadNoGrabadaException;
 import com.primax.jpa.param.TipoInventarioEt;
@@ -13,6 +15,9 @@ public interface IPlanificacionInventarioTipoDao extends IGenericDao<Planificaci
 	public void remove();
 
 	public Long getPlaInvList(PlanificacionInventarioEt planificacionInv) throws EntidadNoEncontradaException;
+
+	public List<PlanificacionInventarioTipoEt> getPlanificacionInventarioTipoList(Long idPlaInv, Long idTipoInventario)
+			throws EntidadNoEncontradaException;
 
 	public void guardarPlanificacionInv(PlanificacionInventarioTipoEt planificacionInv, UsuarioEt usuario) throws EntidadNoGrabadaException;
 
