@@ -1,17 +1,23 @@
 package com.primax.jpa.pla;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
 import org.hibernate.envers.Audited;
 
 import com.primax.enm.gen.ActionAuditedEnum;
@@ -48,6 +54,11 @@ public class PlanAccionInvCategoriaEt extends EntityBase implements Serializable
 
 	@Column(name = "comentario_plan_accion", length = 500)
 	private String comentarioPlanAccion;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "planAccionInvCategoria", fetch = FetchType.LAZY)
+	@OrderBy("idPlanAccionInvCategoriaAdjunto")
+	@Where(clause = "estado = 'ACT'")
+	private List<PlanAccionInvCategoriaAdjuntoEt> planAccionInvCategoriaAdjunto;
 
 	public PlanAccionInvCategoriaEt() {
 		this.valorRevision = 0.0D;
@@ -101,6 +112,14 @@ public class PlanAccionInvCategoriaEt extends EntityBase implements Serializable
 
 	public void setComentarioPlanAccion(String comentarioPlanAccion) {
 		this.comentarioPlanAccion = comentarioPlanAccion;
+	}
+
+	public List<PlanAccionInvCategoriaAdjuntoEt> getPlanAccionInvCategoriaAdjunto() {
+		return planAccionInvCategoriaAdjunto;
+	}
+
+	public void setPlanAccionInvCategoriaAdjunto(List<PlanAccionInvCategoriaAdjuntoEt> planAccionInvCategoriaAdjunto) {
+		this.planAccionInvCategoriaAdjunto = planAccionInvCategoriaAdjunto;
 	}
 
 	@Override

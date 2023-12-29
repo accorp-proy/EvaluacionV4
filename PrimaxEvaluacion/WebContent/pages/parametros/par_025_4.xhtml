@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog responsive="true" widgetVar="dlg_par_025_4"
+		id="dlg_par_025_4" appendTo="@(body)" resizable="true" width="900px">
+		<f:facet name="header">
+			<h:outputLabel value="Evidencias de Plan Acción " />
+			<p:outputLabel value="par_025_4.xhtml"
+				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
+		</f:facet>
+		<h:form id="frm_par_025_4">
+			<p:growl showDetail="false" id="mensajes">
+			</p:growl>
+			<div align="right">
+				<p:commandButton icon="ui-icon-check"
+					action="#{TreePlanAccionInvBn.guardarAdj()}" title="Guardar"></p:commandButton>
+			</div>
+			<p:panelGrid styleClass="sinborde w100" layout="grid" columns="1"
+				columnClasses="ui-grid-col-12">
+				<p:fileUpload mode="advanced" uploadLabel="Subir"
+					fileUploadListener="#{TreePlanAccionInvBn.upload}"
+					cancelLabel="Cancelar" label="Seleccionar" dragDropSupport="true"
+					allowTypes="/(\.|\/)(docx|xlsx|xls|gif|jpe?g|png|pdf|pptx)$/"
+					update="dtbAdjunto" process="@this dtbAdjunto" />
+				<p:dataTable id="dtbAdjunto" emptyMessage="sin adjuntos"
+					value="#{TreePlanAccionInvBn.plnAcionInvCatSeleccionado.planAccionInvCategoriaAdjunto}"
+					var="plnInvCatAdj">
+					<p:column headerText="Nombre del Archivo" width="200">
+						<h:outputText value="#{plnInvCatAdj.nombreAdjunto}" />
+					</p:column>
+					<p:column headerText="Ruta" width="75">
+						<p:commandButton immediate="true" value="Descargar" ajax="false"
+							actionListener="#{appMain.fileDownloadPath(plnInvCatAdj.planAccionInvCategoria.idPlanAccionInvCategoria , plnInvCatAdj.nombreAdjunto)}"
+							process="@this">
+							<p:fileDownload value="#{appMain.download}" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Categoría" style="width:30%">
+						<p:selectOneMenu id="cmbRubro" style="width:100% !important"
+							converter="#{parametrosConverter}"
+							value="#{plnInvCatAdj.parametroCategoria}">
+							<f:selectItem itemLabel="Seleccione" />
+							<f:selectItems value="#{TreePlanAccionInvBn.tipoCategoriaList}"
+								var="tipoCategoria" itemValue="#{tipoCategoria}"
+								itemLabel="#{tipoCategoria.nombreLista}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column headerText="Descripción" style="width:40%">
+						<h:inputText maxlength="100" value="#{plnInvCatAdj.detalle}"
+							title="Tipos de adjuntos docx , xlsx , xls , gif , jpe , png , pdf , pptx"
+							styleClass="w100" />
+					</p:column>
+					<p:column width="30">
+						<p:commandButton icon="ui-icon-delete" title="Eliminar"
+							process="@this" update="dtbAdjunto"
+							action="#{TreePlanAccionInvBn.quitarAdjunto(plnInvCatAdj)}"></p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</p:panelGrid>
+
+		</h:form>
+	</p:dialog>
+</ui:composition>

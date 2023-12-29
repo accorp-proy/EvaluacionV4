@@ -46,6 +46,10 @@ public class PlanAccionInventarioTipoEt extends EntityBase implements Serializab
 	private PlanAccionInventarioEt planAccionInventario;
 
 	@ManyToOne
+	@JoinColumn(name = "id_planificacion_inventario_tipo")
+	private PlanificacionInventarioTipoEt planificacionInventarioTipo;
+
+	@ManyToOne
 	@JoinColumn(name = "id_tipo_inventario")
 	private TipoInventarioEt tipoInventario;
 
@@ -123,6 +127,14 @@ public class PlanAccionInventarioTipoEt extends EntityBase implements Serializab
 
 	public void setEnEjecucion(boolean enEjecucion) {
 		this.enEjecucion = enEjecucion;
+	}
+
+	public PlanificacionInventarioTipoEt getPlanificacionInventarioTipo() {
+		return planificacionInventarioTipo;
+	}
+
+	public void setPlanificacionInventarioTipo(PlanificacionInventarioTipoEt planificacionInventarioTipo) {
+		this.planificacionInventarioTipo = planificacionInventarioTipo;
 	}
 
 	@Override

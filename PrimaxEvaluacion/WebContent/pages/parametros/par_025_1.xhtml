@@ -16,37 +16,37 @@
 			<p:panelGrid styleClass="sinborde w100" layout="grid" columns="1"
 				columnClasses="ui-grid-col-12">
 				<p:dataTable id="dtbAdjunto" emptyMessage="sin adjuntos"
-					value="#{TreePlanAccionInvBn.checkListKpis}" var="checkListKpi">
-					<p:column headerText="Proceso">
-						<h:outputText
-							value="#{checkListKpi.checkListProcesoEjecucion.descripcion}"
+					value="#{TreePlanAccionInvBn.plnAccionCategoriasT}" var="plnInvCat">
+					<p:column headerText="Catergoría">
+						<h:outputText value="#{plnInvCat.categoriaInventario.descripcion}"
 							styleClass="w100" />
 					</p:column>
-					<p:column headerText="KPI’s">
-						<h:outputText value="#{checkListKpi.descripcion}"
+					<p:column headerText="Variación">
+						<h:outputText value="#{plnInvCat.valorVariacion}"
 							styleClass="w100" />
 					</p:column>
-					<p:column headerText="Comentario Plan Acción">
-						<h:outputText value="#{checkListKpi.comentarioPlanAccion}" />
+					<p:column headerText="Revisión">
+						<h:outputText value="#{plnInvCat.valorRevision}" />
+					</p:column>
+					<p:column headerText="Plan Acción">
+						<h:outputText value="#{plnInvCat.comentarioPlanAccion}" />
 					</p:column>
 					<p:column headerText="Evidencia Plan Acción">
 						<div align="center">
-							<p:commandButton oncomplete="PF('dlg_par_025_2').show();"
-								action="#{TreePlanAccionInvBn.adjuntoKPIAdj(checkListKpi)}"
-								update=":frm_par_025_2"
-								title="Permite subir archivos Adjuntos al KPI’s"
+							<p:commandButton oncomplete="PF('dlg_par_025_4').show();"
+								action="#{TreePlanAccionInvBn.adjuntoKPIAdj(plnInvCat)}"
+								update=":frm_par_025_4" title="Permite subir archivos Adjuntos"
 								icon="fa fa-file-archive-o"></p:commandButton>
 						</div>
 					</p:column>
 					<p:column headerText="Estado">
 						<div align="center">
 							<h:graphicImage value="/resources/images/iconos/cargado.jpg"
-								rendered="#{checkListKpi.checkListKpiEjecucionAdjunto.size() ne 0}" />
+								rendered="#{plnInvCat.planAccionInvCategoriaAdjunto.size() ne 0}" />
 						</div>
 					</p:column>
 				</p:dataTable>
 			</p:panelGrid>
 		</h:form>
-		<ui:include src="/pages/parametros/par_025_2.xhtml"></ui:include>
 	</p:dialog>
 </ui:composition>

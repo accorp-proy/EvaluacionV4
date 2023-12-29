@@ -489,7 +489,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 				PlanificacionInventarioTipoEt tipo = iPlanificacionInventarioTipoDao.getPlanificacionInv(planificacionInventarioSeleccionada, tipoInv);
 				tipo.setEjecutado(true);
 				if (!tipo.isPlanAccion()) {
-					generarPlanAccionTipo(planAccionInv, tipoInv, usuario);
+					generarPlanAccionTipo(planAccionInv, tipoInv, tipo, usuario);
 					tipo.setPlanAccion(true);
 				}
 				iPlanificacionInventarioTipoDao.guardarPlanificacionInv(tipo, usuario);
@@ -561,10 +561,11 @@ public class DashboardBean extends BaseBean implements Serializable {
 		}
 	}
 
-	public void generarPlanAccionTipo(PlanAccionInventarioEt planAccionInv, TipoInventarioEt tipoInventario, UsuarioEt usuario) {
+	public void generarPlanAccionTipo(PlanAccionInventarioEt planAccionInv, TipoInventarioEt tipoInventario, PlanificacionInventarioTipoEt tipo, UsuarioEt usuario) {
 		try {
 			PlanAccionInventarioTipoEt planAccionInvTipo = new PlanAccionInventarioTipoEt();
 			planAccionInvTipo.setUsuarioRegistra(usuario);
+			planAccionInvTipo.setPlanificacionInventarioTipo(tipo);
 			planAccionInvTipo.setTipoInventario(tipoInventario);
 			planAccionInvTipo.setPlanAccionInventario(planAccionInv);
 			planAccionInvTipo.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.PENDIENTE);

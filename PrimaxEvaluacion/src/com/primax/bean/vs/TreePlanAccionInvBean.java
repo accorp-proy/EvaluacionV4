@@ -17,6 +17,7 @@ import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -34,33 +35,31 @@ import com.primax.jpa.param.ResponsableEt;
 import com.primax.jpa.param.TipoInventarioEt;
 import com.primax.jpa.param.ZonaEt;
 import com.primax.jpa.param.ZonaUsuarioEt;
-import com.primax.jpa.pla.CheckListEjecucionEt;
-import com.primax.jpa.pla.CheckListKpiEjecucionAdjuntoEt;
-import com.primax.jpa.pla.CheckListKpiEjecucionEt;
-import com.primax.jpa.pla.CheckListProcesoEjecucionEt;
 import com.primax.jpa.pla.PlanAccionInvAnioEt;
+import com.primax.jpa.pla.PlanAccionInvCategoriaAdjuntoEt;
+import com.primax.jpa.pla.PlanAccionInvCategoriaEt;
 import com.primax.jpa.pla.PlanAccionInvEjecutadoEt;
 import com.primax.jpa.pla.PlanAccionInvEstacionEt;
 import com.primax.jpa.pla.PlanAccionInvMesEt;
 import com.primax.jpa.pla.PlanAccionInvZonaEt;
+import com.primax.jpa.pla.PlanAccionInventarioTipoEt;
 import com.primax.jpa.pla.PlanificacionInventarioTipoEt;
 import com.primax.jpa.sec.RolEt;
 import com.primax.jpa.sec.RolUsuarioEt;
 import com.primax.jpa.sec.UsuarioEt;
 import com.primax.srv.idao.IAgenciaDao;
 import com.primax.srv.idao.ICategoriaInventarioDao;
-import com.primax.srv.idao.ICheckListEjecucionDao;
-import com.primax.srv.idao.ICheckListEjecucionPlnAdjuntoDao;
-import com.primax.srv.idao.ICheckListKpiEjecucionAdjuntoDao;
-import com.primax.srv.idao.ICheckListKpiEjecucionDao;
 import com.primax.srv.idao.IGeneralUtilsDao;
 import com.primax.srv.idao.IParametrolGeneralDao;
-import com.primax.srv.idao.IPlanAccionChekListDao;
 import com.primax.srv.idao.IPlanAccionInvAnioDao;
+import com.primax.srv.idao.IPlanAccionInvCategoriaAdjuntoDao;
+import com.primax.srv.idao.IPlanAccionInvCategoriaDao;
 import com.primax.srv.idao.IPlanAccionInvEjecutadoDao;
 import com.primax.srv.idao.IPlanAccionInvEstacionDao;
 import com.primax.srv.idao.IPlanAccionInvMesDao;
 import com.primax.srv.idao.IPlanAccionInvZonaDao;
+import com.primax.srv.idao.IPlanAccionInventarioDao;
+import com.primax.srv.idao.IPlanAccionInventarioTipoDao;
 import com.primax.srv.idao.IPlanificacionInventarioTipoDao;
 import com.primax.srv.idao.IResponsableDao;
 import com.primax.srv.idao.IRolEtDao;
@@ -100,23 +99,21 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 	@EJB
 	private IParametrolGeneralDao iParametrolGeneralDao;
 	@EJB
-	private IPlanAccionChekListDao iPlanAccionChekListDao;
-	@EJB
-	private ICheckListEjecucionDao iCheckListEjecucionDao;
-	@EJB
 	private ICategoriaInventarioDao iCategoriaInventarioDao;
+	@EJB
+	private IPlanAccionInventarioDao iPlanAccionInventarioDao;
 	@EJB
 	private IPlanAccionInvEstacionDao iPlanAccionInvEstacionDao;
 	@EJB
-	private ICheckListKpiEjecucionDao iCheckListKpiEjecucionDao;
-	@EJB
 	private IPlanAccionInvEjecutadoDao iPlanAccionInvEjecutadoDao;
+	@EJB
+	private IPlanAccionInvCategoriaDao iPlanAccionInvCategoriaDao;
+	@EJB
+	private IPlanAccionInventarioTipoDao iPlanAccionInventarioTipoDao;
 	@EJB
 	private IPlanificacionInventarioTipoDao iPlanificacionInventarioTipoDao;
 	@EJB
-	private ICheckListEjecucionPlnAdjuntoDao iCheckListEjecucionPlnAdjuntoDao;
-	@EJB
-	private ICheckListKpiEjecucionAdjuntoDao iCheckListKpiEjecucionAdjuntoDao;
+	private IPlanAccionInvCategoriaAdjuntoDao iPlanAccionInvCategoriaAdjuntoDao;
 
 	@Inject
 	private AppMain appMain;
@@ -129,13 +126,13 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 	private AgenciaEt estacionSeleccionada;
 	private TipoInventarioEt tipoInvSeleccionado;
 	private ParametrosGeneralesEt anioSeleccionado;
-	private CheckListEjecucionEt checkListEjecucion;
-	private CheckListEjecucionEt checkListEjecucionR;
-	private List<CheckListKpiEjecucionEt> checkListKpis;
 	private List<ParametrosGeneralesEt> mesesSeleccionados;
+	private List<PlanAccionInvCategoriaEt> plnAccionCategoriasT;
+	private List<PlanAccionInvCategoriaEt> plnAccionCategoriasC;
+	private List<PlanAccionInvCategoriaEt> plnAccionCategoriasP;
 	private PlanAccionOrganizacion planAccionOrganizacionSelect;
-	private CheckListKpiEjecucionEt checkListKpiEjecucionSeleccionado;
-	private List<CheckListKpiEjecucionAdjuntoEt> checkListKpiEjecucionAdjuntoEliminado;
+	private PlanAccionInvCategoriaEt plnAcionInvCatSeleccionado;
+	private List<PlanAccionInvCategoriaAdjuntoEt> plnAcionInvCatAdjuntoEliminado;
 
 	@Override
 	protected void init() {
@@ -158,7 +155,10 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 	}
 
 	public void inicializarObj() {
-		checkListKpiEjecucionAdjuntoEliminado = new ArrayList<>();
+		plnAccionCategoriasT = new ArrayList<>();
+		plnAccionCategoriasC = new ArrayList<>();
+		plnAccionCategoriasP = new ArrayList<>();
+		plnAcionInvCatAdjuntoEliminado = new ArrayList<>();
 	}
 
 	public void generar() {
@@ -233,7 +233,7 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 								TreeNode node00000 = new DefaultTreeNode(new PlanAccionOrganizacion(check.getIdPlanificacionInventario(), 0L, check.getDescripcion(), "Carpeta"), node0000);
 								List<PlanificacionInventarioTipoEt> tiposInv = iPlanificacionInventarioTipoDao.getPlanificacionInventarioTipoList(check.getIdPlanificacionInventario(), check.getIdTipoInventario());
 								for (PlanificacionInventarioTipoEt tipoInv : tiposInv) {
-									node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(tipoInv.getIdPlanificacionInventarioTipo(), check.getIdAgencia(), tipoInv.getTipoInventario().getDescripcion(), "Plan")));
+									node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(tipoInv.getIdPlanificacionInventarioTipo(), tipoInv.getTipoInventario().getIdTipoInventario(), tipoInv.getTipoInventario().getDescripcion(), "Plan")));
 								}
 							}
 						}
@@ -250,38 +250,36 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 	public void guardarAdj() {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			if (!checkListKpiEjecucionAdjuntoEliminado.isEmpty()) {
-				for (CheckListKpiEjecucionAdjuntoEt checkListKpiEjecucionAdjunto : checkListKpiEjecucionAdjuntoEliminado) {
-					iCheckListKpiEjecucionAdjuntoDao.guardarCheckListKpiEjecucionAdjunto(checkListKpiEjecucionAdjunto, usuario);
+			if (!plnAcionInvCatAdjuntoEliminado.isEmpty()) {
+				for (PlanAccionInvCategoriaAdjuntoEt plnAccionInvCategoriaAdj : plnAcionInvCatAdjuntoEliminado) {
+					iPlanAccionInvCategoriaAdjuntoDao.guardarPlnAccionInvCategoriaAdj(plnAccionInvCategoriaAdj, usuario);
 				}
 			}
-			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucionSeleccionado, usuario);
+			iPlanAccionInvCategoriaDao.guardarPlanAccionInvCategoria(plnAcionInvCatSeleccionado, usuario);
 			showInfo("Dato Guardado", FacesMessage.SEVERITY_INFO, null, null);
-			RequestContext.getCurrentInstance().execute("PF('dlg_par_021_2').hide();");
+			RequestContext.getCurrentInstance().execute("PF('dlg_par_025_4').hide();");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método guardar " + " " + e.getMessage());
 		}
 	}
 
-	public void checkListR(Long id) {
-		try {
-			checkListEjecucionR = iCheckListEjecucionDao.getCheckListEjecucionPlanAccion(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error :Método adjuntoKPI " + " " + e.getMessage());
-		}
+	public void onNodeSelect(NodeSelectEvent event) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", event.getTreeNode().toString());
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
-	public void adjuntoKPI(Long id) {
+	public void adjuntoTienda(Long id, Long idTipoInv) {
 		try {
-			checkListKpis = new ArrayList<>();
-			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucionPlanAccion(id);
-			for (CheckListProcesoEjecucionEt proceso : checkListEjecucion.getCheckListProcesoEjecucion()) {
-				for (CheckListKpiEjecucionEt kpi : proceso.getCheckListKpiEjecucion()) {
-					checkListKpis.add(kpi);
+			plnAccionCategoriasT = new ArrayList<>();
+			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id, idTipoInv);
+			PlanAccionInventarioTipoEt tipo = iPlanAccionInventarioTipoDao.getPlanAccionInventarioTipoDif(tipoN.getIdPlanAccionInventarioTipo());
+			if (tipo != null && tipo.getPlanAccionInvCategoria() != null && !tipo.getPlanAccionInvCategoria().isEmpty()) {
+				for (PlanAccionInvCategoriaEt categoria : tipo.getPlanAccionInvCategoria()) {
+					plnAccionCategoriasT.add(categoria);
 				}
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método adjuntoKPI " + " " + e.getMessage());
@@ -289,12 +287,48 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 
 	}
 
-	public void adjuntoKPIAdj(CheckListKpiEjecucionEt kpi) {
+	public void adjuntoCombustible(Long id, Long idTipoInv) {
+		try {
+			plnAccionCategoriasC = new ArrayList<>();
+			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id, idTipoInv);
+			PlanAccionInventarioTipoEt tipo = iPlanAccionInventarioTipoDao.getPlanAccionInventarioTipoDif(tipoN.getIdPlanAccionInventarioTipo());
+			if (tipo != null && tipo.getPlanAccionInvCategoria() != null && !tipo.getPlanAccionInvCategoria().isEmpty()) {
+				for (PlanAccionInvCategoriaEt categoria : tipo.getPlanAccionInvCategoria()) {
+					plnAccionCategoriasC.add(categoria);
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método adjuntoKPI " + " " + e.getMessage());
+		}
+
+	}
+
+	public void adjuntoPromocion(Long id, Long idTipoInv) {
+		try {
+			plnAccionCategoriasP = new ArrayList<>();
+			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id, idTipoInv);
+			PlanAccionInventarioTipoEt tipo = iPlanAccionInventarioTipoDao.getPlanAccionInventarioTipoDif(tipoN.getIdPlanAccionInventarioTipo());
+			if (tipo != null && tipo.getPlanAccionInvCategoria() != null && !tipo.getPlanAccionInvCategoria().isEmpty()) {
+				for (PlanAccionInvCategoriaEt categoria : tipo.getPlanAccionInvCategoria()) {
+					plnAccionCategoriasP.add(categoria);
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método adjuntoKPI " + " " + e.getMessage());
+		}
+
+	}
+
+	public void adjuntoKPIAdj(PlanAccionInvCategoriaEt catAdj) {
 		try {
 			System.out.println("Prueba Jema");
-			checkListKpiEjecucionSeleccionado = kpi;
-			if (checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto() == null || checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto().isEmpty()) {
-				checkListKpiEjecucionSeleccionado.setCheckListKpiEjecucionAdjunto(new ArrayList<>());
+			plnAcionInvCatSeleccionado = catAdj;
+			if (plnAcionInvCatSeleccionado.getPlanAccionInvCategoriaAdjunto() == null || plnAcionInvCatSeleccionado.getPlanAccionInvCategoriaAdjunto().isEmpty()) {
+				plnAcionInvCatSeleccionado.setPlanAccionInvCategoriaAdjunto(new ArrayList<>());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -306,25 +340,25 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 		String ruta;
 		String nombreArchivo = "";
 		try {
-			CheckListKpiEjecucionEt checkListKpiEjecucion = checkListKpiEjecucionSeleccionado;
+			PlanAccionInvCategoriaEt planAccionInvCategoria = plnAcionInvCatSeleccionado;
 			nombreArchivo = event.getFile().getFileName();
-			CheckListKpiEjecucionAdjuntoEt reg = new CheckListKpiEjecucionAdjuntoEt();
+			PlanAccionInvCategoriaAdjuntoEt reg = new PlanAccionInvCategoriaAdjuntoEt();
 			reg.setNombreAdjunto(nombreArchivo);
-			reg.setCheckListKpiEjecucion(checkListKpiEjecucionSeleccionado);
+			reg.setPlanAccionInvCategoria(plnAcionInvCatSeleccionado);
 			reg.setFile(event.getFile().getInputstream());
-			for (CheckListKpiEjecucionAdjuntoEt doc : checkListKpiEjecucion.getCheckListKpiEjecucionAdjunto()) {
+			for (PlanAccionInvCategoriaAdjuntoEt doc : planAccionInvCategoria.getPlanAccionInvCategoriaAdjunto()) {
 				if (doc.getNombreAdjunto().equals(reg.getNombreAdjunto())) {
 					showInfo("" + Mensajes._ERROR_UPLOAD_DOCUMENTO.getDescripcion(), FacesMessage.SEVERITY_ERROR);
 					return;
 				}
 			}
 			if (nombreArchivo.toLowerCase().contains(".png") || nombreArchivo.toLowerCase().contains(".jpg")) {
-				ruta = iGeneralUtilsDao.creaRuta(checkListKpiEjecucionSeleccionado.getIdCheckListKpiEjecucion(), RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
+				ruta = iGeneralUtilsDao.creaRuta(plnAcionInvCatSeleccionado.getIdPlanAccionInvCategoria(), RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
 			} else {
-				ruta = iGeneralUtilsDao.creaRuta(checkListKpiEjecucionSeleccionado.getIdCheckListKpiEjecucion(), RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
+				ruta = iGeneralUtilsDao.creaRuta(plnAcionInvCatSeleccionado.getIdPlanAccionInvCategoria(), RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
 			}
 			iGeneralUtilsDao.copyFile(reg.getNombreAdjunto(), reg.getFile(), ruta);
-			checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto().add(reg);
+			plnAcionInvCatSeleccionado.getPlanAccionInvCategoriaAdjunto().add(reg);
 			FacesMessage msg = new FacesMessage("Satisfactorio! ", event.getFile().getFileName() + "  " + "Esta subido Correctamente.");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (IOException e) {
@@ -334,13 +368,13 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 		}
 	}
 
-	public void quitarAdjunto(CheckListKpiEjecucionAdjuntoEt checkListKpiEjecucionAdjunto) {
+	public void quitarAdjunto(PlanAccionInvCategoriaAdjuntoEt plnAccionInvCategoriaAdj) {
 		try {
 			Date fechaRegistro = UtilEnum.FECHA_REGISTRO.getValue();
-			checkListKpiEjecucionAdjunto.setFechaModificacion(fechaRegistro);
-			checkListKpiEjecucionAdjunto.setEstado(EstadoEnum.INA);
-			checkListKpiEjecucionAdjuntoEliminado.add(checkListKpiEjecucionAdjunto);
-			checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionAdjunto().remove(checkListKpiEjecucionAdjunto);
+			plnAccionInvCategoriaAdj.setFechaModificacion(fechaRegistro);
+			plnAccionInvCategoriaAdj.setEstado(EstadoEnum.INA);
+			plnAcionInvCatAdjuntoEliminado.add(plnAccionInvCategoriaAdj);
+			plnAcionInvCatSeleccionado.getPlanAccionInvCategoriaAdjunto().remove(plnAccionInvCategoriaAdj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarAdjunto " + " " + e.getMessage());
@@ -540,36 +574,44 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 		this.estacionSeleccionada = estacionSeleccionada;
 	}
 
-	public CheckListEjecucionEt getCheckListEjecucion() {
-		return checkListEjecucion;
+	public List<PlanAccionInvCategoriaEt> getPlnAccionCategoriasT() {
+		return plnAccionCategoriasT;
 	}
 
-	public void setCheckListEjecucion(CheckListEjecucionEt checkListEjecucion) {
-		this.checkListEjecucion = checkListEjecucion;
+	public void setPlnAccionCategoriasT(List<PlanAccionInvCategoriaEt> plnAccionCategoriasT) {
+		this.plnAccionCategoriasT = plnAccionCategoriasT;
 	}
 
-	public List<CheckListKpiEjecucionEt> getCheckListKpis() {
-		return checkListKpis;
+	public List<PlanAccionInvCategoriaEt> getPlnAccionCategoriasC() {
+		return plnAccionCategoriasC;
 	}
 
-	public void setCheckListKpis(List<CheckListKpiEjecucionEt> checkListKpis) {
-		this.checkListKpis = checkListKpis;
+	public void setPlnAccionCategoriasC(List<PlanAccionInvCategoriaEt> plnAccionCategoriasC) {
+		this.plnAccionCategoriasC = plnAccionCategoriasC;
 	}
 
-	public CheckListKpiEjecucionEt getCheckListKpiEjecucionSeleccionado() {
-		return checkListKpiEjecucionSeleccionado;
+	public List<PlanAccionInvCategoriaEt> getPlnAccionCategoriasP() {
+		return plnAccionCategoriasP;
 	}
 
-	public void setCheckListKpiEjecucionSeleccionado(CheckListKpiEjecucionEt checkListKpiEjecucionSeleccionado) {
-		this.checkListKpiEjecucionSeleccionado = checkListKpiEjecucionSeleccionado;
+	public void setPlnAccionCategoriasP(List<PlanAccionInvCategoriaEt> plnAccionCategoriasP) {
+		this.plnAccionCategoriasP = plnAccionCategoriasP;
 	}
 
-	public CheckListEjecucionEt getCheckListEjecucionR() {
-		return checkListEjecucionR;
+	public PlanAccionInvCategoriaEt getPlnAcionInvCatSeleccionado() {
+		return plnAcionInvCatSeleccionado;
 	}
 
-	public void setCheckListEjecucionR(CheckListEjecucionEt checkListEjecucionR) {
-		this.checkListEjecucionR = checkListEjecucionR;
+	public void setPlnAcionInvCatSeleccionado(PlanAccionInvCategoriaEt plnAcionInvCatSeleccionado) {
+		this.plnAcionInvCatSeleccionado = plnAcionInvCatSeleccionado;
+	}
+
+	public List<PlanAccionInvCategoriaAdjuntoEt> getPlnAcionInvCatAdjuntoEliminado() {
+		return plnAcionInvCatAdjuntoEliminado;
+	}
+
+	public void setPlnAcionInvCatAdjuntoEliminado(List<PlanAccionInvCategoriaAdjuntoEt> plnAcionInvCatAdjuntoEliminado) {
+		this.plnAcionInvCatAdjuntoEliminado = plnAcionInvCatAdjuntoEliminado;
 	}
 
 	public boolean isTipoGerente() {
@@ -598,16 +640,14 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 		iPlanAccionInvMesDao.remove();
 		iPlanAccionInvAnioDao.remove();
 		iPlanAccionInvZonaDao.remove();
-		iCategoriaInventarioDao.remove();
 		iParametrolGeneralDao.remove();
-		iPlanAccionChekListDao.remove();
-		iCheckListEjecucionDao.remove();
+		iCategoriaInventarioDao.remove();
+		iPlanAccionInventarioDao.remove();
 		iPlanAccionInvEstacionDao.remove();
-		iCheckListKpiEjecucionDao.remove();
 		iPlanAccionInvEjecutadoDao.remove();
+		iPlanAccionInventarioTipoDao.remove();
 		iPlanificacionInventarioTipoDao.remove();
-		iCheckListEjecucionPlnAdjuntoDao.remove();
-		iCheckListKpiEjecucionAdjuntoDao.remove();
+		iPlanAccionInvCategoriaAdjuntoDao.remove();
 	}
 
 }

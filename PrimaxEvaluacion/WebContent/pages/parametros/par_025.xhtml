@@ -27,7 +27,7 @@
 					<f:facet name="header">
 						<p:column colspan="7">
 							<div align="left">
-								<p:outputLabel value="Filtros de Plan de Acción y Adjuntos" />
+								<p:outputLabel value="Informacion de inventarios, planes de accion y evidencias" />
 							</div>
 						</p:column>
 					</f:facet>
@@ -101,7 +101,7 @@
 						style="margin-top:0" selectionMode="single"
 						selection="#{TreePlanAccionInvBn.selectedNode}">
 						<f:facet name="header">
-							<span>Información de Plan de Acción y Adjuntos</span>
+							<span>Repositorio de Inventarios organizados por carpetas</span>
 						</f:facet>
 						<p:column headerText="Nombre" filterBy="#{document.nombre}"
 							filterMatchMode="contains">
@@ -109,30 +109,30 @@
 						</p:column>
 						<p:column headerText="Acción">
 							<div align="center">
-								<p:commandButton rendered="#{document.tipo eq 'Adjunto'}"
-									title="Descargar Adjunto" icon="fa fa-gg" immediate="true"
-									ajax="false"
-									actionListener="#{appMain.fileDownloadPath(document.id0.toString(),document.nombre)}"
-									process="@this">
-									<p:fileDownload value="#{appMain.download}" />
-								</p:commandButton>
 								<p:commandButton rendered="#{document.tipo eq 'Plan'}"
 									icon="fa fa-file-text-o" immediate="true" ajax="false"
 									title="Descargar Plan Acción"
-									actionListener="#{ReporteBn.imprimirExcel(16,'360',document.id0.toString(),document.id1.toString(),null,null,null,null,null,null,null,false)}">
+									actionListener="#{ReporteBn.imprimirExcel(29,'ADM',document.id0.toString(),document.id1.toString(),'1',null,null,null,null,null,null,false)}">
 									<p:fileDownload value="#{appMain.download}" />
 								</p:commandButton>
 								<p:spacer></p:spacer>
-								<p:commandButton rendered="#{document.tipo eq 'Plan'}"
-									icon="fa fa-file-text" immediate="true" ajax="false"
-									title="Descargar Seguimiento Plan de  Acción"
-									actionListener="#{ReporteBn.imprimirExcel(20,'1',document.id0.toString(),document.id1.toString(),null,null,null,null,null,null,null,false)}">
-									<p:fileDownload value="#{appMain.download}" />
-								</p:commandButton>
-								<p:commandButton rendered="#{document.tipo eq 'Plan'}"
-									value="#{TreePlanAccionInvBn.adjuntoKPI(document.id0)}"
+								<p:commandButton
+									rendered="#{document.tipo eq 'Plan' and document.id1.toString() eq '1'}"
+									value="#{TreePlanAccionInvBn.adjuntoTienda(document.id0,document.id1)}"
 									oncomplete="PF('dlg_par_025_1').show();"
 									title="Evidencias del Plan de Acción" update=":frm_par_025_1"
+									icon="fa fa-file-archive-o"></p:commandButton>
+								<p:commandButton
+									rendered="#{document.tipo eq 'Plan' and document.id1.toString() eq '2'}"
+									value="#{TreePlanAccionInvBn.adjuntoCombustible(document.id0,document.id1)}"
+									oncomplete="PF('dlg_par_025_2').show();"
+									title="Evidencias del Plan de Acción" update=":frm_par_025_2"
+									icon="fa fa-file-archive-o"></p:commandButton>
+								<p:commandButton
+									rendered="#{document.tipo eq 'Plan' and document.id1.toString() eq '3'}"
+									value="#{TreePlanAccionInvBn.adjuntoPromocion(document.id0,document.id1)}"
+									oncomplete="PF('dlg_par_025_3').show();"
+									title="Evidencias del Plan de Acción" update=":frm_par_025_3"
 									icon="fa fa-file-archive-o"></p:commandButton>
 							</div>
 						</p:column>
@@ -141,6 +141,9 @@
 				</div>
 			</h:form>
 			<ui:include src="/pages/parametros/par_025_1.xhtml"></ui:include>
+			<ui:include src="/pages/parametros/par_025_2.xhtml"></ui:include>
+			<ui:include src="/pages/parametros/par_025_3.xhtml"></ui:include>
+			<ui:include src="/pages/parametros/par_025_4.xhtml"></ui:include>
 		</div>
 	</ui:define>
 </ui:composition>
