@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptPlanAccionGeneral" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="62a43042-64a3-4c68-9191-b38dc8f0e7b1">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="83"/>
+	<property name="ireport.y" value="0"/>
 	<style name="style1">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{nivel}==4]]></conditionExpression>
@@ -97,23 +97,9 @@ order by cat.id_plan_accion_inv_categoria]]>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="90" splitType="Stretch">
+		<band height="75" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="30" width="81" height="15" uuid="ee544a2e-213b-40fb-a922-fbba0d26ec35"/>
-				<box>
-					<topPen lineWidth="0.3"/>
-					<leftPen lineWidth="0.3"/>
-					<bottomPen lineWidth="0.3"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-					<paragraph leftIndent="2"/>
-				</textElement>
-				<text><![CDATA[CÓDIGO :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="45" width="81" height="15" uuid="5ede8cff-cdd1-4b25-8152-4bea58131cc5"/>
+				<reportElement x="0" y="30" width="81" height="15" uuid="5ede8cff-cdd1-4b25-8152-4bea58131cc5"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -126,21 +112,8 @@ order by cat.id_plan_accion_inv_categoria]]>
 				</textElement>
 				<text><![CDATA[EESS :]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="81" y="30" width="474" height="15" uuid="744fdd37-0a21-4d80-a878-4bd983d890e8"/>
-				<box>
-					<topPen lineWidth="0.3"/>
-					<leftPen lineWidth="0.3"/>
-					<bottomPen lineWidth="0.3"/>
-					<rightPen lineWidth="0.3"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<paragraph leftIndent="2"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="0" y="60" width="156" height="15" uuid="f6b68506-e3fc-49bf-907b-4e905f61fb1b"/>
+				<reportElement x="0" y="45" width="156" height="15" uuid="f6b68506-e3fc-49bf-907b-4e905f61fb1b"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -151,10 +124,10 @@ order by cat.id_plan_accion_inv_categoria]]>
 					<font isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[CATEGORIA DE INVENTARIO:]]></text>
+				<text><![CDATA[TIPO DE INVENTARIO:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="50" y="75" width="139" height="15" backcolor="#FF6633" uuid="593f81db-e8dc-44b8-9e80-b20a57140c5c"/>
+				<reportElement mode="Opaque" x="50" y="60" width="139" height="15" backcolor="#FF6633" uuid="593f81db-e8dc-44b8-9e80-b20a57140c5c"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -167,7 +140,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<text><![CDATA[CATEGORIA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="75" width="50" height="15" backcolor="#FF6633" uuid="5f46f5c8-64ae-4419-b18c-b5e8398a09b8"/>
+				<reportElement mode="Opaque" x="0" y="60" width="50" height="15" backcolor="#FF6633" uuid="5f46f5c8-64ae-4419-b18c-b5e8398a09b8"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -180,7 +153,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<text><![CDATA[CODIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="349" y="75" width="206" height="15" backcolor="#FF6633" uuid="b29f7349-d2c0-4f95-aa66-805580f17238"/>
+				<reportElement mode="Opaque" x="349" y="60" width="206" height="15" backcolor="#FF6633" uuid="b29f7349-d2c0-4f95-aa66-805580f17238"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -193,7 +166,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<text><![CDATA[PLAN ACCIÓN]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="81" y="45" width="474" height="15" uuid="f056b97e-04c1-45b5-b031-7002b601407d"/>
+				<reportElement x="81" y="30" width="474" height="15" uuid="f056b97e-04c1-45b5-b031-7002b601407d"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -259,7 +232,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<textFieldExpression><![CDATA[$P{par_nombre_gerente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="189" y="75" width="80" height="15" backcolor="#FF6633" uuid="03435c7d-205c-4963-8de9-40f93a7e4cd5"/>
+				<reportElement mode="Opaque" x="189" y="60" width="80" height="15" backcolor="#FF6633" uuid="03435c7d-205c-4963-8de9-40f93a7e4cd5"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -272,7 +245,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<text><![CDATA[VARIACION]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="269" y="75" width="80" height="15" backcolor="#FF6633" uuid="19e924cf-ac6d-487a-bf19-a9c7c3360e86"/>
+				<reportElement mode="Opaque" x="269" y="60" width="80" height="15" backcolor="#FF6633" uuid="19e924cf-ac6d-487a-bf19-a9c7c3360e86"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -285,7 +258,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<text><![CDATA[REVISION]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="156" y="60" width="399" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="855839ab-a612-4fa6-952f-ab582063785e"/>
+				<reportElement mode="Transparent" x="156" y="45" width="399" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="855839ab-a612-4fa6-952f-ab582063785e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>

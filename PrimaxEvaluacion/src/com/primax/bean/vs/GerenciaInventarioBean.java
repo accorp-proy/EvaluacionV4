@@ -101,7 +101,8 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 	public void guardarEvent(PlanAccionInvCategoriaEt cat) {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			//PlanAccionInvCategoriaEt catC = iPlanAccionInvCategoriaDao.getPlanAccionInvCategoriaById(cat.getIdPlanAccionInvCategoria());
+			// PlanAccionInvCategoriaEt catC =
+			// iPlanAccionInvCategoriaDao.getPlanAccionInvCategoriaById(cat.getIdPlanAccionInvCategoria());
 			iPlanAccionInvCategoriaDao.clear();
 			iPlanAccionInvCategoriaDao.guardarPlanAccionInvCategoria(cat, usuario);
 		} catch (Exception e) {
@@ -125,13 +126,15 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 			planAccionInvTipo.setEnEjecucion(false);
 			planAccionInvTipo.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.INGRESADO);
 			iPlanAccionInventarioTipoDao.guardarPlanAccionInvTipo(planAccionInvTipo, usuario);
+			iPlanAccionInventarioDao.clear();
+			PlanAccionInventarioEt planAccionInvC = iPlanAccionInventarioDao.getPlanAccionInventarioById(planAccionInv.getIdPlanAccionInventario());
 			check0 = iPlanAccionInventarioTipoDao.getPlnInvEjecutado(planAccionInv);
-			check1 = (long) planAccionInv.getPlanificacionInventario().getPlanificacionInventarioTipo().size();
+			check1 = (long) planAccionInvC.getPlanificacionInventario().getPlanificacionInventarioTipo().size();
 			if (check0 == check1) {
-				planAccionInv.setFechaFin(new Date());
-				planAccionInv.setFechaEjecucion(new Date());
-				planAccionInv.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.INGRESADO);
-				iPlanAccionInventarioDao.guardarPlanAccionInventario(planAccionInv, usuario);
+				planAccionInvC.setFechaFin(new Date());
+				planAccionInvC.setFechaEjecucion(new Date());
+				planAccionInvC.setEstadoPlanAccionInv(EstadoPlanAccionInvEnum.INGRESADO);
+				iPlanAccionInventarioDao.guardarPlanAccionInventario(planAccionInvC, usuario);
 			}
 			retroceder();
 		} catch (Exception e) {

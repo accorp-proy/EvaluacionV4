@@ -6,7 +6,7 @@
 	<p:dialog responsive="true" widgetVar="dlg_rpt_017_1"
 		id="dlg_rpt_017_1" appendTo="@(body)" resizable="true">
 		<f:facet name="header">
-			<h:outputLabel value="Tipos de Inventarios Ejecutados" />
+			<h:outputLabel value="Planes de accion de Inventarios" />
 			<p:outputLabel value="rpt_017_1.xhtml"
 				rendered="#{appMain.usuario.idUsuario eq 1}"></p:outputLabel>
 		</f:facet>
@@ -50,7 +50,7 @@
 					</p:selectManyMenu>
 				</p:column>
 				<p:column>
-					<p:commandButton value="Inventario" title="Guardar Inventario"
+					<p:commandButton value="Plan" title="Ejecutar plan acción"
 						onclick="PF('dlg_conf_2').show()"
 						disabled="#{CalendarPlanAccionInvBn.planAccionInvSeleccionado.estadoPlanAccionInv.descripcion eq 'EJECUTADO'}"></p:commandButton>
 					<p:spacer width="3"></p:spacer>

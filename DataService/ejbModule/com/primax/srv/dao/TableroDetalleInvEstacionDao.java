@@ -25,13 +25,14 @@ public class TableroDetalleInvEstacionDao extends GenericDao<TableroDetalleInvEs
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public String generar(Date fechaDesde, Date fechaHasta,Long idTipoEstacion, Long idZona, Long idAgencia, Long idUsuario) {
+	public String generar(Date fechaDesde, Date fechaHasta, Long idTipoEstacion, Long idZona, Long idAgencia, Long idTipoInventario, Long idUsuario) {
 		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("getGenerarDetalleInvEstacion");
 		query.setParameter("fechaDesde", fechaDesde, TemporalType.DATE);
 		query.setParameter("fechaHasta", fechaHasta, TemporalType.DATE);
 		query.setParameter("idTipoEstacion", idTipoEstacion);
 		query.setParameter("idZona", idZona);
 		query.setParameter("idAgencia", idAgencia);
+		query.setParameter("idTipoInventario", idTipoInventario);
 		query.setParameter("idUsuario", idUsuario);
 		String respuesta = (String) query.getOutputParameterValue("respuesta");
 		return respuesta;

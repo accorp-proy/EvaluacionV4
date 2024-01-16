@@ -84,6 +84,15 @@
 										<h:outputText value="#{t.nombreAgencia}" />
 									</p:column>
 								</p:selectOneMenu>
+								<p:selectCheckboxMenu style="width:120% !important"
+									id="cmbTipoIv"
+									value="#{TableroControlInvBn.tipoInvSeleccionados}"
+									filter="false" label="Tipo Inventario"
+									converter="#{tipoInventarioConverter}">
+									<f:selectItems value="#{TableroControlInvBn.tipoInvList}"
+										var="tipoInv" itemLabel="#{tipoInv.descripcion}"
+										itemValue="#{tipoInv}"></f:selectItems>
+								</p:selectCheckboxMenu>
 								<p:commandButton value="Filtrar"
 									action="#{TableroControlInvBn.filtrarModel()}"
 									process="@this frm_pln_013"
@@ -275,7 +284,7 @@
 											<p:column style="font-weight:bold" styleClass="gestion"
 												footerText="#{TableroControlInvBn.nivelT}" />
 										</p:row>
-										
+
 									</p:columnGroup>
 								</p:dataTable>
 							</div>

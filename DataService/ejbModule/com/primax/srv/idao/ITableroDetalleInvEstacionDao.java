@@ -9,6 +9,6 @@ public interface ITableroDetalleInvEstacionDao extends IGenericDao<TableroDetall
 
 	public void remove();
 
-	public String generar(Date fechaDesde, Date fechaHasta,Long idTipoEstacion,Long idZona, Long idAgencia, Long idUsuario);
+	public String generar(Date fechaDesde, Date fechaHasta,Long idTipoEstacion,Long idZona, Long idAgencia,Long idTipoInventario, Long idUsuario);
 
 }

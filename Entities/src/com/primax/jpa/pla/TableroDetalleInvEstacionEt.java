@@ -32,6 +32,7 @@ import com.primax.jpa.sec.UsuarioEt;
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "idTipoEstacion"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "idZona"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "idAgencia"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "idTipoInventario"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "idUsuario"),
 		@StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "respuesta"), })
 
