@@ -406,6 +406,23 @@ public class AgenciaDao extends GenericDao<AgenciaEt, Long> implements IAgenciaD
 		return result;
 	}
 
+	@Override
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public Long getAgenciaByZonaAndTipoEstacion(ZonaEt zona, TipoEstacionEt tipoEstacion) {
+		sql = new StringBuilder("FROM AgenciaEt o ");
+		sql.append(" WHERE o.estado = :estado ");
+		sql.append(" AND   o.zona = :zona ");
+		sql.append(" AND   o.tipoEstacion = :tipoEstacion ");
+		sql.append(" ORDER BY o.idAgencia");
+		TypedQuery<AgenciaEt> query = em.createQuery(sql.toString(), AgenciaEt.class);
+		query.setParameter("zona", zona);
+		query.setParameter("estado", EstadoEnum.ACT);
+		query.setParameter("tipoEstacion", tipoEstacion);
+		List<AgenciaEt> result = query.getResultList();
+		Long conteo = getUnique(result) == null ? 0L : result.size();
+		return conteo;
+	}
+
 	@Remove
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public void remove() {

@@ -63,6 +63,9 @@ public class ReporteTipoInventarioEt extends EntityBase implements Serializable 
 	@Column(name = "tipo_inventario", length = 50)
 	private String tipoInventario;
 
+	@Column(name = "estado_ejecucion", length = 50)
+	private String estadoEjecucion;
+
 	public ReporteTipoInventarioEt() {
 		this.idPlanificacionInventario = 0L;
 	}
@@ -113,6 +116,14 @@ public class ReporteTipoInventarioEt extends EntityBase implements Serializable 
 
 	public void setZona(String zona) {
 		this.zona = zona;
+	}
+
+	public String getEstadoEjecucion() {
+		return estadoEjecucion;
+	}
+
+	public void setEstadoEjecucion(String estadoEjecucion) {
+		this.estadoEjecucion = estadoEjecucion;
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import org.hibernate.envers.Audited;
 
 import com.primax.enm.gen.ActionAuditedEnum;
 import com.primax.jpa.base.EntityBase;
+import com.primax.jpa.enums.EstadoInventarioEnum;
 import com.primax.jpa.param.TipoInventarioEt;
 import com.primax.jpa.sec.UsuarioEt;
 
@@ -39,6 +42,10 @@ public class PlanificacionInventarioTipoEt extends EntityBase implements Seriali
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_inventario")
 	private TipoInventarioEt tipoInventario;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "estado_ejecucion")
+	private EstadoInventarioEnum estadoInventario;
 
 	@Column(name = "ejecutado")
 	private boolean ejecutado;
@@ -89,6 +96,14 @@ public class PlanificacionInventarioTipoEt extends EntityBase implements Seriali
 
 	public void setPlanAccion(boolean planAccion) {
 		this.planAccion = planAccion;
+	}
+
+	public EstadoInventarioEnum getEstadoInventario() {
+		return estadoInventario;
+	}
+
+	public void setEstadoInventario(EstadoInventarioEnum estadoInventario) {
+		this.estadoInventario = estadoInventario;
 	}
 
 	@Override

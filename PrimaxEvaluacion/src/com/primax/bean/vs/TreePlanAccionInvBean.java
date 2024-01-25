@@ -219,7 +219,7 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 			for (PlanAccionInvAnioEt anio : anios) {
 				idPlanAccion = anio.getIdPlanAccionInvAnio();
 				TreeNode node0 = new DefaultTreeNode(new PlanAccionOrganizacion(0L, 0L, anio.getAnio().toString(), "Carpeta"), root);
-				List<PlanAccionInvMesEt> meses = iPlanAccionInvMesDao.getPlanAccionMesList(idPlanAccion, anio.getAnio());
+				List<PlanAccionInvMesEt> meses = iPlanAccionInvMesDao.getPlanAccionMesList(usuario, idPlanAccion, anio.getAnio());
 				for (PlanAccionInvMesEt mes : meses) {
 					TreeNode node00 = new DefaultTreeNode(new PlanAccionOrganizacion(0L, 0L, mes.getMesLetra().toString(), "Carpeta"), node0);
 					List<PlanAccionInvZonaEt> zonas = iPlanAccionInvZonaDao.getPlanAccionZonaList(idPlanAccion, anio.getAnio(), mes.getMesNumero());

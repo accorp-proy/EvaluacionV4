@@ -22,6 +22,7 @@ import com.primax.bean.vs.base.BaseBean;
 import com.primax.exc.gen.EntidadNoEncontradaException;
 import com.primax.jpa.enums.EstadoCheckListEnum;
 import com.primax.jpa.enums.EstadoEnum;
+import com.primax.jpa.enums.EstadoInventarioEnum;
 import com.primax.jpa.enums.EstadoPlanAccionInvEnum;
 import com.primax.jpa.param.AgenciaEt;
 import com.primax.jpa.param.EvaluacionEt;
@@ -488,6 +489,7 @@ public class DashboardBean extends BaseBean implements Serializable {
 			for (TipoInventarioEt tipoInv : tipoInventarioSeleccionados) {
 				PlanificacionInventarioTipoEt tipo = iPlanificacionInventarioTipoDao.getPlanificacionInv(planificacionInventarioSeleccionada, tipoInv);
 				tipo.setEjecutado(true);
+				tipo.setEstadoInventario(EstadoInventarioEnum.EJECUTADO);
 				if (!tipo.isPlanAccion()) {
 					generarPlanAccionTipo(planAccionInv, tipoInv, tipo, usuario);
 					tipo.setPlanAccion(true);

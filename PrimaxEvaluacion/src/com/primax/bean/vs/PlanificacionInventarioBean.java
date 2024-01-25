@@ -31,6 +31,7 @@ import com.primax.enm.gen.MessageType;
 import com.primax.exc.gen.EntidadNoEncontradaException;
 import com.primax.jpa.enums.EstadoCheckListEnum;
 import com.primax.jpa.enums.EstadoEnum;
+import com.primax.jpa.enums.EstadoInventarioEnum;
 import com.primax.jpa.param.AgenciaEt;
 import com.primax.jpa.param.CorreoEt;
 import com.primax.jpa.param.TipoInventarioEt;
@@ -167,7 +168,7 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 			email = recipient.toString();
 			System.out.println(email);
 			msc.setRecipient("acorrea@accorp.com.ec,jeffersonmaji@hotmail.com");
-			//msc.setRecipient(email);
+			// msc.setRecipient(email);
 			msc.setConfig(config);
 			msc.sendMessage();
 		} catch (Exception e) {
@@ -213,6 +214,7 @@ public class PlanificacionInventarioBean extends BaseBean implements Serializabl
 				for (TipoInventarioEt tipoInventario : tipoInventarioSeleccionados) {
 					PlanificacionInventarioTipoEt inventarioTipo = new PlanificacionInventarioTipoEt();
 					inventarioTipo.setTipoInventario(tipoInventario);
+					inventarioTipo.setEstadoInventario(EstadoInventarioEnum.AGENDADA);
 					inventarioTipo.setPlanificacionInventario(planificacionSeleccionada);
 					planificacionSeleccionada.getPlanificacionInventarioTipo().add(inventarioTipo);
 				}

@@ -13,7 +13,7 @@ public interface IPlanAccionInvMesDao extends IGenericDao<PlanAccionInvMesEt, Lo
 
 	public String generar(Long idUsuario, Long anio, Long idPlanAccionAnio);
 
-	public List<PlanAccionInvMesEt> getPlanAccionMesList(Long idPlanAccionAnio,Long anio) ;
+	public List<PlanAccionInvMesEt> getPlanAccionMesList(UsuarioEt usuario, Long idPlanAccionAnio, Long anio);
 
 	public void guardarPlanAccionMes(PlanAccionInvMesEt planAccionMes, UsuarioEt usuario) throws EntidadNoGrabadaException;
 

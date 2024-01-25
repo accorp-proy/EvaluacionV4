@@ -27,7 +27,7 @@ public class PlanAccionInvMesDao extends GenericDao<PlanAccionInvMesEt, Long> im
 	public PlanAccionInvMesDao() {
 		super(PlanAccionInvMesEt.class);
 	}
-	
+
 	private StringBuilder sql;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -50,15 +50,17 @@ public class PlanAccionInvMesDao extends GenericDao<PlanAccionInvMesEt, Long> im
 		String respuesta = (String) query.getOutputParameterValue("respuesta");
 		return respuesta;
 	}
-	
+
 	@Override
-	public List<PlanAccionInvMesEt> getPlanAccionMesList(Long idPlanAccionInvAnio,Long anio) {
+	public List<PlanAccionInvMesEt> getPlanAccionMesList(UsuarioEt usuario, Long idPlanAccionInvAnio, Long anio) {
 		sql = new StringBuilder("FROM PlanAccionInvMesEt o ");
 		sql.append(" WHERE o.estado = :estado ");
 		sql.append(" AND o.anio     = :anio ");
+		sql.append(" AND o.usuarioRegistra = :usuario ");
 		sql.append(" AND o.idPlanAccionInvAnio = :idPlanAccionInvAnio ");
 		TypedQuery<PlanAccionInvMesEt> query = em.createQuery(sql.toString(), PlanAccionInvMesEt.class);
 		query.setParameter("anio", anio);
+		query.setParameter("usuario", usuario);
 		query.setParameter("estado", EstadoEnum.ACT);
 		query.setParameter("idPlanAccionInvAnio", idPlanAccionInvAnio);
 		List<PlanAccionInvMesEt> result = query.getResultList();

@@ -125,10 +125,12 @@
 									rendered="#{TableroControlInvBn.tableroC.evaluacion01 ne '0'}">
 									<div class="ui-g-12 ui-md-6 ui-lg-3">
 										<div class="ui-g card colorbox colorbox-1">
-											<div class="ui-g-12">
+											<div class="ui-g-8">
 												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion01}</span>
 											</div>
-
+											<div class="ui-g-4">
+												<span class="colorbox-name">#{TableroControlInvBn.frecuenciaT}</span>
+											</div>
 
 										</div>
 									</div>
@@ -137,10 +139,12 @@
 									rendered="#{TableroControlInvBn.tableroC.evaluacion02 ne '0'}">
 									<div class="ui-g-12 ui-md-6 ui-lg-3">
 										<div class="ui-g card colorbox colorbox-2">
-											<div class="ui-g-12">
+											<div class="ui-g-9">
 												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion02}</span>
 											</div>
-
+											<div class="ui-g-3">
+												<span class="colorbox-name">#{TableroControlInvBn.frecuenciaC}</span>
+											</div>
 										</div>
 									</div>
 								</p:panelGrid>
@@ -148,8 +152,11 @@
 									rendered="#{TableroControlInvBn.tableroC.evaluacion03 ne '0'}">
 									<div class="ui-g-12 ui-md-3 ui-lg-2,ui-lg-2">
 										<div class="ui-g card colorbox colorbox-3">
-											<div class="ui-g-12">
+											<div class="ui-g-9">
 												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion03}</span>
+											</div>
+											<div class="ui-g-3">
+												<span class="colorbox-name">#{TableroControlInvBn.frecuenciaP}</span>
 											</div>
 										</div>
 									</div>
@@ -192,6 +199,15 @@
 												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion07}</span>
 											</div>
 
+										</div>
+									</div>
+								</p:panelGrid>
+								<p:panelGrid styleClass="sinborde">
+									<div class="ui-g-12 ui-md-6 ui-lg-6">
+										<div class="ui-g card colorbox colorbox-6">
+											<div class="ui-g-12">
+												<span class="colorbox-name"> TIENDA #. #{TableroControlInvBn.cantEstT} PISTA #. #{TableroControlInvBn.cantEstP} PISTA y TIENDA #. #{TableroControlInvBn.cantEstPT}</span>
+											</div>
 										</div>
 									</div>
 								</p:panelGrid>

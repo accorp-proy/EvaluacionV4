@@ -50,6 +50,8 @@ public interface IAgenciaDao extends IGenericDao<AgenciaEt, Long> {
 
 	public List<AgenciaEt> getAgenciasPorZonas(List<ParametrosGeneralesEt> zonas);
 
+	public Long getAgenciaByZonaAndTipoEstacion(ZonaEt zona, TipoEstacionEt tipoEstacion);
+
 	public List<AgenciaEt> getAgenciasPorZonas(ZonaEt zona, TipoEstacionEt tipoEstacion);
 
 	public void guardarAgencia(AgenciaEt agencia, UsuarioEt usuario) throws EntidadNoGrabadaException;
