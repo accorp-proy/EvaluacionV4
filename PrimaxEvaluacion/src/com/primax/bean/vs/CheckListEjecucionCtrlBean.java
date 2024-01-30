@@ -242,12 +242,10 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
 			if (checkListEjecucion != null) {
-				List<CheckListEjecucionFirmaEt> checkListEjecucionFirmas = iCheckListEjecucionFirmaDao
-						.getCheckListEjecucionFirmaByChekListList(checkListEjecucion);
+				List<CheckListEjecucionFirmaEt> checkListEjecucionFirmas = iCheckListEjecucionFirmaDao.getCheckListEjecucionFirmaByChekListList(checkListEjecucion);
 				for (CheckListEjecucionFirmaEt checkListEjecucionFirma : checkListEjecucionFirmas) {
 					if (checkListEjecucionFirma.getOrden() == 0L) {
-						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirmaIndividual(checkListEjecucionFirma,
-								usuario);
+						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirmaIndividual(checkListEjecucionFirma, usuario);
 						iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
 						PersonaEt personaR = checkListEjecucion.getUsuarioAsignado().getPersonaUsuario();
 						checkList.setOrden(0L);
@@ -269,10 +267,8 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 					}
 					if (checkListEjecucionFirma.getOrden() == 1L) {
-						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirmaIndividual(checkListEjecucionFirma,
-								usuario);
-						ResponsableEt responsable = iResponsableDao
-								.getResponsableByCargo(checkListEjecucion.getPlanificacion().getAgencia(), 3L);
+						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirmaIndividual(checkListEjecucionFirma, usuario);
+						ResponsableEt responsable = iResponsableDao.getResponsableByCargo(checkListEjecucion.getPlanificacion().getAgencia(), 3L);
 						checkList = new CheckListEjecucionFirmaEt();
 						checkList.setOrden(1L);
 						checkList.setFirmado(false);
@@ -292,10 +288,8 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 						iCheckListEjecucionFirmaDao.guardarCheckListEjecucionFirma(checkList, usuario);
 					}
 					if (checkListEjecucionFirma.getOrden() == 2L) {
-						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirmaIndividual(checkListEjecucionFirma,
-								usuario);
-						ResponsableEt responsable = iResponsableDao
-								.getResponsableByCargo(checkListEjecucion.getPlanificacion().getAgencia(), 1L);
+						iCheckListEjecucionFirmaDao.eliminarCheckListEjecucionFirmaIndividual(checkListEjecucionFirma, usuario);
+						ResponsableEt responsable = iResponsableDao.getResponsableByCargo(checkListEjecucion.getPlanificacion().getAgencia(), 1L);
 						checkList = new CheckListEjecucionFirmaEt();
 						checkList.setOrden(2L);
 						checkList.setFirmado(false);
@@ -327,11 +321,9 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		String proceso = "";
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					usuario);
+			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 			if (checkListEjecucion != null) {
-				if (checkListEjecucion.getCheckListEjecucionAdjunto() == null
-						|| checkListEjecucion.getCheckListEjecucionAdjunto().isEmpty()) {
+				if (checkListEjecucion.getCheckListEjecucionAdjunto() == null || checkListEjecucion.getCheckListEjecucionAdjunto().isEmpty()) {
 					checkListEjecucion.setCheckListEjecucionAdjunto(new ArrayList<>());
 				}
 				cargarForularioCheckList(checkListEjecucion);
@@ -385,8 +377,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 						}
 					}
 					if (proceso.contains("procedimiento")) {
-						if (checkListProceso.getCheckListKpiEjecucionA().isEmpty()
-								&& checkListProceso.getCheckListKpiEjecucionB().isEmpty()) {
+						if (checkListProceso.getCheckListKpiEjecucionA().isEmpty() && checkListProceso.getCheckListKpiEjecucionB().isEmpty()) {
 							checkListProceso.setCheckListKpiEjecucionA(new ArrayList<>());
 							checkListProceso.setCheckListKpiEjecucionB(new ArrayList<>());
 							procesoAdminstrativo(checkListProceso);
@@ -397,13 +388,11 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				}
 				if (!checkListEjecucion.getEstadoCheckList().equals(EstadoCheckListEnum.AGENDADA)) {
 					iCheckListEjecucionDao.clear();
-					checkListEjecucion = iCheckListEjecucionDao
-							.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
+					checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 					revisionFirmante();
 				}
 				iCheckListEjecucionDao.clear();
-				checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-						usuario);
+				checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 				validaCompleto();
 
 			}
@@ -428,8 +417,18 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
 			iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
-			iCheckListEjecucionDao.generarActNivelRiesgo(checkListEjecucion.getNivelEvaluacion().getIdNivelEvaluacion(),
-					checkListEjecucion.getIdCheckListEjecucion());
+			iCheckListEjecucionDao.generarActNivelRiesgo(checkListEjecucion.getNivelEvaluacion().getIdNivelEvaluacion(), checkListEjecucion.getIdCheckListEjecucion());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método guardar " + " " + e.getMessage());
+		}
+
+	}
+
+	public void guardarAdj(CheckListEjecucionAdjuntoEt adjunto) {
+		try {
+			UsuarioEt usuario = appMain.getUsuario();
+			iCheckListEjecucionAdjuntoDao.guardarCheckListEjecucionAdjunto(adjunto, usuario);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método guardar " + " " + e.getMessage());
@@ -444,8 +443,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			if (!checkListEjecucion.getCheckListEjecucionAdjunto().isEmpty()) {
 				for (CheckListEjecucionAdjuntoEt adjunto : checkListEjecucion.getCheckListEjecucionAdjunto()) {
 					if (adjunto.getParametroCategoria() == null) {
-						showInfo("Por favor Seleccionar una categoría en adjuntos.", FacesMessage.SEVERITY_INFO, null,
-								"");
+						showInfo("Por favor Seleccionar una categoría en adjuntos.", FacesMessage.SEVERITY_INFO, null, "");
 						return;
 					}
 				}
@@ -459,8 +457,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListEjecucion.setFechaEjecucion(new Date());
 			checkListEjecucion.setEstadoCheckList(EstadoCheckListEnum.EJECUTADO);
 			iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
-			iCheckListEjecucionDao.generarActNivelRiesgo(checkListEjecucion.getNivelEvaluacion().getIdNivelEvaluacion(),
-					checkListEjecucion.getIdCheckListEjecucion());
+			iCheckListEjecucionDao.generarActNivelRiesgo(checkListEjecucion.getNivelEvaluacion().getIdNivelEvaluacion(), checkListEjecucion.getIdCheckListEjecucion());
 			pagina = "/PrimaxEvaluacion/pages/main.xhtml";
 			contex.getExternalContext().redirect(pagina);
 			if (checkListEjecucion.isModificado()) {
@@ -476,10 +473,8 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 	public void validaCompleto() {
 		validarGuardar = false;
 		try {
-			for (CheckListProcesoEjecucionEt checkListProcesoEjecucion : checkListEjecucion
-					.getCheckListProcesoEjecucion()) {
-				for (CheckListKpiEjecucionEt checkListKpiEjecucion : checkListProcesoEjecucion
-						.getCheckListKpiEjecucion()) {
+			for (CheckListProcesoEjecucionEt checkListProcesoEjecucion : checkListEjecucion.getCheckListProcesoEjecucion()) {
+				for (CheckListKpiEjecucionEt checkListKpiEjecucion : checkListProcesoEjecucion.getCheckListKpiEjecucion()) {
 					if (checkListKpiEjecucion.getCriterioEvaluacionDetalle() == null) {
 						validarGuardar = true;
 						break;
@@ -505,14 +500,12 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
 			iCheckListKpiEjecucionDao.clear();
 			iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
-			checkListKpiEjecucion = iCheckListKpiEjecucionDao
-					.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+			checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
 			if (checkListKpiEjecucion.getArqueoCaja() == null || checkListKpiEjecucion.getArqueoCaja().isEmpty()) {
 				checkListKpiEjecucion.setArqueoCaja(new ArrayList<>());
 				generarDetalleArqueoCaja(checkListKpiEjecucion, usuario);
 				iCheckListKpiEjecucionDao.clear();
-				checkListKpiEjecucion = iCheckListKpiEjecucionDao
-						.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+				checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
 			}
 			checkListKpiEjecucion.setFechaArqueo(new Date());
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
@@ -529,15 +522,12 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
 			iCheckListKpiEjecucionDao.clear();
 			iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
-			checkListKpiEjecucion = iCheckListKpiEjecucionDao
-					.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
-			if (checkListKpiEjecucion.getArqueoCajaFuerte() == null
-					|| checkListKpiEjecucion.getArqueoCajaFuerte().isEmpty()) {
+			checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+			if (checkListKpiEjecucion.getArqueoCajaFuerte() == null || checkListKpiEjecucion.getArqueoCajaFuerte().isEmpty()) {
 				checkListKpiEjecucion.setArqueoCajaFuerte(new ArrayList<>());
 				generarDetalleArqueoCajaFuerte(checkListKpiEjecucion, usuario);
 				iCheckListKpiEjecucionDao.clear();
-				checkListKpiEjecucion = iCheckListKpiEjecucionDao
-						.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+				checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
 			}
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
 			checkListKpiEjecucionSeleccionado = checkListKpiEjecucion;
@@ -555,15 +545,13 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
 			iCheckListKpiEjecucionDao.clear();
 			iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
-			checkListKpiEjecucion = iCheckListKpiEjecucionDao
-					.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+			checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
 			if (checkListKpiEjecucion.getArqueoFondoSuelto().isEmpty()) {
 				checkListKpiEjecucion.setArqueoFondoSuelto(new ArrayList<>());
 				guardarCheckListKpiEjecucionFirmaCaja(checkListKpiEjecucion);
 				generarDetalleArqueoFondoSuelto(checkListKpiEjecucion, usuario);
 				iCheckListKpiEjecucionDao.clear();
-				checkListKpiEjecucion = iCheckListKpiEjecucionDao
-						.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+				checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
 			}
 			checkListKpiEjecucion.setFechaArqueo(new Date());
 			checkListKpiEjecucionSeleccionado = checkListKpiEjecucion;
@@ -579,15 +567,13 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
 			iCheckListKpiEjecucionDao.clear();
 			iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
-			checkListKpiEjecucion = iCheckListKpiEjecucionDao
-					.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+			checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
 			if (checkListKpiEjecucion.getArqueoCajaGeneral().isEmpty()) {
 				checkListKpiEjecucion.setArqueoCajaGeneral(new ArrayList<>());
 				guardarCheckListKpiEjecucionFirmaCaja(checkListKpiEjecucion);
 				generarDetalleArqueoCajaChicaGeneral(checkListKpiEjecucion, usuario);
 				iCheckListKpiEjecucionDao.clear();
-				checkListKpiEjecucion = iCheckListKpiEjecucionDao
-						.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
+				checkListKpiEjecucion = iCheckListKpiEjecucionDao.getCheckListKpiEjecucion(checkListKpiEjecucion.getIdCheckListKpiEjecucion());
 			}
 			checkListKpiEjecucion.setFechaArqueo(new Date());
 			checkListKpiEjecucionSeleccionado = checkListKpiEjecucion;
@@ -857,8 +843,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				return;
 			}
 			UsuarioEt usuario = appMain.getUsuario();
-			List<ArqueoCajaGeneralEt> result = checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream()
-					.filter(x -> x.getParametroRubro() != null).collect(Collectors.toList());
+			List<ArqueoCajaGeneralEt> result = checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream().filter(x -> x.getParametroRubro() != null).collect(Collectors.toList());
 			if (result != null) {
 				for (ArqueoCajaGeneralEt arqueoCajaGeneralC : result) {
 					if (arqueoCajaGeneralC.getDescripcion().equals(tipoRubroSeleccionado.getNombreLista())) {
@@ -877,8 +862,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 						iArqueoCajaGeneralDao.guardarArqueoCajaGeneral(arqueoCajaGeneralC, usuario);
 						checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().remove(arqueoCajaGeneralC);
 						checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().add(arqueoCajaGeneral);
-						iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucionSeleccionado,
-								usuario);
+						iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucionSeleccionado, usuario);
 						sumarArqueoCajaChica(arqueoCajaGeneral);
 						condicion = true;
 						break;
@@ -935,14 +919,12 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 	public String validacionGuardarArqueoCajaC() {
 		String mensaje = "";
 		try {
-			if (checkListKpiEjecucionSeleccionado.getNombreVendedor() == null
-					|| checkListKpiEjecucionSeleccionado.getNombreVendedor().equals("")) {
+			if (checkListKpiEjecucionSeleccionado.getNombreVendedor() == null || checkListKpiEjecucionSeleccionado.getNombreVendedor().equals("")) {
 				mensaje = "Por favor ingresar nombre de vendedor para continuar";
 				return mensaje;
 			}
 
-			if (checkListKpiEjecucionSeleccionado.getTurno() == null
-					|| checkListKpiEjecucionSeleccionado.getTurno() == 0L) {
+			if (checkListKpiEjecucionSeleccionado.getTurno() == null || checkListKpiEjecucionSeleccionado.getTurno() == 0L) {
 				mensaje = "Por favor Seleccionar un turno para continuar";
 				return mensaje;
 			}
@@ -974,17 +956,14 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListKpiEjecucion.setDescripcion(checkListKpiEjecucionSeleccionado.getDescripcion());
 			checkListKpiEjecucion.setProcesoDetalle(checkListKpiEjecucionSeleccionado.getProcesoDetalle());
 			checkListKpiEjecucion.setCriterioEvaluacion(checkListKpiEjecucionSeleccionado.getCriterioEvaluacion());
-			checkListKpiEjecucion
-					.setCheckListProcesoEjecucion(checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion());
+			checkListKpiEjecucion.setCheckListProcesoEjecucion(checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion());
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
 			showInfo("Arqueo de Caja agregado ", FacesMessage.SEVERITY_INFO);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_003').hide();");
 			iCheckListEjecucionDao.clear();
-			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					usuario);
+			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 			checkListProcesoEjecucionEfectivo = null;
-			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(
-					checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion().getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion().getIdCheckListProcesoEjecucion());
 			checkListKpiEjecucionSeleccionado = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1012,22 +991,17 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			InputStream is2 = event.getFile().getInputstream();
 			List<RowPoi> listCols2;
 			listCols2 = POIReader.getColumsFromXLSXFile(is2, 0, false, "");
-			if (checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC() != null
-					|| checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC().isEmpty()) {
+			if (checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC() != null || checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC().isEmpty()) {
 				checkListProcesoEjecucionTienda.setCheckListKpiEjecucionC(new ArrayList<>());
-				checkListProcesoEjecucionTienda.setCheckListKpiEjecucionC(
-						procesarRegistrosNovedad(listCols2, checkListProcesoEjecucionTienda));
-				reemplazarNovedad(checkListProcesoEjecucionTienda,
-						checkListProcesoEjecucionTienda.getCheckListKpiEjecucionA());
+				checkListProcesoEjecucionTienda.setCheckListKpiEjecucionC(procesarRegistrosNovedad(listCols2, checkListProcesoEjecucionTienda));
+				reemplazarNovedad(checkListProcesoEjecucionTienda, checkListProcesoEjecucionTienda.getCheckListKpiEjecucionA());
 				if (!checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC().isEmpty()) {
 					mostrarDescripcion(checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC());
 				}
 			}
-			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucionTienda,
-					appMain.getUsuario());
+			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucionTienda, appMain.getUsuario());
 			iCheckListProcesoEjecucionDao.clear();
-			checkListProcesoEjecucionTienda = iCheckListProcesoEjecucionDao
-					.getCheckListProcesoE(checkListProcesoEjecucionTienda.getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionTienda = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListProcesoEjecucionTienda.getIdCheckListProcesoEjecucion());
 			showInfo("Archivo cargado con Éxito", FacesMessage.SEVERITY_INFO);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_008_1').hide();");
 		} catch (Exception e) {
@@ -1041,17 +1015,12 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double valor = 0.0D;
 		Double valorF = 0.0D;
 		try {
-			valor += checkListKpiEjecucionC.stream()
-					.filter(p -> p.getTipo() == 2 && p.getDescripcion().contains("Total"))
-					.mapToDouble(p -> p.getTotal()).sum();
-			cantidad = (long) checkListKpiEjecucionC.stream()
-					.filter(p -> p.getTipo() == 1 && p.getDescripcion().contains("Total"))
-					.mapToDouble(p -> p.getTotal()).sum();
+			valor += checkListKpiEjecucionC.stream().filter(p -> p.getTipo() == 2 && p.getDescripcion().contains("Total")).mapToDouble(p -> p.getTotal()).sum();
+			cantidad = (long) checkListKpiEjecucionC.stream().filter(p -> p.getTipo() == 1 && p.getDescripcion().contains("Total")).mapToDouble(p -> p.getTotal()).sum();
 			valorF = new BigDecimal(valor).setScale(2, RoundingMode.HALF_UP).doubleValue();
 			if (valorF != null && cantidad != null) {
 				descripcionN = "";
-				descripcionN = "Archivo cargado con " + cantidad + " " + "diferencias en cantidad y " + " " + valorF
-						+ " " + "diferencias en valor.";
+				descripcionN = "Archivo cargado con " + cantidad + " " + "diferencias en cantidad y " + " " + valorF + " " + "diferencias en valor.";
 			}
 
 		} catch (Exception e) {
@@ -1067,12 +1036,8 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		String descripcion = "";
 		try {
 			if (CheckListP.getCheckListKpiEjecucionC() != null && !CheckListP.getCheckListKpiEjecucionC().isEmpty()) {
-				cantidad = (long) checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC().stream()
-						.filter(p -> p.getTipo() == 1 && p.getDescripcion().contains("Total"))
-						.mapToDouble(p -> p.getTotal()).sum();
-				valor = new BigDecimal(checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC().stream()
-						.filter(p -> p.getTipo() == 2 && p.getDescripcion().contains("Total"))
-						.mapToDouble(p -> p.getTotal()).sum()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+				cantidad = (long) checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC().stream().filter(p -> p.getTipo() == 1 && p.getDescripcion().contains("Total")).mapToDouble(p -> p.getTotal()).sum();
+				valor = new BigDecimal(checkListProcesoEjecucionTienda.getCheckListKpiEjecucionC().stream().filter(p -> p.getTipo() == 2 && p.getDescripcion().contains("Total")).mapToDouble(p -> p.getTotal()).sum()).setScale(2, RoundingMode.HALF_UP).doubleValue();
 			}
 			for (CheckListKpiEjecucionAEt checkListKpi : checkList) {
 				descripcion = checkListKpi.getDescripcion().replace("{cantidad}", "" + cantidad);
@@ -1088,8 +1053,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		return des;
 	}
 
-	private List<CheckListKpiEjecucionCEt> procesarRegistrosNovedad(List<RowPoi> list, CheckListProcesoEjecucionEt cab)
-			throws ParseException {
+	private List<CheckListKpiEjecucionCEt> procesarRegistrosNovedad(List<RowPoi> list, CheckListProcesoEjecucionEt cab) throws ParseException {
 
 		Long tipo = 0L;
 		Long columnaT = 0L;
@@ -1106,8 +1070,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				CheckListKpiEjecucionCEt registro = new CheckListKpiEjecucionCEt();
 				registro.setOrden(Long.parseLong("" + i));
 				registro.setCheckListProcesoEjecucion(cab);
-				registro.setDescripcion(list.get(i).getCells().get(0).getValue() == null ? null
-						: list.get(i).getCells().get(0).getValue().toString());
+				registro.setDescripcion(list.get(i).getCells().get(0).getValue() == null ? null : list.get(i).getCells().get(0).getValue().toString());
 				if ((registro.getDescripcion().toLowerCase().contains("usuario"))) {
 					tipo += 1L;
 				}
@@ -1116,118 +1079,84 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				registro.setTipo(tipo);
 				if (1 < columnaFin && columnaT == 1L) {
 					tipoC = list.get(i).getCells().get(1).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(1).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(1).getValue().toString()));
 				} else if (1 < columnaFin) {
-					tipoC = list.get(i).getCells().get(1).getValue() == null ? true
-							: list.get(i).getCells().get(1).getValue().toString().toLowerCase().contains("total");
-					registro.setDia1(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(1).getValue().toString()));
+					tipoC = list.get(i).getCells().get(1).getValue() == null ? true : list.get(i).getCells().get(1).getValue().toString().toLowerCase().contains("total");
+					registro.setDia1(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(1).getValue().toString()));
 				}
 				if (2 < columnaFin && columnaT == 2L) {
 					tipoC = list.get(i).getCells().get(2).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(2).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(2).getValue().toString()));
 				} else if (2 < columnaFin) {
-					tipoC = list.get(i).getCells().get(2).getValue() == null ? true
-							: list.get(i).getCells().get(2).getValue().toString().toLowerCase().contains("total");
-					registro.setDia2(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(2).getValue().toString()));
+					tipoC = list.get(i).getCells().get(2).getValue() == null ? true : list.get(i).getCells().get(2).getValue().toString().toLowerCase().contains("total");
+					registro.setDia2(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(2).getValue().toString()));
 				}
 				if (3 < columnaFin && columnaT == 3L) {
 					tipoC = list.get(i).getCells().get(3).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(3).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(3).getValue().toString()));
 				} else if (3 < columnaFin) {
-					tipoC = list.get(i).getCells().get(3).getValue() == null ? true
-							: list.get(i).getCells().get(3).getValue().toString().toLowerCase().contains("total");
-					registro.setDia3(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(3).getValue().toString()));
+					tipoC = list.get(i).getCells().get(3).getValue() == null ? true : list.get(i).getCells().get(3).getValue().toString().toLowerCase().contains("total");
+					registro.setDia3(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(3).getValue().toString()));
 				}
 				if (4 < columnaFin && columnaT == 4L) {
 					tipoC = list.get(i).getCells().get(4).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(4).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(4).getValue().toString()));
 				} else if (4 < columnaFin) {
-					tipoC = list.get(i).getCells().get(4).getValue() == null ? true
-							: list.get(i).getCells().get(4).getValue().toString().toLowerCase().contains("total");
-					registro.setDia4(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(4).getValue().toString()));
+					tipoC = list.get(i).getCells().get(4).getValue() == null ? true : list.get(i).getCells().get(4).getValue().toString().toLowerCase().contains("total");
+					registro.setDia4(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(4).getValue().toString()));
 				}
 				if (5 < columnaFin && columnaT == 5L) {
 					tipoC = list.get(i).getCells().get(5).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(5).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(5).getValue().toString()));
 				} else if (5 < columnaFin) {
-					tipoC = list.get(i).getCells().get(5).getValue() == null ? true
-							: list.get(i).getCells().get(5).getValue().toString().toLowerCase().contains("total");
-					registro.setDia5(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(5).getValue().toString()));
+					tipoC = list.get(i).getCells().get(5).getValue() == null ? true : list.get(i).getCells().get(5).getValue().toString().toLowerCase().contains("total");
+					registro.setDia5(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(5).getValue().toString()));
 				}
 				if (6 < columnaFin && columnaT == 6L) {
 					tipoC = list.get(i).getCells().get(6).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(6).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(6).getValue().toString()));
 				} else if (6 < columnaFin) {
-					tipoC = list.get(i).getCells().get(6).getValue() == null ? true
-							: list.get(i).getCells().get(6).getValue().toString().toLowerCase().contains("total");
-					registro.setDia6(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(6).getValue().toString()));
+					tipoC = list.get(i).getCells().get(6).getValue() == null ? true : list.get(i).getCells().get(6).getValue().toString().toLowerCase().contains("total");
+					registro.setDia6(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(6).getValue().toString()));
 				}
 				if (7 < columnaFin && columnaT == 7L) {
 					tipoC = list.get(i).getCells().get(7).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(7).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(7).getValue().toString()));
 				} else if (7 < columnaFin) {
-					tipoC = list.get(i).getCells().get(7).getValue() == null ? true
-							: list.get(i).getCells().get(7).getValue().toString().toLowerCase().contains("total");
-					registro.setDia7(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(7).getValue().toString()));
+					tipoC = list.get(i).getCells().get(7).getValue() == null ? true : list.get(i).getCells().get(7).getValue().toString().toLowerCase().contains("total");
+					registro.setDia7(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(7).getValue().toString()));
 				}
 				if (8 < columnaFin && columnaT == 8L) {
 					tipoC = list.get(i).getCells().get(8).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(8).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(8).getValue().toString()));
 				} else if (8 < columnaFin) {
-					tipoC = list.get(i).getCells().get(8).getValue() == null ? true
-							: list.get(i).getCells().get(8).getValue().toString().toLowerCase().contains("total");
-					registro.setDia8(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(8).getValue().toString()));
+					tipoC = list.get(i).getCells().get(8).getValue() == null ? true : list.get(i).getCells().get(8).getValue().toString().toLowerCase().contains("total");
+					registro.setDia8(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(8).getValue().toString()));
 				}
 				if (9 < columnaFin && columnaT == 9L) {
 					tipoC = list.get(i).getCells().get(9).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(9).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(9).getValue().toString()));
 				} else if (9 < columnaFin) {
-					tipoC = list.get(i).getCells().get(9).getValue() == null ? true
-							: list.get(i).getCells().get(9).getValue().toString().toLowerCase().contains("total");
-					registro.setDia9(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(9).getValue().toString()));
+					tipoC = list.get(i).getCells().get(9).getValue() == null ? true : list.get(i).getCells().get(9).getValue().toString().toLowerCase().contains("total");
+					registro.setDia9(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(9).getValue().toString()));
 				}
 				if (10 < columnaFin && columnaT == 10L) {
 					tipoC = list.get(i).getCells().get(10).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(10).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(10).getValue().toString()));
 				} else if (10 < columnaFin) {
-					tipoC = list.get(i).getCells().get(10).getValue() == null ? true
-							: list.get(i).getCells().get(10).getValue().toString().toLowerCase().contains("total");
-					registro.setDia10(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(10).getValue().toString()));
+					tipoC = list.get(i).getCells().get(10).getValue() == null ? true : list.get(i).getCells().get(10).getValue().toString().toLowerCase().contains("total");
+					registro.setDia10(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(10).getValue().toString()));
 				}
 				if (11 < columnaFin && columnaT == 11L) {
 					tipoC = list.get(i).getCells().get(11).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(11).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(11).getValue().toString()));
 				} else if (11 < columnaFin) {
-					tipoC = list.get(i).getCells().get(11).getValue() == null ? true
-							: list.get(i).getCells().get(11).getValue().toString().toLowerCase().contains("total");
-					registro.setDia11(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(11).getValue().toString()));
+					tipoC = list.get(i).getCells().get(11).getValue() == null ? true : list.get(i).getCells().get(11).getValue().toString().toLowerCase().contains("total");
+					registro.setDia11(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(11).getValue().toString()));
 				}
 				if (12 < columnaFin && columnaT == 12L) {
 					tipoC = list.get(i).getCells().get(12).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(12).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(12).getValue().toString()));
 				} else if (12 < columnaFin) {
 					if (list.get(i).getCells().get(12).getValue() != null) {
 						tipoC = list.get(i).getCells().get(12).getValue().toString().toLowerCase().contains("total");
@@ -1236,193 +1165,136 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				}
 				if (13 < columnaFin && columnaT == 13L) {
 					tipoC = list.get(i).getCells().get(13).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(13).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(13).getValue().toString()));
 				} else if (13 < columnaFin) {
-					tipoC = list.get(i).getCells().get(13).getValue() == null ? true
-							: list.get(i).getCells().get(13).getValue().toString().toLowerCase().contains("total");
-					registro.setDia13(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(13).getValue().toString()));
+					tipoC = list.get(i).getCells().get(13).getValue() == null ? true : list.get(i).getCells().get(13).getValue().toString().toLowerCase().contains("total");
+					registro.setDia13(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(13).getValue().toString()));
 				}
 				if (14 < columnaFin && columnaT == 14L) {
 					tipoC = list.get(i).getCells().get(14).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(14).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(14).getValue().toString()));
 				} else if (14 < columnaFin) {
-					tipoC = list.get(i).getCells().get(14).getValue() == null ? true
-							: list.get(i).getCells().get(14).getValue().toString().toLowerCase().contains("total");
-					registro.setDia14(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(14).getValue().toString()));
+					tipoC = list.get(i).getCells().get(14).getValue() == null ? true : list.get(i).getCells().get(14).getValue().toString().toLowerCase().contains("total");
+					registro.setDia14(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(14).getValue().toString()));
 				}
 				if (15 < columnaFin && columnaT == 15L) {
 					tipoC = list.get(i).getCells().get(15).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(15).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(15).getValue().toString()));
 				} else if (15 < columnaFin) {
-					tipoC = list.get(i).getCells().get(15).getValue() == null ? true
-							: list.get(i).getCells().get(15).getValue().toString().toLowerCase().contains("total");
-					registro.setDia15(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(15).getValue().toString()));
+					tipoC = list.get(i).getCells().get(15).getValue() == null ? true : list.get(i).getCells().get(15).getValue().toString().toLowerCase().contains("total");
+					registro.setDia15(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(15).getValue().toString()));
 				}
 				if (16 < columnaFin && columnaT == 16L) {
 					tipoC = list.get(i).getCells().get(16).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(16).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(16).getValue().toString()));
 				} else if (16 < columnaFin) {
-					tipoC = list.get(i).getCells().get(16).getValue() == null ? true
-							: list.get(i).getCells().get(16).getValue().toString().toLowerCase().contains("total");
-					registro.setDia16(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(16).getValue().toString()));
+					tipoC = list.get(i).getCells().get(16).getValue() == null ? true : list.get(i).getCells().get(16).getValue().toString().toLowerCase().contains("total");
+					registro.setDia16(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(16).getValue().toString()));
 				}
 				if (17 < columnaFin && columnaT == 17L) {
 					tipoC = list.get(i).getCells().get(17).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(17).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(17).getValue().toString()));
 				} else if (17 < columnaFin) {
-					tipoC = list.get(i).getCells().get(17).getValue() == null ? true
-							: list.get(i).getCells().get(17).getValue().toString().toLowerCase().contains("total");
-					registro.setDia17(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(17).getValue().toString()));
+					tipoC = list.get(i).getCells().get(17).getValue() == null ? true : list.get(i).getCells().get(17).getValue().toString().toLowerCase().contains("total");
+					registro.setDia17(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(17).getValue().toString()));
 				}
 				if (18 < columnaFin && columnaT == 18L) {
 					tipoC = list.get(i).getCells().get(18).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(18).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(18).getValue().toString()));
 				} else if (18 < columnaFin) {
-					tipoC = list.get(i).getCells().get(18).getValue() == null ? true
-							: list.get(i).getCells().get(18).getValue().toString().toLowerCase().contains("total");
-					registro.setDia18(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(18).getValue().toString()));
+					tipoC = list.get(i).getCells().get(18).getValue() == null ? true : list.get(i).getCells().get(18).getValue().toString().toLowerCase().contains("total");
+					registro.setDia18(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(18).getValue().toString()));
 				}
 				if (19 < columnaFin && columnaT == 19L) {
 					tipoC = list.get(i).getCells().get(19).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(19).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(19).getValue().toString()));
 				} else if (19 < columnaFin) {
-					tipoC = list.get(i).getCells().get(19).getValue() == null ? true
-							: list.get(i).getCells().get(19).getValue().toString().toLowerCase().contains("total");
-					registro.setDia19(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(19).getValue().toString()));
+					tipoC = list.get(i).getCells().get(19).getValue() == null ? true : list.get(i).getCells().get(19).getValue().toString().toLowerCase().contains("total");
+					registro.setDia19(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(19).getValue().toString()));
 				}
 				if (20 < columnaFin && columnaT == 20L) {
 					tipoC = list.get(i).getCells().get(20).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(20).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(20).getValue().toString()));
 				} else if (20 < columnaFin) {
-					tipoC = list.get(i).getCells().get(20).getValue() == null ? true
-							: list.get(i).getCells().get(20).getValue().toString().toLowerCase().contains("total");
-					registro.setDia20(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(20).getValue().toString()));
+					tipoC = list.get(i).getCells().get(20).getValue() == null ? true : list.get(i).getCells().get(20).getValue().toString().toLowerCase().contains("total");
+					registro.setDia20(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(20).getValue().toString()));
 				}
 				if (21 < columnaFin && columnaT == 21L) {
 					tipoC = list.get(i).getCells().get(21).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(21).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(21).getValue().toString()));
 				} else if (21 < columnaFin) {
-					tipoC = list.get(i).getCells().get(21).getValue() == null ? true
-							: list.get(i).getCells().get(21).getValue().toString().toLowerCase().contains("total");
-					registro.setDia21(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(21).getValue().toString()));
+					tipoC = list.get(i).getCells().get(21).getValue() == null ? true : list.get(i).getCells().get(21).getValue().toString().toLowerCase().contains("total");
+					registro.setDia21(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(21).getValue().toString()));
 				}
 				if (22 < columnaFin && columnaT == 22L) {
 					tipoC = list.get(i).getCells().get(22).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(22).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(22).getValue().toString()));
 				} else if (22 < columnaFin) {
-					tipoC = list.get(i).getCells().get(22).getValue() == null ? true
-							: list.get(i).getCells().get(22).getValue().toString().toLowerCase().contains("total");
-					registro.setDia22(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(22).getValue().toString()));
+					tipoC = list.get(i).getCells().get(22).getValue() == null ? true : list.get(i).getCells().get(22).getValue().toString().toLowerCase().contains("total");
+					registro.setDia22(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(22).getValue().toString()));
 				}
 				if (23 < columnaFin && columnaT == 23L) {
 					tipoC = list.get(i).getCells().get(23).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(23).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(23).getValue().toString()));
 				} else if (23 < columnaFin) {
-					tipoC = list.get(i).getCells().get(23).getValue() == null ? true
-							: list.get(i).getCells().get(23).getValue().toString().toLowerCase().contains("total");
-					registro.setDia23(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(23).getValue().toString()));
+					tipoC = list.get(i).getCells().get(23).getValue() == null ? true : list.get(i).getCells().get(23).getValue().toString().toLowerCase().contains("total");
+					registro.setDia23(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(23).getValue().toString()));
 				}
 				if (24 < columnaFin && columnaT == 24L) {
 					tipoC = list.get(i).getCells().get(24).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(24).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(24).getValue().toString()));
 				} else if (24 < columnaFin) {
-					tipoC = list.get(i).getCells().get(24).getValue() == null ? true
-							: list.get(i).getCells().get(24).getValue().toString().toLowerCase().contains("total");
-					registro.setDia24(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(24).getValue().toString()));
+					tipoC = list.get(i).getCells().get(24).getValue() == null ? true : list.get(i).getCells().get(24).getValue().toString().toLowerCase().contains("total");
+					registro.setDia24(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(24).getValue().toString()));
 				}
 				if (25 < columnaFin && columnaT == 25L) {
 					tipoC = list.get(i).getCells().get(25).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(25).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(25).getValue().toString()));
 				} else if (25 < columnaFin) {
-					tipoC = list.get(i).getCells().get(25).getValue() == null ? true
-							: list.get(i).getCells().get(25).getValue().toString().toLowerCase().contains("total");
-					registro.setDia25(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(25).getValue().toString()));
+					tipoC = list.get(i).getCells().get(25).getValue() == null ? true : list.get(i).getCells().get(25).getValue().toString().toLowerCase().contains("total");
+					registro.setDia25(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(25).getValue().toString()));
 				}
 				if (26 < columnaFin && columnaT == 26L) {
 					tipoC = list.get(i).getCells().get(26).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(26).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(26).getValue().toString()));
 				} else if (26 < columnaFin) {
-					tipoC = list.get(i).getCells().get(26).getValue() == null ? true
-							: list.get(i).getCells().get(26).getValue().toString().toLowerCase().contains("total");
-					registro.setDia26(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(26).getValue().toString()));
+					tipoC = list.get(i).getCells().get(26).getValue() == null ? true : list.get(i).getCells().get(26).getValue().toString().toLowerCase().contains("total");
+					registro.setDia26(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(26).getValue().toString()));
 				}
 				if (27 < columnaFin && columnaT == 27L) {
 					tipoC = list.get(i).getCells().get(27).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(27).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(27).getValue().toString()));
 				} else if (27 < columnaFin) {
-					tipoC = list.get(i).getCells().get(27).getValue() == null ? true
-							: list.get(i).getCells().get(27).getValue().toString().toLowerCase().contains("total");
-					registro.setDia27(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(27).getValue().toString()));
+					tipoC = list.get(i).getCells().get(27).getValue() == null ? true : list.get(i).getCells().get(27).getValue().toString().toLowerCase().contains("total");
+					registro.setDia27(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(27).getValue().toString()));
 				}
 				if (28 < columnaFin && columnaT == 28L) {
 					tipoC = list.get(i).getCells().get(28).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(28).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(28).getValue().toString()));
 				} else if (28 < columnaFin) {
-					tipoC = list.get(i).getCells().get(28).getValue() == null ? true
-							: list.get(i).getCells().get(28).getValue().toString().toLowerCase().contains("total");
-					registro.setDia28(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(28).getValue().toString()));
+					tipoC = list.get(i).getCells().get(28).getValue() == null ? true : list.get(i).getCells().get(28).getValue().toString().toLowerCase().contains("total");
+					registro.setDia28(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(28).getValue().toString()));
 				}
 				if (29 < columnaFin && columnaT == 29L) {
 					tipoC = list.get(i).getCells().get(29).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(29).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(29).getValue().toString()));
 				} else if (29 < columnaFin) {
-					tipoC = list.get(i).getCells().get(29).getValue() == null ? true
-							: list.get(i).getCells().get(29).getValue().toString().toLowerCase().contains("total");
-					registro.setDia29(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(29).getValue().toString()));
+					tipoC = list.get(i).getCells().get(29).getValue() == null ? true : list.get(i).getCells().get(29).getValue().toString().toLowerCase().contains("total");
+					registro.setDia29(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(29).getValue().toString()));
 				}
 				if (30 < columnaFin && columnaT == 30L) {
 					tipoC = list.get(i).getCells().get(30).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(30).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(30).getValue().toString()));
 				} else if (30 < columnaFin) {
-					tipoC = list.get(i).getCells().get(30).getValue() == null ? true
-							: list.get(i).getCells().get(30).getValue().toString().toLowerCase().contains("total");
-					registro.setDia30(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(30).getValue().toString()));
+					tipoC = list.get(i).getCells().get(30).getValue() == null ? true : list.get(i).getCells().get(30).getValue().toString().toLowerCase().contains("total");
+					registro.setDia30(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(30).getValue().toString()));
 				}
 				if (31 < columnaFin && columnaT == 31L) {
 					tipoC = list.get(i).getCells().get(31).getValue().toString().toLowerCase().contains("total");
-					registro.setTotal(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(31).getValue().toString()));
+					registro.setTotal(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(31).getValue().toString()));
 				} else if (31 < columnaFin) {
-					tipoC = list.get(i).getCells().get(31).getValue() == null ? true
-							: list.get(i).getCells().get(31).getValue().toString().toLowerCase().contains("total");
-					registro.setDia31(
-							tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(31).getValue().toString()));
+					tipoC = list.get(i).getCells().get(31).getValue() == null ? true : list.get(i).getCells().get(31).getValue().toString().toLowerCase().contains("total");
+					registro.setDia31(tipoC ? 0D : Double.parseDouble(list.get(i).getCells().get(31).getValue().toString()));
 				}
 				registros.add(registro);
 			} catch (Exception e) {
@@ -1446,12 +1318,9 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			valorVenta = 0D;
 			valorBlindado = 0D;
 			valorDiferencia = 0D;
-			valorBlindado += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.mapToDouble(p -> p.getValorBlindado()).sum();
-			valorVenta += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.mapToDouble(p -> p.getValorVendedor()).sum();
-			valorDiferencia += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.mapToDouble(p -> p.getValorDiferencia()).sum();
+			valorBlindado += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().mapToDouble(p -> p.getValorBlindado()).sum();
+			valorVenta += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().mapToDouble(p -> p.getValorVendedor()).sum();
+			valorDiferencia += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().mapToDouble(p -> p.getValorDiferencia()).sum();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método sumarTabla0 " + " " + e.getMessage());
@@ -1462,8 +1331,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 		try {
 			valorPromotor = 0D;
-			valorPromotor += checkListKpiEjecucionSeleccionado.getArqueoCajaPromotor().stream()
-					.mapToDouble(p -> p.getValorFaltante()).sum();
+			valorPromotor += checkListKpiEjecucionSeleccionado.getArqueoCajaPromotor().stream().mapToDouble(p -> p.getValorFaltante()).sum();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método sumarTabla0 " + " " + e.getMessage());
@@ -1474,8 +1342,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double totalS = 0.0D;
 		Double total = 0.0D;
 		try {
-			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream()
-					.filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getSubTotal()).sum();
+			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream().filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getSubTotal()).sum();
 			total = new BigDecimal(totalS).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1488,8 +1355,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double total = 0.0D;
 		Double totalS = 0.0D;
 		try {
-			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getValorBlindado()).sum();
+			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getValorBlindado()).sum();
 			total = new BigDecimal(totalS).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1502,8 +1368,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double total = 0.0D;
 		Double totalS = 0.0D;
 		try {
-			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getValorVendedor()).sum();
+			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getValorVendedor()).sum();
 			total = new BigDecimal(totalS).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1516,8 +1381,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double total = 0.0D;
 		Double totalS = 0.0D;
 		try {
-			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getValorDiferencia()).sum();
+			totalS += checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().filter(p -> p.getOrden() == orden).mapToDouble(p -> p.getValorDiferencia()).sum();
 			total = new BigDecimal(totalS).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1531,8 +1395,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		try {
 			for (int i = 0; i < checkListProcesoEjecucion.getCheckListKpiEjecucion().size(); i++) {
 				if (checkListProcesoEjecucion.getCheckListKpiEjecucion().get(i).getkPICritico() == null) {
-					totalPuntajeD += checkListProcesoEjecucion.getCheckListKpiEjecucion().get(i).getProcesoDetalle()
-							.getPuntaje();
+					totalPuntajeD += checkListProcesoEjecucion.getCheckListKpiEjecucion().get(i).getProcesoDetalle().getPuntaje();
 				}
 			}
 		} catch (Exception e) {
@@ -1547,8 +1410,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		try {
 			for (int i = 0; i < checkListProcesoEjecucion.getCheckListKpiEjecucion().size(); i++) {
 				if (checkListProcesoEjecucion.getCheckListKpiEjecucion().get(i).getkPICritico() == null) {
-					totalPuntajeD += checkListProcesoEjecucion.getCheckListKpiEjecucion().get(i).getProcesoDetalle()
-							.getPuntaje();
+					totalPuntajeD += checkListProcesoEjecucion.getCheckListKpiEjecucion().get(i).getProcesoDetalle().getPuntaje();
 				}
 			}
 		} catch (Exception e) {
@@ -1567,22 +1429,19 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double totalDiferencia = 0.0D;
 		try {
 			medioPago = arqueoCaja.getSubDescripcion();
-			if (!medioPago.equals("Tarjetas de Crédito") && !medioPago.equals("Créditos")
-					&& !medioPago.equals("Retención") && !medioPago.equals("Pico")) {
+			if (!medioPago.equals("Tarjetas de Crédito") && !medioPago.equals("Créditos") && !medioPago.equals("Retención") && !medioPago.equals("Pico")) {
 				cantidad = arqueoCaja.getCantidad();
 				totalVenta = checkListKpiEjecucionSeleccionado.getValorVenta();
 				total = cantidad * arqueoCaja.getValorSubTotal();
 				arqueoCaja.setValorTotal(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
-				totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCaja().stream()
-						.mapToDouble(p -> p.getValorTotal()).sum();
+				totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCaja().stream().mapToDouble(p -> p.getValorTotal()).sum();
 				totalDiferencia = totalArqueo - totalVenta;
 				checkListKpiEjecucionSeleccionado.setValorArqueo(totalArqueo);
 				checkListKpiEjecucionSeleccionado.setValorDiferencia(totalDiferencia);
 			} else {
 				totalVenta = checkListKpiEjecucionSeleccionado.getValorVenta();
 				arqueoCaja.setValorTotal(arqueoCaja.getValorSubTotal());
-				totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCaja().stream()
-						.mapToDouble(p -> p.getValorTotal()).sum();
+				totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCaja().stream().mapToDouble(p -> p.getValorTotal()).sum();
 				totalDiferencia = totalArqueo - totalVenta;
 				checkListKpiEjecucionSeleccionado.setValorArqueo(totalArqueo);
 				checkListKpiEjecucionSeleccionado.setValorDiferencia(totalDiferencia);
@@ -1603,8 +1462,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double totalDiferencia = 0.0D;
 
 		try {
-			if (arqueoCaja.getSubDescripcion().equals("Efectivo USD(Billetes)")
-					&& arqueoCaja.getDescripcion().equals("Parcial")) {
+			if (arqueoCaja.getSubDescripcion().equals("Efectivo USD(Billetes)") && arqueoCaja.getDescripcion().equals("Parcial")) {
 				cantidad = arqueoCaja.getCantidad();
 				if (cantidad != 0L) {
 					totalB = (double) (cantidad * 100);
@@ -1615,10 +1473,8 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 					totalB = arqueoCaja.getValorBlindado();
 				}
 			}
-			totalBlindado = checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.mapToDouble(p -> p.getValorBlindado() == null ? 0D : p.getValorBlindado()).sum();
-			totalDiferencia = checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream()
-					.mapToDouble(p -> p.getValorDiferencia() == null ? 0D : p.getValorDiferencia()).sum();
+			totalBlindado = checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().mapToDouble(p -> p.getValorBlindado() == null ? 0D : p.getValorBlindado()).sum();
+			totalDiferencia = checkListKpiEjecucionSeleccionado.getArqueoCajaFuerte().stream().mapToDouble(p -> p.getValorDiferencia() == null ? 0D : p.getValorDiferencia()).sum();
 			if (arqueoCaja.getValorVendedor() != null) {
 				totalV = arqueoCaja.getValorVendedor();
 			}
@@ -1638,8 +1494,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 	public void sumarArqueoCajaPromotor() {
 		try {
-			valorPromotor = checkListKpiEjecucionSeleccionado.getArqueoCajaPromotor().stream()
-					.mapToDouble(p -> p.getValorFaltante()).sum();
+			valorPromotor = checkListKpiEjecucionSeleccionado.getArqueoCajaPromotor().stream().mapToDouble(p -> p.getValorFaltante()).sum();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método sumarArqueoCajaPromotor " + " " + e.getMessage());
@@ -1654,10 +1509,8 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		try {
 			totalVenta = checkListKpiEjecucionSeleccionado.getValorVenta();
 			total = arqueoFondoSuelto.getCaja0() + arqueoFondoSuelto.getCaja1() + arqueoFondoSuelto.getCaja2();
-			arqueoFondoSuelto.setValorTotal(new BigDecimal(total * arqueoFondoSuelto.getDenominacion())
-					.setScale(2, RoundingMode.HALF_UP).doubleValue());
-			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoFondoSuelto().stream()
-					.mapToDouble(p -> p.getValorTotal()).sum();
+			arqueoFondoSuelto.setValorTotal(new BigDecimal(total * arqueoFondoSuelto.getDenominacion()).setScale(2, RoundingMode.HALF_UP).doubleValue());
+			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoFondoSuelto().stream().mapToDouble(p -> p.getValorTotal()).sum();
 			totalDiferencia = totalArqueo - totalVenta;
 			checkListKpiEjecucionSeleccionado.setValorArqueo(totalArqueo);
 			checkListKpiEjecucionSeleccionado.setValorDiferencia(totalDiferencia);
@@ -1676,8 +1529,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		Double totalDiferencia = 0.0D;
 		try {
 			totalVenta = checkListKpiEjecucionSeleccionado.getValorVenta();
-			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoFondoSuelto().stream()
-					.mapToDouble(p -> p.getValorTotal()).sum();
+			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoFondoSuelto().stream().mapToDouble(p -> p.getValorTotal()).sum();
 			totalDiferencia = totalArqueo - totalVenta;
 			checkListKpiEjecucionSeleccionado.setValorArqueo(totalArqueo);
 			checkListKpiEjecucionSeleccionado.setValorDiferencia(totalDiferencia);
@@ -1703,27 +1555,21 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			ParametrosGeneralesEt parametroPArqueo = iParametrolGeneralDao.getObjPadre("63");
 			ParametrosGeneralesEt porcentajeA = iParametrolGeneralDao.getListaHIjosUnique(parametroPArqueo);
 			porcentaje = Double.parseDouble(porcentajeA.getValorLista());
-			totalRubro += checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream()
-					.filter(p -> p.getOrden() == 0L).mapToDouble(p -> p.getSubTotal()).sum();
+			totalRubro += checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream().filter(p -> p.getOrden() == 0L).mapToDouble(p -> p.getSubTotal()).sum();
 
 			totalVenta = checkListKpiEjecucionSeleccionado.getValorVenta();
 			if (arqueoCajaGeneral.getSubDescripcion().equals("Solicitud")) {
-				arqueoCajaGeneral.setSubTotal(new BigDecimal(arqueoCajaGeneral.getSubTotal())
-						.setScale(2, RoundingMode.HALF_UP).doubleValue());
+				arqueoCajaGeneral.setSubTotal(new BigDecimal(arqueoCajaGeneral.getSubTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue());
 			}
-			if (arqueoCajaGeneral != null && arqueoCajaGeneral.getParametroRubro() == null
-					&& !arqueoCajaGeneral.getSubDescripcion().equals("Solicitud")) {
+			if (arqueoCajaGeneral != null && arqueoCajaGeneral.getParametroRubro() == null && !arqueoCajaGeneral.getSubDescripcion().equals("Solicitud")) {
 				total = arqueoCajaGeneral.getCaja0();
-				arqueoCajaGeneral.setSubTotal(new BigDecimal(total * arqueoCajaGeneral.getDenominacion())
-						.setScale(2, RoundingMode.HALF_UP).doubleValue());
+				arqueoCajaGeneral.setSubTotal(new BigDecimal(total * arqueoCajaGeneral.getDenominacion()).setScale(2, RoundingMode.HALF_UP).doubleValue());
 				sumarArqueoCaja(arqueoCajaGeneral.getOrden());
 				iArqueoCajaGeneralDao.guardarArqueoCajaGeneral(arqueoCajaGeneral, usuario);
 			}
-			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream()
-					.mapToDouble(p -> p.getSubTotal()).sum();
+			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream().mapToDouble(p -> p.getSubTotal()).sum();
 			totalDiferencia = totalArqueo - totalVenta;
-			porcentajeArqueo = new BigDecimal(totalRubro / totalVenta * 100).setScale(2, RoundingMode.HALF_UP)
-					.doubleValue();
+			porcentajeArqueo = new BigDecimal(totalRubro / totalVenta * 100).setScale(2, RoundingMode.HALF_UP).doubleValue();
 			if (totalRubro != 0.0D && porcentajeArqueo >= porcentaje) {
 				checkListKpiEjecucionSeleccionado.setPorcentaje(porcentajeArqueo / 100);
 				color = "red";
@@ -1751,14 +1597,11 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			ParametrosGeneralesEt parametroPArqueo = iParametrolGeneralDao.getObjPadre("63");
 			ParametrosGeneralesEt porcentajeA = iParametrolGeneralDao.getListaHIjosUnique(parametroPArqueo);
 			porcentaje = Double.parseDouble(porcentajeA.getValorLista());
-			totalRubro += checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream()
-					.filter(p -> p.getOrden() == 0L).mapToDouble(p -> p.getSubTotal()).sum();
+			totalRubro += checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream().filter(p -> p.getOrden() == 0L).mapToDouble(p -> p.getSubTotal()).sum();
 			totalVenta = checkListKpiEjecucionSeleccionado.getValorVenta();
-			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream()
-					.mapToDouble(p -> p.getSubTotal()).sum();
+			totalArqueo = checkListKpiEjecucionSeleccionado.getArqueoCajaGeneral().stream().mapToDouble(p -> p.getSubTotal()).sum();
 			totalDiferencia = totalArqueo - totalVenta;
-			porcentajeArqueo = new BigDecimal(totalRubro / totalVenta * 100).setScale(2, RoundingMode.HALF_UP)
-					.doubleValue();
+			porcentajeArqueo = new BigDecimal(totalRubro / totalVenta * 100).setScale(2, RoundingMode.HALF_UP).doubleValue();
 			if (totalRubro != 0.0D && porcentajeArqueo >= porcentaje) {
 				checkListKpiEjecucionSeleccionado.setPorcentaje(porcentajeArqueo / 100);
 				color = "red";
@@ -1792,11 +1635,9 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			// usuario);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_003').hide();");
 			iCheckListEjecucionDao.clear();
-			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					usuario);
+			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 			checkListProcesoEjecucionEfectivo = null;
-			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(
-					checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion().getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion().getIdCheckListProcesoEjecucion());
 			checkListKpiEjecucionSeleccionado = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1812,11 +1653,9 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			// usuario);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_003_1').hide();");
 			iCheckListEjecucionDao.clear();
-			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					usuario);
+			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 			checkListProcesoEjecucionEfectivo = null;
-			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(
-					checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion().getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListKpiEjecucionSeleccionado.getCheckListProcesoEjecucion().getIdCheckListProcesoEjecucion());
 			checkListKpiEjecucionSeleccionado = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1832,8 +1671,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			// usuario);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_004').hide();");
 			iCheckListEjecucionDao.clear();
-			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					usuario);
+			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 			checkListKpiEjecucionSeleccionado = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1849,8 +1687,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			// usuario);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_005').hide();");
 			iCheckListEjecucionDao.clear();
-			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					usuario);
+			checkListEjecucion = iCheckListEjecucionDao.getCheckListEjecucion(TipoCheckListEnum.CRITERIO_ESPECIFICO, usuario);
 			checkListKpiEjecucionSeleccionado = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1888,12 +1725,10 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			checkListKpiEjecucion
-					.setPuntajeEjecucion(checkListKpiEjecucion.getCriterioEvaluacionDetalle().getPuntaje());
+			checkListKpiEjecucion.setPuntajeEjecucion(checkListKpiEjecucion.getCriterioEvaluacionDetalle().getPuntaje());
 			iCheckListEjecucionDao.guardarCheckListEjecucion(checkListEjecucion, usuario);
 			iCheckListKpiEjecucionDao.guardarCheckListKpiEjecucion(checkListKpiEjecucion, usuario);
-			iCheckListEjecucionDao.generarActNivelRiesgo(checkListEjecucion.getNivelEvaluacion().getIdNivelEvaluacion(),
-					checkListEjecucion.getIdCheckListEjecucion());
+			iCheckListEjecucionDao.generarActNivelRiesgo(checkListEjecucion.getNivelEvaluacion().getIdNivelEvaluacion(), checkListEjecucion.getIdCheckListEjecucion());
 			validaCompleto();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1917,20 +1752,17 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				}
 			}
 			if (nombreArchivo.toLowerCase().contains(".png") || nombreArchivo.toLowerCase().contains(".jpg")) {
-				ruta = iGeneralUtilsDao.creaRuta(checkListEjecucion.getIdCheckListEjecucion(),
-						RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
+				ruta = iGeneralUtilsDao.creaRuta(checkListEjecucion.getIdCheckListEjecucion(), RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
 			} else {
-				ruta = iGeneralUtilsDao.creaRuta(checkListEjecucion.getIdCheckListEjecucion(),
-						RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
+				ruta = iGeneralUtilsDao.creaRuta(checkListEjecucion.getIdCheckListEjecucion(), RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
 			}
 			iGeneralUtilsDao.copyFile(reg.getNombreAdjunto(), reg.getFile(), ruta);
+			iCheckListEjecucionAdjuntoDao.guardarCheckListEjecucionAdjunto(reg, appMain.getUsuario());
 			checkListEjecucion.getCheckListEjecucionAdjunto().add(reg);
-			FacesMessage msg = new FacesMessage("Satisfactorio! ",
-					event.getFile().getFileName() + "  " + "Esta subido Correctamente.");
+			FacesMessage msg = new FacesMessage("Satisfactorio! ", event.getFile().getFileName() + "  " + "Esta subido Correctamente.");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (IOException e) {
-			FacesMessage msg = new FacesMessage("Error! ",
-					event.getFile().getFileName() + "  " + "El archivo no se subio.");
+			FacesMessage msg = new FacesMessage("Error! ", event.getFile().getFileName() + "  " + "El archivo no se subio.");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			e.printStackTrace();
 		}
@@ -1939,11 +1771,9 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 	public void guardaArchivo(CheckListEjecucionEt checkListEjecucion) {
 		try {
 			String ruta;
-			ruta = iGeneralUtilsDao.creaRuta(checkListEjecucion.getIdCheckListEjecucion(),
-					RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
+			ruta = iGeneralUtilsDao.creaRuta(checkListEjecucion.getIdCheckListEjecucion(), RutaFileEnum.RUTA_CONTROL_INTERNO.getDescripcion());
 			for (int i = 0; i < checkListEjecucion.getCheckListEjecucionAdjunto().size(); i++) {
-				iGeneralUtilsDao.copyFile(checkListEjecucion.getCheckListEjecucionAdjunto().get(i).getNombreAdjunto(),
-						checkListEjecucion.getCheckListEjecucionAdjunto().get(i).getFile(), ruta);
+				iGeneralUtilsDao.copyFile(checkListEjecucion.getCheckListEjecucionAdjunto().get(i).getNombreAdjunto(), checkListEjecucion.getCheckListEjecucionAdjunto().get(i).getFile(), ruta);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1957,6 +1787,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListEjecucionAdjunto.setEstado(EstadoEnum.INA);
 			checkListEjecucionAdjuntoEliminado.add(checkListEjecucionAdjunto);
 			checkListEjecucion.getCheckListEjecucionAdjunto().remove(checkListEjecucionAdjunto);
+			iCheckListEjecucionAdjuntoDao.guardarCheckListEjecucionAdjunto(checkListEjecucionAdjunto, appMain.getUsuario());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarAdjunto " + " " + e.getMessage());
@@ -1979,8 +1810,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			}
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
 			iCheckListProcesoEjecucionDao.clear();
-			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao
-					.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método procesoConciliacion " + " " + e.getMessage());
@@ -2023,8 +1853,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			}
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
 			iCheckListProcesoEjecucionDao.clear();
-			checkListProcesoEjecucionCombustible = iCheckListProcesoEjecucionDao
-					.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionCombustible = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método procesoCombustible " + " " + e.getMessage());
@@ -2046,8 +1875,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			}
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
 			iCheckListProcesoEjecucionDao.clear();
-			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao
-					.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionEfectivo = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método procesoEfectivo " + " " + e.getMessage());
@@ -2056,8 +1884,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 	public void procesoTienda(CheckListProcesoEjecucionEt checkListProcesoEjecucion) {
 		try {
-			if (checkListProcesoEjecucion.getCheckListKpiEjecucionA() == null
-					|| checkListProcesoEjecucion.getCheckListKpiEjecucionA().isEmpty()) {
+			if (checkListProcesoEjecucion.getCheckListKpiEjecucionA() == null || checkListProcesoEjecucion.getCheckListKpiEjecucionA().isEmpty()) {
 				UsuarioEt usuario = appMain.getUsuario();
 				ParametrosGeneralesEt parametroP = iParametrolGeneralDao.getObjPadre("78");
 				List<ParametrosGeneralesEt> parametrosGenerales = iParametrolGeneralDao.getListaHIjos(parametroP);
@@ -2074,8 +1901,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
 			}
 			iCheckListProcesoEjecucionDao.clear();
-			checkListProcesoEjecucionTienda = iCheckListProcesoEjecucionDao
-					.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionTienda = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método procesoTienda " + " " + e.getMessage());
@@ -2084,8 +1910,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 	public void procesoControlPromotores(CheckListProcesoEjecucionEt checkListProcesoEjecucion) {
 		try {
-			if (checkListProcesoEjecucion.getCheckListKpiEjecucionA() == null
-					|| checkListProcesoEjecucion.getCheckListKpiEjecucionA().isEmpty()) {
+			if (checkListProcesoEjecucion.getCheckListKpiEjecucionA() == null || checkListProcesoEjecucion.getCheckListKpiEjecucionA().isEmpty()) {
 				UsuarioEt usuario = appMain.getUsuario();
 				ParametrosGeneralesEt parametroP = iParametrolGeneralDao.getObjPadre("164");
 				List<ParametrosGeneralesEt> parametrosGenerales = iParametrolGeneralDao.getListaHIjos(parametroP);
@@ -2100,8 +1925,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
 			}
 			iCheckListProcesoEjecucionDao.clear();
-			checkListProcesoEjecucionTienda = iCheckListProcesoEjecucionDao
-					.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionTienda = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método procesoTienda " + " " + e.getMessage());
@@ -2135,8 +1959,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			}
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
 			iCheckListProcesoEjecucionDao.clear();
-			checkListProcesoEjecucionProcedimientoS = iCheckListProcesoEjecucionDao
-					.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
+			checkListProcesoEjecucionProcedimientoS = iCheckListProcesoEjecucionDao.getCheckListProcesoE(checkListProcesoEjecucion.getIdCheckListProcesoEjecucion());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método procesoAdminstrativo " + " " + e.getMessage());
@@ -2146,8 +1969,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 	public void guardarMaterial() {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucionCombustible,
-					usuario);
+			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucionCombustible, usuario);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_006').hide();");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2217,8 +2039,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 	public void guardarControlAdministrativo() {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucionProcedimientoS,
-					usuario);
+			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucionProcedimientoS, usuario);
 			RequestContext.getCurrentInstance().execute("PF('dlg_eje_009').hide();");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2236,8 +2057,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				return;
 			}
 			UsuarioEt usuario = appMain.getUsuario();
-			if (checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionFirma() == null
-					|| checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionFirma().isEmpty()) {
+			if (checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionFirma() == null || checkListKpiEjecucionSeleccionado.getCheckListKpiEjecucionFirma().isEmpty()) {
 				guardarCheckListKpiEjecucionFirmaCajaGeneral(checkListKpiEjecucionSeleccionado);
 			} else {
 				actualizarCheckListKpiEjecucionFirmaCajaGeneral(checkListKpiEjecucionSeleccionado);
@@ -2354,8 +2174,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 	public String validacionFirmaArqueoCajaC() {
 		String mensaje = "";
 		try {
-			if (checkListKpiEjecucionSeleccionado.getNombreVendedor() == null
-					|| checkListKpiEjecucionSeleccionado.getNombreVendedor().equals("")) {
+			if (checkListKpiEjecucionSeleccionado.getNombreVendedor() == null || checkListKpiEjecucionSeleccionado.getNombreVendedor().equals("")) {
 				mensaje = "Por favor ingresar nombre de vendedor para continuar";
 				return mensaje;
 			}
@@ -2425,8 +2244,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				}
 				checkListKpiEjecucionFirmaSeleccionado.setFirmado(true);
 			}
-			iCheckListKpiEjecucionFirmaDao.guardarCheckListKpiEjecucionFirma(checkListKpiEjecucionFirmaSeleccionado,
-					usuario);
+			iCheckListKpiEjecucionFirmaDao.guardarCheckListKpiEjecucionFirma(checkListKpiEjecucionFirmaSeleccionado, usuario);
 			showInfo("Firmado con Éxito", FacesMessage.SEVERITY_INFO);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2510,8 +2328,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 	public void cargarForularioCheckList(CheckListEjecucionEt check) {
 		try {
 			for (CheckListProcesoEjecucionEt checkListProceso : check.getCheckListProcesoEjecucion()) {
-				if (checkListProceso.getCheckListProcesoEjecucionFormulario() != null
-						&& !checkListProceso.getCheckListProcesoEjecucionFormulario().isEmpty()) {
+				if (checkListProceso.getCheckListProcesoEjecucionFormulario() != null && !checkListProceso.getCheckListProcesoEjecucionFormulario().isEmpty()) {
 					if (checkListProceso.getOrden() == 1L) {
 						proceso1(checkListProceso);
 					}
@@ -2543,7 +2360,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		pro01Frm03List = new ArrayList<>();
 		CheckListProcesoFormularioEt objFrm;
 		CheckListProcesoEjecucionFormularioEt obj;
-		List<CheckListProcesoEjecucionFormularioEt> frms =  new ArrayList<>();
+		List<CheckListProcesoEjecucionFormularioEt> frms = new ArrayList<>();
 		try {
 			frms = iCheckListProEjeFormDao.getFrm(procesoCheckList.getIdCheckListProcesoEjecucion());
 			for (int i = 0; i < frms.size(); i++) {
@@ -2583,7 +2400,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		pro02Frm03List = new ArrayList<>();
 		CheckListProcesoFormularioEt objFrm;
 		CheckListProcesoEjecucionFormularioEt obj;
-		List<CheckListProcesoEjecucionFormularioEt> frms =  new ArrayList<>();
+		List<CheckListProcesoEjecucionFormularioEt> frms = new ArrayList<>();
 		try {
 			frms = iCheckListProEjeFormDao.getFrm(procesoCheckList.getIdCheckListProcesoEjecucion());
 			for (int i = 0; i < frms.size(); i++) {
@@ -2622,7 +2439,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		pro03Frm03List = new ArrayList<>();
 		CheckListProcesoFormularioEt objFrm;
 		CheckListProcesoEjecucionFormularioEt obj;
-		List<CheckListProcesoEjecucionFormularioEt> frms =  new ArrayList<>();
+		List<CheckListProcesoEjecucionFormularioEt> frms = new ArrayList<>();
 		try {
 			frms = iCheckListProEjeFormDao.getFrm(procesoCheckList.getIdCheckListProcesoEjecucion());
 			for (int i = 0; i < frms.size(); i++) {
@@ -2661,7 +2478,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		pro04Frm03List = new ArrayList<>();
 		CheckListProcesoFormularioEt objFrm;
 		CheckListProcesoEjecucionFormularioEt obj;
-		List<CheckListProcesoEjecucionFormularioEt> frms =  new ArrayList<>();
+		List<CheckListProcesoEjecucionFormularioEt> frms = new ArrayList<>();
 		try {
 			frms = iCheckListProEjeFormDao.getFrm(procesoCheckList.getIdCheckListProcesoEjecucion());
 			for (int i = 0; i < frms.size(); i++) {
@@ -2700,7 +2517,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		pro05Frm03List = new ArrayList<>();
 		CheckListProcesoFormularioEt objFrm;
 		CheckListProcesoEjecucionFormularioEt obj;
-		List<CheckListProcesoEjecucionFormularioEt> frms =  new ArrayList<>();
+		List<CheckListProcesoEjecucionFormularioEt> frms = new ArrayList<>();
 		try {
 			frms = iCheckListProEjeFormDao.getFrm(procesoCheckList.getIdCheckListProcesoEjecucion());
 			for (int i = 0; i < frms.size(); i++) {
@@ -2733,11 +2550,9 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		}
 	}
 
-	public void cargarItemsPro01Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm,
-			CheckListProcesoFormularioEt formulario) {
+	public void cargarItemsPro01Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm, CheckListProcesoFormularioEt formulario) {
 		try {
-			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(
-					checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
+			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
 			if (orden == 0) {
 				pro01Frm01List.addAll(list);
 			}
@@ -2754,12 +2569,10 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 	}
 
-	public void cargarItemsPro02Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm,
-			CheckListProcesoFormularioEt formulario) {
+	public void cargarItemsPro02Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm, CheckListProcesoFormularioEt formulario) {
 
 		try {
-			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(
-					checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
+			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
 			if (orden == 0) {
 				pro02Frm01List.addAll(list);
 			}
@@ -2776,11 +2589,9 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 	}
 
-	public void cargarItemsPro03Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm,
-			CheckListProcesoFormularioEt formulario) {
+	public void cargarItemsPro03Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm, CheckListProcesoFormularioEt formulario) {
 		try {
-			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(
-					checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
+			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
 			if (orden == 0) {
 				pro03Frm01List.addAll(list);
 			}
@@ -2797,12 +2608,10 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 	}
 
-	public void cargarItemsPro04Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm,
-			CheckListProcesoFormularioEt formulario) {
+	public void cargarItemsPro04Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm, CheckListProcesoFormularioEt formulario) {
 
 		try {
-			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(
-					checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
+			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
 			if (orden == 0) {
 				pro04Frm01List.addAll(list);
 			}
@@ -2819,12 +2628,10 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 
 	}
 
-	public void cargarItemsPro05Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm,
-			CheckListProcesoFormularioEt formulario) {
+	public void cargarItemsPro05Frm01(int orden, CheckListProcesoEjecucionEt checkListProFrm, CheckListProcesoFormularioEt formulario) {
 
 		try {
-			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(
-					checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
+			List<CheckListProcesoEjecucionFormularioEt> list = iCheckListProEjeFormDao.getFrm(checkListProFrm.getIdCheckListProcesoEjecucion(), formulario.getIdCheckListProcesoFormulario());
 			if (orden == 0) {
 				pro05Frm01List.addAll(list);
 			}
@@ -3184,8 +2991,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListProcesoEjecucion.getCheckListProcesoEjecucionFormulario().remove(checkListProFrm);
 			iCheckListProEjeFormDao.guardarCheckListProEjeForm(checkListProFrm, usuario);
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
-			cargarItemsPro01Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(),
-					checkListProFrm.getCheckListProcesoFormulario());
+			cargarItemsPro01Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(), checkListProFrm.getCheckListProcesoFormulario());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarPro01Frm1 " + " " + e.getMessage());
@@ -3221,8 +3027,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListProcesoEjecucion.getCheckListProcesoEjecucionFormulario().remove(checkListProFrm);
 			iCheckListProEjeFormDao.guardarCheckListProEjeForm(checkListProFrm, usuario);
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
-			cargarItemsPro02Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(),
-					checkListProFrm.getCheckListProcesoFormulario());
+			cargarItemsPro02Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(), checkListProFrm.getCheckListProcesoFormulario());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarPro02Frm1 " + " " + e.getMessage());
@@ -3258,8 +3063,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListProcesoEjecucion.getCheckListProcesoEjecucionFormulario().remove(checkListProFrm);
 			iCheckListProEjeFormDao.guardarCheckListProEjeForm(checkListProFrm, usuario);
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
-			cargarItemsPro03Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(),
-					checkListProFrm.getCheckListProcesoFormulario());
+			cargarItemsPro03Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(), checkListProFrm.getCheckListProcesoFormulario());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarPro02Frm1 " + " " + e.getMessage());
@@ -3295,8 +3099,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListProcesoEjecucion.getCheckListProcesoEjecucionFormulario().remove(checkListProFrm);
 			iCheckListProEjeFormDao.guardarCheckListProEjeForm(checkListProFrm, usuario);
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
-			cargarItemsPro04Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(),
-					checkListProFrm.getCheckListProcesoFormulario());
+			cargarItemsPro04Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(), checkListProFrm.getCheckListProcesoFormulario());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarPro02Frm1 " + " " + e.getMessage());
@@ -3332,8 +3135,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 			checkListProcesoEjecucion.getCheckListProcesoEjecucionFormulario().remove(checkListProFrm);
 			iCheckListProEjeFormDao.guardarCheckListProEjeForm(checkListProFrm, usuario);
 			iCheckListProcesoEjecucionDao.guardarCheckListProcesoEjecucion(checkListProcesoEjecucion, usuario);
-			cargarItemsPro05Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(),
-					checkListProFrm.getCheckListProcesoFormulario());
+			cargarItemsPro05Frm01(orden, checkListProFrm.getCheckListProcesoEjecucion(), checkListProFrm.getCheckListProcesoFormulario());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarPro02Frm1 " + " " + e.getMessage());
@@ -3574,15 +3376,13 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				}
 			}
 			for (CheckListPieFirmaEjecucionEt pieFirma : checkListEjecucion.getCheckListPieFirmaEjecucion()) {
-				responsable = iResponsableDao.getResponsableByCargo(checkListEjecucion.getPlanificacion().getAgencia(),
-						pieFirma.getTipoCargo().getIdTipoCargo());
+				responsable = iResponsableDao.getResponsableByCargo(checkListEjecucion.getPlanificacion().getAgencia(), pieFirma.getTipoCargo().getIdTipoCargo());
 				if (responsable != null) {
 					pieFirma.setResponsable(responsable.getPersona().getNombreCompleto());
 					iCheckListPieFirmaEjecucionDao.guardarcheckListPieFirma(pieFirma, usuario);
 				}
 			}
-			for (CheckListInformeCabeceraEjecucionEt cabecera : checkListEjecucion
-					.getCheckListInformeCabeceraEjecucion()) {
+			for (CheckListInformeCabeceraEjecucionEt cabecera : checkListEjecucion.getCheckListInformeCabeceraEjecucion()) {
 				if (cabecera.getTitulo().contains("{")) {
 					cabecera.setTitulo(reemplazarEtiqueta(cabecera.getTitulo(), checkListEjecucion));
 					iCheckListInfoCabEjeDao.guardarCheckListInfoCabEje(cabecera, usuario);
@@ -3619,8 +3419,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				reemplazo = reemplazo.replace("{fecha_auditoria}", format.format(checkListEje.getFechaEjecucion()));
 			}
 			if (reemplazo.contains("{nombre_estacion}")) {
-				reemplazo = reemplazo.replace("{nombre_estacion}",
-						checkListEje.getPlanificacion().getAgencia().getNombreAgencia());
+				reemplazo = reemplazo.replace("{nombre_estacion}", checkListEje.getPlanificacion().getAgencia().getNombreAgencia());
 			}
 			// ------------------------------------------------------------------------------------------------------
 			if (reemplazo.contains("{gerente}")) {
@@ -3630,24 +3429,19 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 				reemplazo = reemplazo.replace("{verificador}", iResponsableDao.getResponsableEtiqueta("{verificador}"));
 			}
 			if (reemplazo.contains("{soporte_operativo}")) {
-				reemplazo = reemplazo.replace("{soporte_operativo}",
-						iResponsableDao.getResponsableEtiqueta("{soporte_operativo}"));
+				reemplazo = reemplazo.replace("{soporte_operativo}", iResponsableDao.getResponsableEtiqueta("{soporte_operativo}"));
 			}
 			if (reemplazo.contains("{soporte_administrativo}")) {
-				reemplazo = reemplazo.replace("{soporte_administrativo}",
-						iResponsableDao.getResponsableEtiqueta("{soporte_administrativo}"));
+				reemplazo = reemplazo.replace("{soporte_administrativo}", iResponsableDao.getResponsableEtiqueta("{soporte_administrativo}"));
 			}
 			if (reemplazo.contains("{supervisor_efectivo}")) {
-				reemplazo = reemplazo.replace("{supervisor_efectivo}",
-						iResponsableDao.getResponsableEtiqueta("{supervisor_efectivo}"));
+				reemplazo = reemplazo.replace("{supervisor_efectivo}", iResponsableDao.getResponsableEtiqueta("{supervisor_efectivo}"));
 			}
 			if (reemplazo.contains("{jefe_operacion_tienda}")) {
-				reemplazo = reemplazo.replace("{jefe_operacion_tienda}",
-						iResponsableDao.getResponsableEtiqueta("{jefe_operacion_tienda}"));
+				reemplazo = reemplazo.replace("{jefe_operacion_tienda}", iResponsableDao.getResponsableEtiqueta("{jefe_operacion_tienda}"));
 			}
 			if (reemplazo.contains("{jefe_operacion_pista}")) {
-				reemplazo = reemplazo.replace("{jefe_operacion_pista}",
-						iResponsableDao.getResponsableEtiqueta("{jefe_operacion_pista}"));
+				reemplazo = reemplazo.replace("{jefe_operacion_pista}", iResponsableDao.getResponsableEtiqueta("{jefe_operacion_pista}"));
 			}
 			// ------------------------------------------------------------------------------------------------------
 
@@ -3663,8 +3457,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		try {
 			reemplazo = original;
 			if (reemplazo.contains("{criterio_evaluacion}") && checkListKpiEje.getCriterioEvaluacionDetalle() != null) {
-				reemplazo = reemplazo.replace("{criterio_evaluacion}",
-						checkListKpiEje.getCriterioEvaluacionDetalle().getNombre());
+				reemplazo = reemplazo.replace("{criterio_evaluacion}", checkListKpiEje.getCriterioEvaluacionDetalle().getNombre());
 			}
 			if (reemplazo.contains("{comentario_auditor}") && checkListKpiEje.getComentarioControl() != null) {
 				reemplazo = reemplazo.replace("{comentario_auditor}", checkListKpiEje.getComentarioControl());
@@ -3683,8 +3476,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		List<TipoEstacionEt> tipoEstaciones = new ArrayList<TipoEstacionEt>();
 		try {
 			if (checkListEjecucion != null) {
-				tipoEstaciones = iTipoEstacionDao
-						.getTipoEstacionList0(checkListEjecucion.getPlanificacion().getAgencia().getTipoEstacion());
+				tipoEstaciones = iTipoEstacionDao.getTipoEstacionList0(checkListEjecucion.getPlanificacion().getAgencia().getTipoEstacion());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3792,8 +3584,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		return criterioEvaluacionDetalleSeleccionado;
 	}
 
-	public void setCriterioEvaluacionDetalleSeleccionado(
-			CriterioEvaluacionDetalleEt criterioEvaluacionDetalleSeleccionado) {
+	public void setCriterioEvaluacionDetalleSeleccionado(CriterioEvaluacionDetalleEt criterioEvaluacionDetalleSeleccionado) {
 		this.criterioEvaluacionDetalleSeleccionado = criterioEvaluacionDetalleSeleccionado;
 	}
 
@@ -3849,8 +3640,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		return checkListEjecucionAdjuntoEliminado;
 	}
 
-	public void setCheckListEjecucionAdjuntoEliminado(
-			List<CheckListEjecucionAdjuntoEt> checkListEjecucionAdjuntoEliminado) {
+	public void setCheckListEjecucionAdjuntoEliminado(List<CheckListEjecucionAdjuntoEt> checkListEjecucionAdjuntoEliminado) {
 		this.checkListEjecucionAdjuntoEliminado = checkListEjecucionAdjuntoEliminado;
 	}
 
@@ -3874,8 +3664,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		return checkListProcesoEjecucionCombustible;
 	}
 
-	public void setCheckListProcesoEjecucionCombustible(
-			CheckListProcesoEjecucionEt checkListProcesoEjecucionCombustible) {
+	public void setCheckListProcesoEjecucionCombustible(CheckListProcesoEjecucionEt checkListProcesoEjecucionCombustible) {
 		this.checkListProcesoEjecucionCombustible = checkListProcesoEjecucionCombustible;
 	}
 
@@ -3883,8 +3672,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		return checkListProcesoEjecucionProcedimientoS;
 	}
 
-	public void setCheckListProcesoEjecucionProcedimientoS(
-			CheckListProcesoEjecucionEt checkListProcesoEjecucionProcedimientoS) {
+	public void setCheckListProcesoEjecucionProcedimientoS(CheckListProcesoEjecucionEt checkListProcesoEjecucionProcedimientoS) {
 		this.checkListProcesoEjecucionProcedimientoS = checkListProcesoEjecucionProcedimientoS;
 	}
 
@@ -3908,8 +3696,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 		return checkListKpiEjecucionFirmaSeleccionado;
 	}
 
-	public void setCheckListKpiEjecucionFirmaSeleccionado(
-			CheckListKpiEjecucionFirmaEt checkListKpiEjecucionFirmaSeleccionado) {
+	public void setCheckListKpiEjecucionFirmaSeleccionado(CheckListKpiEjecucionFirmaEt checkListKpiEjecucionFirmaSeleccionado) {
 		this.checkListKpiEjecucionFirmaSeleccionado = checkListKpiEjecucionFirmaSeleccionado;
 	}
 

@@ -79,11 +79,15 @@ public class TableroDetalleInvEstacionEt extends EntityBase implements Serializa
 	@Column(name = "tipo_inventario", length = 50)
 	private String tipoInventario;
 
+	@Column(name = "id_tipo_estacion")
+	private Long idTipoEstacion;
+
 	@Column(name = "mes", length = 20)
 	private String mes;
 
 	public TableroDetalleInvEstacionEt() {
 		this.orden = 0L;
+		this.idTipoEstacion = 0L;
 	}
 
 	public Long getIdTableroDetalleInvEstacion() {
@@ -180,6 +184,14 @@ public class TableroDetalleInvEstacionEt extends EntityBase implements Serializa
 
 	public void setOrden(Long orden) {
 		this.orden = orden;
+	}
+
+	public Long getIdTipoEstacion() {
+		return idTipoEstacion;
+	}
+
+	public void setIdTipoEstacion(Long idTipoEstacion) {
+		this.idTipoEstacion = idTipoEstacion;
 	}
 
 	@Override

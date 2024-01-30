@@ -76,6 +76,9 @@ public class TableroInventarioDetalleEt extends EntityBase implements Serializab
 	@Transient
 	private Long total;
 
+	@Column(name = "id_tipo_estacion")
+	private Long idTipoEstacion;
+
 	public TableroInventarioDetalleEt() {
 		this.total = 0L;
 		this.nivel01 = 0L;
@@ -88,6 +91,7 @@ public class TableroInventarioDetalleEt extends EntityBase implements Serializab
 		this.nivel08 = 0L;
 		this.nivel09 = 0L;
 		this.nivel10 = 0L;
+		this.idTipoEstacion = 0L;
 	}
 
 	public Long getIdTableroInventarioDetalle() {
@@ -201,6 +205,14 @@ public class TableroInventarioDetalleEt extends EntityBase implements Serializab
 
 	public void setTotal(Long total) {
 		this.total = total;
+	}
+
+	public Long getIdTipoEstacion() {
+		return idTipoEstacion;
+	}
+
+	public void setIdTipoEstacion(Long idTipoEstacion) {
+		this.idTipoEstacion = idTipoEstacion;
 	}
 
 	@Override

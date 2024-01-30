@@ -107,118 +107,79 @@
 				<p:layoutUnit position="center" id="lyt_center">
 					<p:tabView id="tabWiewDash" style="width: 100;height: 100%;">
 						<p:tab title="Gráficos" id="tabGrafico">
-							<div class="ui-g dashboard">
-								<p:panelGrid styleClass="sinborde">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-1">
-											<div class="ui-g-3" style="background-color: #03A9F4">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.numeroTienda}
-												</span>
-											</div>
-											<div class="ui-g-9" style="background-color: #03A9F4">
-												<span class="colorbox-name"># Estación/Tienda</span>
-											</div>
-										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde"
-									rendered="#{TableroControlInvBn.tableroC.evaluacion01 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-1">
-											<div class="ui-g-8">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion01}</span>
-											</div>
-											<div class="ui-g-4">
-												<span class="colorbox-name">#{TableroControlInvBn.frecuenciaT}</span>
-											</div>
-
-										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde"
-									rendered="#{TableroControlInvBn.tableroC.evaluacion02 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-2">
-											<div class="ui-g-9">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion02}</span>
-											</div>
-											<div class="ui-g-3">
-												<span class="colorbox-name">#{TableroControlInvBn.frecuenciaC}</span>
+							<div class="ui-g">
+							<div class="ui-g-12 ui-md-6 ui-lg-3">
+									<p:panel>
+										<div class="ui-g">
+											<div class="ui-g-12" align="center">
+											<div align="center">
+													<p:outputLabel
+														value="#{TableroControlInvBn.tableroC.numeroTienda}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
+												<div align="center">
+													<p:outputLabel
+														value="NÚMERO DE EESS/TIENDAS"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
 											</div>
 										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde"
-									rendered="#{TableroControlInvBn.tableroC.evaluacion03 ne '0'}">
-									<div class="ui-g-12 ui-md-3 ui-lg-2,ui-lg-2">
-										<div class="ui-g card colorbox colorbox-3">
-											<div class="ui-g-9">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion03}</span>
-											</div>
-											<div class="ui-g-3">
-												<span class="colorbox-name">#{TableroControlInvBn.frecuenciaP}</span>
-											</div>
-										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde"
-									rendered="#{TableroControlInvBn.tableroC.evaluacion04 ne '0'}">
-									<div class="ui-g-12 ui-md-3 ui-lg-2,ui-lg-2">
-										<div class="ui-g card colorbox colorbox-4">
-											<div class="ui-g-12">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion04}</span>
+									</p:panel>
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-3">
+									<p:panel>
+										<div class="ui-g">
+											<div class="ui-g-12" align="center">
+											<div align="center">
+													<p:outputLabel
+														value="#{TableroControlInvBn.frecuenciaTS}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
+												<div align="center">
+													<p:outputLabel
+														value="FRECUENCIA DE VISITA #{TableroControlInvBn.tableroC.evaluacion01}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
 											</div>
 										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde"
-									rendered="#{TableroControlInvBn.tableroC.evaluacion05 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-5">
-											<div class="ui-g-12">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion05}</span>
+									</p:panel>
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-3">
+									<p:panel>
+										<div class="ui-g">
+											<div class="ui-g-12" align="center">
+											<div align="center">
+													<p:outputLabel
+														value="#{TableroControlInvBn.frecuenciaCS}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
+												<div align="center">
+													<p:outputLabel
+														value="FRECUENCIA DE VISITA #{TableroControlInvBn.tableroC.evaluacion02}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
 											</div>
 										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde"
-									rendered="#{TableroControlInvBn.tableroC.evaluacion06 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-6">
-											<div class="ui-g-12">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion06}</span>
+									</p:panel>
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-3">
+									<p:panel>
+										<div class="ui-g">
+											<div class="ui-g-12" align="center">
+											<div align="center">
+													<p:outputLabel
+														value="#{TableroControlInvBn.frecuenciaPS}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
+												<div align="center">
+													<p:outputLabel
+														value="FRECUENCIA DE VISITA #{TableroControlInvBn.tableroC.evaluacion03}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
 											</div>
 										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde"
-									rendered="#{TableroControlInvBn.tableroC.evaluacion07 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-7">
-											<div class="ui-g-12">
-												<span class="colorbox-name">#{TableroControlInvBn.tableroC.evaluacion07}</span>
-											</div>
-
-										</div>
-									</div>
-								</p:panelGrid>
-								<p:panelGrid styleClass="sinborde">
-									<div class="ui-g-12 ui-md-6 ui-lg-6">
-										<div class="ui-g card colorbox colorbox-6">
-											<div class="ui-g-12">
-												<span class="colorbox-name"> TIENDA #. #{TableroControlInvBn.cantEstT} PISTA #. #{TableroControlInvBn.cantEstP} PISTA y TIENDA #. #{TableroControlInvBn.cantEstPT}</span>
-											</div>
-										</div>
-									</div>
-								</p:panelGrid>
-
-							</div>
-							<div align="right">
-								<p:commandButton icon="fa fa-file-excel-o" ajax="false"
-									immediate="true"
-									actionListener="#{ReporteBn.imprimirExcel(24,appMain.usuario.idUsuario.toString(),TableroControlInvBn.nivel01,TableroControlInvBn.nivel02,TableroControlInvBn.nivel03,TableroControlInvBn.nivel04,TableroControlInvBn.nivel05,TableroControlInvBn.nivel06,TableroControlInvBn.porcentajeC,TableroControlInvBn.porcentajeE,null,true)}">
-									<p:fileDownload value="#{appMain.download}"></p:fileDownload>
-								</p:commandButton>
+									</p:panel>
+								</div>
 							</div>
 							<div class="ui-g-6">
 								<p:dataTable id="dtbEvaluacionZona"

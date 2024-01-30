@@ -55,8 +55,18 @@ public class TableroInventarioCabeceraEt extends EntityBase implements Serializa
 	@Column(name = "numero_tienda")
 	private Long numeroTienda;
 
+	@Column(name = "cantidad_tienda")
+	private Long cantidadTienda;
+
+	@Column(name = "cantidad_pista")
+	private Long cantidadPista;
+
+	@Column(name = "cantidad_tienda_pista")
+	private Long cantidadTiendaPista;
+
 	public TableroInventarioCabeceraEt() {
 		this.numeroTienda = 0L;
+		this.cantidadPista = 0L;
 		this.evaluacion01 = "0";
 		this.evaluacion02 = "0";
 		this.evaluacion03 = "0";
@@ -64,6 +74,8 @@ public class TableroInventarioCabeceraEt extends EntityBase implements Serializa
 		this.evaluacion05 = "0";
 		this.evaluacion06 = "0";
 		this.evaluacion07 = "0";
+		this.cantidadTienda = 0L;
+		this.cantidadTiendaPista = 0L;
 	}
 
 	public Long getIdTableroInventarioCabecera() {
@@ -144,6 +156,30 @@ public class TableroInventarioCabeceraEt extends EntityBase implements Serializa
 
 	public void setNumeroTienda(Long numeroTienda) {
 		this.numeroTienda = numeroTienda;
+	}
+
+	public Long getCantidadTienda() {
+		return cantidadTienda;
+	}
+
+	public void setCantidadTienda(Long cantidadTienda) {
+		this.cantidadTienda = cantidadTienda;
+	}
+
+	public Long getCantidadPista() {
+		return cantidadPista;
+	}
+
+	public void setCantidadPista(Long cantidadPista) {
+		this.cantidadPista = cantidadPista;
+	}
+
+	public Long getCantidadTiendaPista() {
+		return cantidadTiendaPista;
+	}
+
+	public void setCantidadTiendaPista(Long cantidadTiendaPista) {
+		this.cantidadTiendaPista = cantidadTiendaPista;
 	}
 
 	@Override

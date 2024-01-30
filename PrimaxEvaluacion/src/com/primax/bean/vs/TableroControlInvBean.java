@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -125,10 +126,12 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 	private Double frecuenciaP = 0D;
 	private String porcentajeC = "";
 	private String porcentajeE = "";
+	private String frecuenciaTS = "";
+	private String frecuenciaCS = "";
+	private String frecuenciaPS = "";
 
 	private AgenciaEt estacionSeleccionada;
 	private List<ZonaEt> zonaSeleccionadas;
-	private TableroInventarioNegocioEt tabla5;
 	private List<TableroInventarioMesEt> tabla4;
 	private TableroInventarioCabeceraEt tableroC;
 	private List<TableroInventarioZonaEt> tabla1;
@@ -171,9 +174,8 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 			tabla2 = iTableroInventarioEstacionZonaDao.getTablaList(usuario);
 			tabla3 = iTableroInventarioDetalleDao.getTablaList(usuario);
 			tabla4 = iTableroInventarioMesDao.getTablaList(usuario);
-			tabla5 = iTableroInventarioNegocioDao.getTablaList(usuario);
 			tableroC = iTableroInventarioCabeceraDao.getTablaCabecera(usuario);
-			mostrarTotal(tabla1, tabla2, tabla5);
+			mostrarTotal(tabla1, tabla2, tableroC);
 			if (tableroC == null) {
 				tableroC = new TableroInventarioCabeceraEt();
 			}
@@ -207,7 +209,6 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 					idTipoEstacion = tipoEstacion.getIdTipoEstacion();
 					for (ZonaEt zona : zonaSeleccionadas) {
 						idZona = zona.getIdZona();
-						consultarTipoEstacion(zona, tipoEstacion);
 						mostrarColumna(tipoInvSeleccionados);
 						for (TipoInventarioEt tipoInventario : tipoInvSeleccionados) {
 							idTipoInventario = tipoInventario.getIdTipoInventario();
@@ -221,15 +222,13 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 
 					}
 				}
-				guardarNegocio(usuario);
 				iTableroInventarioZonaDao.generar(idUsuario);
 				tabla1 = iTableroInventarioZonaDao.getTablaList(usuario);
 				tabla2 = iTableroInventarioEstacionZonaDao.getTablaList(usuario);
 				tabla3 = iTableroInventarioDetalleDao.getTablaList(usuario);
 				tabla4 = iTableroInventarioMesDao.getTablaList(usuario);
-				tabla5 = iTableroInventarioNegocioDao.getTablaList(usuario);
 				tableroC = iTableroInventarioCabeceraDao.getTablaCabecera(usuario);
-				mostrarTotal(tabla1, tabla2, tabla5);
+				mostrarTotal(tabla1, tabla2, tableroC);
 			} else {
 				showInfo("Notificación", FacesMessage.SEVERITY_INFO, null, mensaje);
 			}
@@ -276,6 +275,9 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 			cantEstPT = 0L;
 			porcentajeC = "";
 			porcentajeE = "";
+			frecuenciaTS = "";
+			frecuenciaCS = "";
+			frecuenciaPS = "";
 			frecuenciaT = 0.0D;
 			frecuenciaC = 0.0D;
 			frecuenciaP = 0.0D;
@@ -291,27 +293,11 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 		}
 	}
 
-	public void consultarTipoEstacion(ZonaEt zona, TipoEstacionEt tipoEstacion) {
-		try {
-			if (tipoEstacion.getDescripcion().equals("TIENDA")) {
-				cantEstT += iAgenciaDao.getAgenciaByZonaAndTipoEstacion(zona, tipoEstacion);
-			}
-			if (tipoEstacion.getDescripcion().equals("PISTA")) {
-				cantEstP += iAgenciaDao.getAgenciaByZonaAndTipoEstacion(zona, tipoEstacion);
-			}
-			if (tipoEstacion.getDescripcion().equals("PISTA Y TIENDA")) {
-				cantEstPT += iAgenciaDao.getAgenciaByZonaAndTipoEstacion(zona, tipoEstacion);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error :Método consultarTipoEstacion " + " " + e.getMessage());
-		}
-	}
-
-	public void mostrarTotal(List<TableroInventarioZonaEt> tablaT1, List<TableroInventarioEstacionZonaEt> tablaT2, TableroInventarioNegocioEt tablaT5) {
+	public void mostrarTotal(List<TableroInventarioZonaEt> tablaT1, List<TableroInventarioEstacionZonaEt> tablaT2, TableroInventarioCabeceraEt tablaCab) {
 		Double a = 0.0D;
 		Double cantidad = 0D;
 		Double frecuencia = 0D;
+		DecimalFormat formateador = new DecimalFormat("0.00");
 		try {
 			nivel01T = tablaT1.stream().mapToLong(p -> p.getNivel01()).sum();
 			nivel02T = tablaT1.stream().mapToLong(p -> p.getNivel02()).sum();
@@ -320,26 +306,29 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 			nivel05T = tablaT1.stream().mapToLong(p -> p.getNivel05()).sum();
 			nivel06T = tablaT1.stream().mapToLong(p -> p.getNivel06()).sum();
 			nivelT = tablaT1.stream().mapToLong(p -> p.getTotal()).sum();
-			if (tablaT5 != null) {
-				if (tablaT5.getCantidadTienda() + tablaT5.getCantidadPistaTienda() != 0L) {
-					cantEstT = tablaT5.getCantidadTienda();
-					cantEstPT = tablaT5.getCantidadPistaTienda();
+			if (tablaCab != null) {
+				if (tablaCab.getCantidadTienda() + tablaCab.getCantidadTiendaPista() != 0L) {
+					cantEstT = tablaCab.getCantidadTienda();
+					cantEstPT = tablaCab.getCantidadTiendaPista();
 					cantidad = (double) (cantEstT + cantEstPT);
 					frecuencia = (double) (nivel01T / cantidad);
 					frecuenciaT = new BigDecimal(frecuencia).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					frecuenciaTS = formateador.format(frecuenciaT);
 				}
-				if (tablaT5.getCantidadPista() + tablaT5.getCantidadPistaTienda() != 0L) {
-					cantEstP = tablaT5.getCantidadPista();
-					cantEstPT = tablaT5.getCantidadPistaTienda();
+				if (tablaCab.getCantidadPista() + tablaCab.getCantidadTiendaPista() != 0L) {
+					cantEstP = tablaCab.getCantidadPista();
+					cantEstPT = tablaCab.getCantidadTiendaPista();
 					cantidad = (double) (cantEstP + cantEstPT);
 					frecuencia = (double) (nivel02T / cantidad);
 					frecuenciaC = new BigDecimal(frecuencia).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					frecuenciaCS = formateador.format(frecuenciaC);
 				}
-				if (tablaT5.getCantidadPista() != 0L) {
-					cantEstP = tablaT5.getCantidadPista();
+				if (tablaCab.getCantidadPista() != 0L) {
+					cantEstP = tablaCab.getCantidadPista();
 					cantidad = cantEstP.doubleValue();
 					frecuencia = (double) (nivel03T / cantidad);
 					frecuenciaP = new BigDecimal(frecuencia).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					frecuenciaPS = formateador.format(frecuenciaP);
 				}
 
 			}
@@ -1063,6 +1052,30 @@ public class TableroControlInvBean extends BaseBean implements Serializable {
 
 	public void setFrecuenciaP(Double frecuenciaP) {
 		this.frecuenciaP = frecuenciaP;
+	}
+
+	public String getFrecuenciaTS() {
+		return frecuenciaTS;
+	}
+
+	public void setFrecuenciaTS(String frecuenciaTS) {
+		this.frecuenciaTS = frecuenciaTS;
+	}
+
+	public String getFrecuenciaCS() {
+		return frecuenciaCS;
+	}
+
+	public void setFrecuenciaCS(String frecuenciaCS) {
+		this.frecuenciaCS = frecuenciaCS;
+	}
+
+	public String getFrecuenciaPS() {
+		return frecuenciaPS;
+	}
+
+	public void setFrecuenciaPS(String frecuenciaPS) {
+		this.frecuenciaPS = frecuenciaPS;
 	}
 
 	@Override

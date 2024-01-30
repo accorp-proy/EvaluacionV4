@@ -321,7 +321,7 @@
 									var="tipoCategoria" itemValue="#{tipoCategoria}"
 									itemLabel="#{tipoCategoria.nombreLista}" />
 								<p:ajax event="change" process="@this fdt11"
-									listener="#{CheckListEjecucionCtrlBn.guardar()}"></p:ajax>
+									listener="#{CheckListEjecucionCtrlBn.guardarAdj(checkListAdjunto)}"></p:ajax>
 							</p:selectOneMenu>
 						</p:column>
 						<p:column headerText="Descripción" style="width:40%">
@@ -329,7 +329,7 @@
 								title="Tipos de adjuntos docx , xlsx , xls , gif , jpe , png , pdf , pptx"
 								styleClass="w100">
 								<p:ajax event="change" process="@this fdt11"
-									listener="#{CheckListEjecucionCtrlBn.guardar()}"></p:ajax>
+									listener="#{CheckListEjecucionCtrlBn.guardarAdj(checkListAdjunto)}"></p:ajax>
 							</h:inputText>
 						</p:column>
 						<p:column width="30">
