@@ -124,6 +124,7 @@ public class TableroControlBean extends BaseBean implements Serializable {
 	private String nivel10 = "0";
 	private String porcentajeC = "";
 	private String porcentajeE = "";
+	private String nivelEvaluacion = "";
 	private TableroCabeceraEt tableroC;
 	private List<TableroDetalleEt> tabla3;
 	private AgenciaEt estacionSeleccionada;
@@ -200,6 +201,7 @@ public class TableroControlBean extends BaseBean implements Serializable {
 			if (mensaje.equals("")) {
 				anio = Integer.parseInt((anioSeleccionado.getValorLista()));
 				idNivelEvaluacion = nivelEvaluacionSeleccionado.getIdNivelEvaluacion();
+				nivelEvaluacion = nivelEvaluacionSeleccionado.getDescripcion();
 				mostrarColumna(nivelEvaluacionSeleccionado);
 				if (estacionSeleccionada != null) {
 					idAgencia = estacionSeleccionada.getIdAgencia();
@@ -214,8 +216,7 @@ public class TableroControlBean extends BaseBean implements Serializable {
 								int mes = Integer.parseInt(parametrosGenerales.getValorLista());
 								Date fechaDesde = getFechaDesde(mes, anio);
 								Date fechaHasta = getFechaHasta(mes, anio);
-								iTableroDetalleEstacionDao.generar(fechaDesde, fechaHasta, idTipoEstacion, idZona,
-										idAgencia, idEvaluacion, idNivelEvaluacion, idUsuario);
+								iTableroDetalleEstacionDao.generar(fechaDesde, fechaHasta, idTipoEstacion, idZona, idAgencia, idEvaluacion, idNivelEvaluacion, idUsuario);
 							}
 						}
 					}
@@ -1053,6 +1054,14 @@ public class TableroControlBean extends BaseBean implements Serializable {
 
 	public void setPorcentajeE(String porcentajeE) {
 		this.porcentajeE = porcentajeE;
+	}
+
+	public String getNivelEvaluacion() {
+		return nivelEvaluacion;
+	}
+
+	public void setNivelEvaluacion(String nivelEvaluacion) {
+		this.nivelEvaluacion = nivelEvaluacion;
 	}
 
 	@Override

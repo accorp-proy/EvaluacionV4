@@ -36,6 +36,8 @@ public class ReporteIndividualPlanAccionInventario extends BaseReport {
 
 	public ByteArrayOutputStream getReport(Map<String, String[]> params, String localPath, ServletContext servlet, boolean isexcel) throws NumberFormatException, EntidadNoEncontradaException {
 
+		String nombreAuditor = "";
+		String nombreSoporteO = "";
 		String nombreGerente = "N/A";
 		ByteArrayOutputStream printStream = null;
 		String cargoEstacion = "Gerente de Estación";
@@ -50,6 +52,7 @@ public class ReporteIndividualPlanAccionInventario extends BaseReport {
 			String condicion = params.get("p4")[0];
 			if (condicion.equals("1")) {
 				PlanAccionInventarioTipoEt tipo = iPlnAccionInvTipoDao.getPlanAccionInvTipo(par_id_pln_inv_accion_tipo);
+				nombreAuditor = tipo.getUsuarioRegistra().getPersonaUsuario().getNombreCompleto();
 				par_id_pln_inv_accion_tipo = 0L;
 				if (tipo != null) {
 					par_id_pln_inv_accion_tipo = tipo.getIdPlanAccionInventarioTipo();
@@ -62,15 +65,20 @@ public class ReporteIndividualPlanAccionInventario extends BaseReport {
 					for (ResponsableEt responsable : responsables) {
 						if (responsable.getTipoCargo().getDescripcion().equals("GERENTE")) {
 							nombreGerente = responsable.getPersona().getNombreCompleto();
-							cargoEstacion = responsable.getTipoCargo().getFirma() + " " + ":";
+							cargoEstacion = responsable.getTipoCargo().getFirma();
 						}
 					}
 					if (nombreGerente != null && nombreGerente.equals("N/A")) {
 						for (ResponsableEt responsable : responsables) {
-							if (responsable.getTipoCargo().getDescripcion().equals("SOPORTE OPERATIVO")) {
+							if (responsable.getTipoCargo().getDescripcion().equals("RESPONSABLE TIENDA")) {
 								nombreGerente = responsable.getPersona().getNombreCompleto();
-								cargoEstacion = responsable.getTipoCargo().getFirma() + " " + ":";
+								cargoEstacion = responsable.getTipoCargo().getFirma();
 							}
+						}
+					}
+					for (ResponsableEt responsable : responsables) {
+						if (responsable.getTipoCargo().getDescripcion().contains("SOPORTE OPERATIVO")) {
+							nombreSoporteO = responsable.getPersona().getNombreCompleto();
 						}
 					}
 				}
@@ -78,6 +86,8 @@ public class ReporteIndividualPlanAccionInventario extends BaseReport {
 			paramRpt.put("par_usuario", nombreUsuario);
 			paramRpt.put("par_cargo_estacion", cargoEstacion);
 			paramRpt.put("par_nombre_gerente", nombreGerente);
+			paramRpt.put("par_nombre_soporte", nombreSoporteO);
+			paramRpt.put("par_nombre_auditor", nombreAuditor);
 			paramRpt.put("par_id_pln_inv_accion_tipo", par_id_pln_inv_accion_tipo);
 			// paramRpt.put("logo", getLogoAtimasa(servlet));
 			paramRpt.put("SUBREPORT_DIR", localPath + File.separator + "planAccion" + File.separator);

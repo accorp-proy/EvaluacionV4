@@ -65,7 +65,8 @@
 									label="Zona" converter="#{zonaConverter}">
 									<f:selectItems value="#{TableroControlBn.zonaList}" var="zona"
 										itemLabel="#{zona.nombreZona}" itemValue="#{zona}"></f:selectItems>
-									<p:ajax event="change" process="@this cmbTipoEstacion,cmbZona" update="frm_pln_009:cmbEstacion"></p:ajax>
+									<p:ajax event="change" process="@this cmbTipoEstacion,cmbZona"
+										update="frm_pln_009:cmbEstacion"></p:ajax>
 								</p:selectCheckboxMenu>
 								<p:selectOneMenu id="cmbEstacion" style="width:100% !important"
 									value="#{TableroControlBn.estacionSeleccionada}"
@@ -114,179 +115,215 @@
 				<p:layoutUnit position="center" id="lyt_center">
 					<p:tabView id="tabWiewDash" style="width: 100;height: 100%;">
 						<p:tab title="Gráficos" id="tabGrafico">
-							<div class="ui-g dashboard">
-								<p:panelGrid styleClass="sinborde">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-1">
-											<div class="ui-g-3" style="background-color: #03A9F4">
-												<span class="colorbox-name">#{TableroControlBn.tableroC.numeroTienda}
-												</span>
-											</div>
-											<div class="ui-g-9" style="background-color: #03A9F4">
-												<span class="colorbox-name"># Estación/Tienda</span>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-3"
+									style="background-color: #03A9F4">
+									<p:panel>
+										<div class="ui-g">
+											<div class="ui-g-12" align="center">
+												<div align="center">
+													<p:outputLabel
+														value="#{TableroControlBn.tableroC.numeroTienda}"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
+												<div align="center">
+													<p:outputLabel value="NÚMERO DE EESS/TIENDAS"
+														style="color:black;font-size: 15px;font-weight:bold" />
+												</div>
 											</div>
 										</div>
-									</div>
-								</p:panelGrid>
+									</p:panel>
+								</div>
 								<p:panelGrid styleClass="sinborde"
 									rendered="#{TableroControlBn.tableroC.evaluacion01 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-1">
-											<div class="ui-g-7"
-												style="background-color: #{TableroControlBn.tableroC.color01}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra01}">#{TableroControlBn.tableroC.evaluacion01}</span>
+									<div class="ui-g-12 ui-md-6 ui-lg-3"
+										style="background-color: #{TableroControlBn.tableroC.color01}">
+										<p:panel>
+											<div class="ui-g">
+												<div class="ui-g-12" align="center">
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.puntaje01}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.evaluacion01}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.nivelEvaluacion} : #{TableroControlBn.tableroC.nivel01}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+												</div>
 											</div>
-											<div class="ui-g-2"
-												style="background-color: #{TableroControlBn.tableroC.color01}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra01}">#{TableroControlBn.tableroC.puntaje01}</span>
-											</div>
-											<div class="ui-g-3"
-												style="background-color: #{TableroControlBn.tableroC.color01}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra01}">#{TableroControlBn.tableroC.nivel03}</span>
-											</div>
-
-										</div>
+										</p:panel>
 									</div>
 								</p:panelGrid>
+								<br />
 								<p:panelGrid styleClass="sinborde"
 									rendered="#{TableroControlBn.tableroC.evaluacion02 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-2">
-											<div class="ui-g-7"
-												style="background-color: #{TableroControlBn.tableroC.color02}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra02}">#{TableroControlBn.tableroC.evaluacion02}</span>
+									<div class="ui-g-12 ui-md-6 ui-lg-3"
+										style="background-color: #{TableroControlBn.tableroC.color02}">
+										<p:panel>
+											<div class="ui-g">
+												<div class="ui-g-12" align="center">
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.puntaje02}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.evaluacion02}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.nivelEvaluacion} : #{TableroControlBn.tableroC.nivel02}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+												</div>
 											</div>
-											<div class="ui-g-2"
-												style="background-color: #{TableroControlBn.tableroC.color02}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra02}">#{TableroControlBn.tableroC.puntaje02}</span>
-											</div>
-											<div class="ui-g-3"
-												style="background-color: #{TableroControlBn.tableroC.color02}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra02}">#{TableroControlBn.tableroC.nivel02}</span>
-											</div>
-										</div>
+										</p:panel>
 									</div>
 								</p:panelGrid>
 								<p:panelGrid styleClass="sinborde"
 									rendered="#{TableroControlBn.tableroC.evaluacion03 ne '0'}">
-									<div class="ui-g-12 ui-md-3 ui-lg-2,ui-lg-2">
-										<div class="ui-g card colorbox colorbox-3">
-											<div class="ui-g-7"
-												style="background-color: #{TableroControlBn.tableroC.color03}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra03}">#{TableroControlBn.tableroC.evaluacion03}</span>
+									<div class="ui-g-12 ui-md-6 ui-lg-3"
+										style="background-color: #{TableroControlBn.tableroC.color03}">
+										<p:panel>
+											<div class="ui-g">
+												<div class="ui-g-12" align="center">
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.puntaje03}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.evaluacion03}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.nivelEvaluacion} : #{TableroControlBn.tableroC.nivel03}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+												</div>
 											</div>
-											<div class="ui-g-2"
-												style="background-color: #{TableroControlBn.tableroC.color03}">
-
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra03}">#{TableroControlBn.tableroC.puntaje03}</span>
-											</div>
-											<div class="ui-g-3" align="right"
-												style="background-color: #{TableroControlBn.tableroC.color03}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra03}">#{TableroControlBn.tableroC.nivel03}</span>
-											</div>
-										</div>
+										</p:panel>
 									</div>
 								</p:panelGrid>
 								<p:panelGrid styleClass="sinborde"
 									rendered="#{TableroControlBn.tableroC.evaluacion04 ne '0'}">
-									<div class="ui-g-12 ui-md-3 ui-lg-2,ui-lg-2">
-										<div class="ui-g card colorbox colorbox-4">
-											<div class="ui-g-7"
-												style="background-color: #{TableroControlBn.tableroC.color04}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra04}">#{TableroControlBn.tableroC.evaluacion04}</span>
+									<div class="ui-g-12 ui-md-6 ui-lg-3"
+										style="background-color: #{TableroControlBn.tableroC.color04}">
+										<p:panel>
+											<div class="ui-g">
+												<div class="ui-g-12" align="center">
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.puntaje04}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.evaluacion04}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.nivelEvaluacion} : #{TableroControlBn.tableroC.nivel04}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+												</div>
 											</div>
-											<div class="ui-g-2"
-												style="background-color: #{TableroControlBn.tableroC.color04}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra04}">#{TableroControlBn.tableroC.puntaje04}</span>
-											</div>
-											<div class="ui-g-3"
-												style="background-color: #{TableroControlBn.tableroC.color04}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra04}">#{TableroControlBn.tableroC.nivel04}</span>
-											</div>
-										</div>
+										</p:panel>
 									</div>
 								</p:panelGrid>
 								<p:panelGrid styleClass="sinborde"
 									rendered="#{TableroControlBn.tableroC.evaluacion05 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-5">
-											<div class="ui-g-7"
-												style="background-color: #{TableroControlBn.tableroC.color05}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra05}">#{TableroControlBn.tableroC.evaluacion05}</span>
+									<div class="ui-g-12 ui-md-6 ui-lg-3"
+										style="background-color: #{TableroControlBn.tableroC.color05}">
+										<p:panel>
+											<div class="ui-g">
+												<div class="ui-g-12" align="center">
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.puntaje05}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.evaluacion05}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.nivelEvaluacion} : #{TableroControlBn.tableroC.nivel05}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+												</div>
 											</div>
-											<div class="ui-g-2"
-												style="background-color: #{TableroControlBn.tableroC.color05}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra05}">#{TableroControlBn.tableroC.puntaje05}</span>
-
-											</div>
-											<div class="ui-g-3"
-												style="background-color: #{TableroControlBn.tableroC.color05}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra05}">#{TableroControlBn.tableroC.nivel05}</span>
-											</div>
-										</div>
+										</p:panel>
 									</div>
 								</p:panelGrid>
 								<p:panelGrid styleClass="sinborde"
 									rendered="#{TableroControlBn.tableroC.evaluacion06 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-6">
-											<div class="ui-g-7"
-												style="background-color: #{TableroControlBn.tableroC.color06}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra06}">#{TableroControlBn.tableroC.evaluacion06}</span>
+									<div class="ui-g-12 ui-md-6 ui-lg-3"
+										style="background-color: #{TableroControlBn.tableroC.color06}">
+										<p:panel>
+											<div class="ui-g">
+												<div class="ui-g-12" align="center">
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.puntaje06}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.evaluacion06}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.nivelEvaluacion} : #{TableroControlBn.tableroC.nivel06}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+												</div>
 											</div>
-											<div class="ui-g-2"
-												style="background-color: #{TableroControlBn.tableroC.color06}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra06}">#{TableroControlBn.tableroC.puntaje06}</span>
-											</div>
-											<div class="ui-g-3"
-												style="background-color: #{TableroControlBn.tableroC.color06}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra06}">#{TableroControlBn.tableroC.nivel06}</span>
-											</div>
-										</div>
+										</p:panel>
 									</div>
 								</p:panelGrid>
 								<p:panelGrid styleClass="sinborde"
 									rendered="#{TableroControlBn.tableroC.evaluacion07 ne '0'}">
-									<div class="ui-g-12 ui-md-6 ui-lg-3">
-										<div class="ui-g card colorbox colorbox-7">
-											<div class="ui-g-2"
-												style="background-color: #{TableroControlBn.tableroC.color07}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra07}">#{TableroControlBn.tableroC.puntaje07}
-												</span>
+									<div class="ui-g-12 ui-md-6 ui-lg-3"
+										style="background-color: #{TableroControlBn.tableroC.color07}">
+										<p:panel>
+											<div class="ui-g">
+												<div class="ui-g-12" align="center">
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.puntaje07}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.tableroC.evaluacion07}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+													<div align="center">
+														<p:outputLabel
+															value="#{TableroControlBn.nivelEvaluacion} : #{TableroControlBn.tableroC.nivel07}"
+															style="color:black;font-size: 15px;font-weight:bold" />
+													</div>
+												</div>
 											</div>
-											<div class="ui-g-7"
-												style="background-color: #{TableroControlBn.tableroC.color07}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra07}">#{TableroControlBn.tableroC.evaluacion07}</span>
-											</div>
-											<div class="ui-g-3"
-												style="background-color: #{TableroControlBn.tableroC.color07}">
-												<span class="colorbox-name"
-													style="color: #{TableroControlBn.tableroC.colorLetra07}">#{TableroControlBn.tableroC.nivel07}</span>
-											</div>
-										</div>
+										</p:panel>
 									</div>
 								</p:panelGrid>
-
 							</div>
 							<div align="right">
 								<p:commandButton icon="fa fa-file-excel-o" ajax="false"
