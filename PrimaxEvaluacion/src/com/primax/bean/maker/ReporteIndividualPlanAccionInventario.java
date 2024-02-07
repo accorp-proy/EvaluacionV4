@@ -36,6 +36,7 @@ public class ReporteIndividualPlanAccionInventario extends BaseReport {
 
 	public ByteArrayOutputStream getReport(Map<String, String[]> params, String localPath, ServletContext servlet, boolean isexcel) throws NumberFormatException, EntidadNoEncontradaException {
 
+		String gerente = "";
 		String nombreAuditor = "";
 		String nombreSoporteO = "";
 		String nombreGerente = "N/A";
@@ -79,10 +80,17 @@ public class ReporteIndividualPlanAccionInventario extends BaseReport {
 					for (ResponsableEt responsable : responsables) {
 						if (responsable.getTipoCargo().getDescripcion().contains("SOPORTE OPERATIVO")) {
 							nombreSoporteO = responsable.getPersona().getNombreCompleto();
+							cargoEstacion = responsable.getTipoCargo().getFirma();
 						}
 					}
 				}
 			}
+			if (nombreGerente.equals("N/A")) {
+				gerente = nombreSoporteO;
+			} else {
+				gerente = nombreGerente;
+			}
+			paramRpt.put("par_gerente", gerente);
 			paramRpt.put("par_usuario", nombreUsuario);
 			paramRpt.put("par_cargo_estacion", cargoEstacion);
 			paramRpt.put("par_nombre_gerente", nombreGerente);

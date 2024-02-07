@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptPlanAccionGeneral" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="62a43042-64a3-4c68-9191-b38dc8f0e7b1">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="7"/>
 	<style name="style1">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{nivel}==4]]></conditionExpression>
@@ -35,6 +35,9 @@
 	</parameter>
 	<parameter name="par_nombre_soporte" class="java.lang.String"/>
 	<parameter name="par_nombre_auditor" class="java.lang.String"/>
+	<parameter name="par_gerente" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select
 '' as codigo,
@@ -208,7 +211,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<textFieldExpression><![CDATA[$F{fechaejecucion}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="15" width="120" height="15" uuid="6ae2728b-29ea-4ec0-b233-fbcdf4c9e33a"/>
+				<reportElement x="0" y="15" width="180" height="15" uuid="6ae2728b-29ea-4ec0-b233-fbcdf4c9e33a"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -221,7 +224,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<textFieldExpression><![CDATA[$P{par_cargo_estacion}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="120" y="15" width="435" height="15" uuid="303cb284-d049-45c8-a452-e5a795a69eaa"/>
+				<reportElement x="180" y="15" width="375" height="15" uuid="303cb284-d049-45c8-a452-e5a795a69eaa"/>
 				<box>
 					<topPen lineWidth="0.3"/>
 					<leftPen lineWidth="0.3"/>
@@ -231,7 +234,7 @@ order by cat.id_plan_accion_inv_categoria]]>
 				<textElement verticalAlignment="Middle">
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{par_nombre_gerente}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{par_gerente}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Opaque" x="189" y="79" width="80" height="15" backcolor="#FF6633" uuid="03435c7d-205c-4963-8de9-40f93a7e4cd5"/>

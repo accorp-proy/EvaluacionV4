@@ -233,7 +233,7 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 								TreeNode node00000 = new DefaultTreeNode(new PlanAccionOrganizacion(check.getIdPlanificacionInventario(), 0L, check.getDescripcion(), "Carpeta"), node0000);
 								List<PlanificacionInventarioTipoEt> tiposInv = iPlanificacionInventarioTipoDao.getPlanificacionInventarioTipoList(check.getIdPlanificacionInventario(), check.getIdTipoInventario());
 								for (PlanificacionInventarioTipoEt tipoInv : tiposInv) {
-									node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(tipoInv.getIdPlanificacionInventarioTipo(), tipoInv.getTipoInventario().getIdTipoInventario(), tipoInv.getTipoInventario().getDescripcion(), "Plan")));
+									node00000.getChildren().add(new DefaultTreeNode(new PlanAccionOrganizacion(tipoInv.getIdPlanificacionInventarioTipo(), tipoInv.getPlanificacionInventario().getAgencia().getIdAgencia(), tipoInv.getTipoInventario().getDescripcion(), "Plan")));
 								}
 							}
 						}
