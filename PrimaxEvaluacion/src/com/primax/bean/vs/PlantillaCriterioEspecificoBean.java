@@ -1203,9 +1203,9 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		ParametrosGeneralesEt par;
 		try {
 			if (orden == 1L) {
-				par = iParametrolGeneralDao.getParametrosGeneralById(171L);
+				par = iParametrolGeneralDao.getParametrosGeneralById(177L);
 			} else {
-				par = iParametrolGeneralDao.getParametrosGeneralById(172L);
+				par = iParametrolGeneralDao.getParametrosGeneralById(178L);
 			}
 			checkListEtiquetas = iCheckListEtiquetaDao.getCheckListEtiquetaList(par);
 
