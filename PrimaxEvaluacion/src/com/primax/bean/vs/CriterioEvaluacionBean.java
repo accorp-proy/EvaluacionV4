@@ -213,6 +213,7 @@ public class CriterioEvaluacionBean extends BaseBean implements Serializable {
 		tipoChecKListSeleccionado = null;
 		procesoDetalleSeleccionado = null;
 		criterioEvaluacionSeleccionado = new CriterioEvaluacionEt();
+		criterioEvaluacionSeleccionado.setEstado(EstadoEnum.ACT);
 
 	}
 

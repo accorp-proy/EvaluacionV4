@@ -35,59 +35,59 @@ public class CheckListProcesoFormularioEt extends EntityBase implements Serializ
 	@JoinColumn(name = "id_check_list_proceso")
 	private CheckListProcesoEt checkListProceso;
 
-	@Column(name = "nombre_frm", length = 20)
+	@Column(name = "nombre_frm", length = 100)
 	private String nombreFrm;
 
-	@Column(name = "nomb_frm_0", length = 20)
+	@Column(name = "nomb_frm_0", length = 100)
 	private String nombFrm0;
 
 	@Column(name = "frm_0")
 	private boolean frm0;
 
-	@Column(name = "nomb_frm_1", length = 20)
+	@Column(name = "nomb_frm_1", length = 100)
 	private String nombFrm1;
 
 	@Column(name = "frm_1")
 	private boolean frm1;
 
-	@Column(name = "nomb_frm_2", length = 20)
+	@Column(name = "nomb_frm_2", length = 100)
 	private String nombFrm2;
 
 	@Column(name = "frm_2")
 	private boolean frm2;
 
-	@Column(name = "nomb_frm_3", length = 20)
+	@Column(name = "nomb_frm_3", length = 100)
 	private String nombFrm3;
 
 	@Column(name = "frm_3")
 	private boolean frm3;
 
-	@Column(name = "nomb_frm_4", length = 20)
+	@Column(name = "nomb_frm_4", length = 100)
 	private String nombFrm4;
 
 	@Column(name = "frm_4")
 	private boolean frm4;
 
-	@Column(name = "nomb_frm_5", length = 20)
+	@Column(name = "nomb_frm_5", length = 100)
 	private String nombFrm5;
 
 	@Column(name = "frm_5")
 	private boolean frm5;
 
-	@Column(name = "nomb_frm_6", length = 20)
+	@Column(name = "nomb_frm_6", length = 100)
 	private String nombFrm6;
 
 	@Column(name = "frm_6")
 	private boolean frm6;
 
-	@Column(name = "nomb_frm_7", length = 20)
+	@Column(name = "nomb_frm_7", length = 100)
 	private String nombFrm7;
 
 	@Column(name = "frm_7")
 	private boolean frm7;
 
 	/**
-	 * Reporte Informe Dinámicos
+	 * Reporte Informe Dinï¿½micos
 	 */
 
 	@Column(name = "visualizar")

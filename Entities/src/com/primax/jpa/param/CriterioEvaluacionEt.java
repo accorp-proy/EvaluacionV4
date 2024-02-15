@@ -37,7 +37,7 @@ public class CriterioEvaluacionEt extends EntityBase implements Serializable {
 	@Column(name = "id_criterio_evaluacion")
 	private Long idCriterioEvaluacion;
 
-	@Column(name = "nombre", length = 100)
+	@Column(name = "nombre", length = 300)
 	@OrderBy("ORDER BY nombre")
 	private String nombre;
 
@@ -59,8 +59,8 @@ public class CriterioEvaluacionEt extends EntityBase implements Serializable {
 	/**
 	 * Atributo creado para diferenciar tipos de arqueos N --> No es un kpi de
 	 * Arqueo C --> Arqueo en visita de Control Interno F --> Disponibilidad
-	 * Fondo de Suelto Tienda en el área de Caja E --> Arqueo de caja chica de
-	 * estación de servicio
+	 * Fondo de Suelto Tienda en el ï¿½rea de Caja E --> Arqueo de caja chica de
+	 * estaciï¿½n de servicio
 	 */
 	@Column(name = "tipo", length = 1)
 	private String tipo;

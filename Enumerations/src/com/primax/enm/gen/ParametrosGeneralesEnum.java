@@ -4,7 +4,7 @@ public enum ParametrosGeneralesEnum {
 
 	
 	ZONAS("1"),
-	EMPRESA("171"),
+	EMPRESA("173"),
 	FORMAPAGO("1"),
 	ETIQUETA("170"),
 	COLOR_MATRIZ("26"),
