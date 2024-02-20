@@ -216,8 +216,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 
 	public void buscar() {
 		try {
-			checkListSeleccionado = iCheckListDao.getCheckPendiente(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					appMain.getUsuario());
+			checkListSeleccionado = iCheckListDao.getCheckPendiente(TipoCheckListEnum.CRITERIO_ESPECIFICO, appMain.getUsuario());
 			if (checkListSeleccionado == null) {
 				checkListSeleccionado = new CheckListEt();
 				inicializarObj();
@@ -324,12 +323,9 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 					checkListKpi.setProcesoDetalle(procesoDetalle);
 					checkListKpi.setOrden(procesoDetalle.getOrden());
 					checkListKpi.setCheckListProceso(checkListProceso);
-					CriterioEvaluacionEt criterioEvaluacion = iCriterioEvaluacionDao
-							.getCriterioEvaluacionByProcesoDetalle(procesoDetalle);
+					CriterioEvaluacionEt criterioEvaluacion = iCriterioEvaluacionDao.getCriterioEvaluacionByProcesoDetalle(procesoDetalle);
 					if (criterioEvaluacion == null) {
-						mensaje = "Se debe asignar un criterio de evaluacion para el KPI ("
-								+ procesoDetalle.getNombreProcesoDetalle() + ") correspondiente al proceso ("
-								+ procesoSeleccionado.getNombreProceso() + ")";
+						mensaje = "Se debe asignar un criterio de evaluacion para el KPI (" + procesoDetalle.getNombreProcesoDetalle() + ") correspondiente al proceso (" + procesoSeleccionado.getNombreProceso() + ")";
 						showInfo(mensaje, FacesMessage.SEVERITY_INFO);
 						return;
 					}
@@ -358,8 +354,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 							checkListKpi.setProcesoDetalle(procesoDetalle);
 							checkListKpi.setOrden(procesoDetalle.getOrden());
 							checkListKpi.setCheckListProceso(procesoSelected);
-							CriterioEvaluacionEt criterioEvaluacion = iCriterioEvaluacionDao
-									.getCriterioEvaluacionByProcesoDetalle(procesoDetalle);
+							CriterioEvaluacionEt criterioEvaluacion = iCriterioEvaluacionDao.getCriterioEvaluacionByProcesoDetalle(procesoDetalle);
 							checkListKpi.setCriterioEvaluacion(criterioEvaluacion);
 							iCheckListKpiDao.guardarCheckListKpi(checkListKpi, usuario);
 						}
@@ -378,12 +373,9 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 						checkListKpi.setProcesoDetalle(procesoDetalle);
 						checkListKpi.setOrden(procesoDetalle.getOrden());
 						checkListKpi.setCheckListProceso(checkListProceso);
-						CriterioEvaluacionEt criterioEvaluacion = iCriterioEvaluacionDao
-								.getCriterioEvaluacionByProcesoDetalle(procesoDetalle);
+						CriterioEvaluacionEt criterioEvaluacion = iCriterioEvaluacionDao.getCriterioEvaluacionByProcesoDetalle(procesoDetalle);
 						if (criterioEvaluacion == null) {
-							mensaje = "Se debe asignar un criterio de evaluacion para el KPI ("
-									+ procesoDetalle.getNombreProcesoDetalle() + ") correspondiente al proceso ("
-									+ procesoSeleccionado.getNombreProceso() + ")";
+							mensaje = "Se debe asignar un criterio de evaluacion para el KPI (" + procesoDetalle.getNombreProcesoDetalle() + ") correspondiente al proceso (" + procesoSeleccionado.getNombreProceso() + ")";
 							showInfo(mensaje, FacesMessage.SEVERITY_INFO);
 							return;
 						}
@@ -399,8 +391,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 				checkListSeleccionado.setNivelEvaluacion(nivelEvaluacionSeleccionado);
 				iCheckListDao.guardarCheckList(checkListSeleccionado, usuario);
 				iCheckListDao.clear();
-				checkListSeleccionado = iCheckListDao.getCheckPendiente(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-						appMain.getUsuario());
+				checkListSeleccionado = iCheckListDao.getCheckPendiente(TipoCheckListEnum.CRITERIO_ESPECIFICO, appMain.getUsuario());
 			}
 			mostrarTotal(checkListSeleccionado);
 		} catch (Exception e) {
@@ -574,8 +565,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		Long totalKpi = 0L;
 		try {
 			for (CheckListProcesoEt checkListProceso : checkList.getCheckListProceso()) {
-				totalKpi += checkListProceso.getCheckListKpi().stream()
-						.mapToLong(p -> p.getProcesoDetalle().getPuntaje()).sum();
+				totalKpi += checkListProceso.getCheckListKpi().stream().mapToLong(p -> p.getProcesoDetalle().getPuntaje()).sum();
 			}
 			totalPuntaje = totalKpi;
 			System.out.println("Total Puntaje" + " " + totalPuntaje);
@@ -603,8 +593,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 				iCheckListProcesoDao.guardarCheckListProceso(checkListProceso, usuario);
 			}
 			iCheckListDao.clear();
-			checkListSeleccionado = iCheckListDao.getCheckPendiente(TipoCheckListEnum.CRITERIO_ESPECIFICO,
-					appMain.getUsuario());
+			checkListSeleccionado = iCheckListDao.getCheckPendiente(TipoCheckListEnum.CRITERIO_ESPECIFICO, appMain.getUsuario());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método quitarKpi " + " " + e.getMessage());
@@ -636,10 +625,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 				if (nivelEvaluacionD.getImgPathServer() != null) {
 					String pathServerImg = nivelEvaluacionD.getImgPathServer() + nivelEvaluacionD.getImgNombre();
 					InputStream inputStreamImg = getImg(pathServerImg);
-					String ruta = iGeneralUtils0Dao.creaRuta(
-							nivelEvaluacionD.getNivelEvaluacion().getIdNivelEvaluacion(),
-							RutaFileEnum.RUTA_PROYECTO_DEPLOYED.getDescripcion() + File.separator + "resources"
-									+ File.separator + "images" + File.separator + "nivelEvaluacion");
+					String ruta = iGeneralUtils0Dao.creaRuta(nivelEvaluacionD.getNivelEvaluacion().getIdNivelEvaluacion(), RutaFileEnum.RUTA_PROYECTO_DEPLOYED.getDescripcion() + File.separator + "resources" + File.separator + "images" + File.separator + "nivelEvaluacion");
 					iGeneralUtils0Dao.copyFile(nivelEvaluacionD.getImgNombre(), inputStreamImg, ruta);
 				}
 			}
@@ -799,10 +785,8 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 				mensaje = "Por favor ingresar nombre de formulario";
 				return mensaje;
 			}
-			if (!checkListFrmSeleccionado.isFrm0() && !checkListFrmSeleccionado.isFrm1()
-					&& !checkListFrmSeleccionado.isFrm2() && !checkListFrmSeleccionado.isFrm3()
-					&& !checkListFrmSeleccionado.isFrm4() && !checkListFrmSeleccionado.isFrm5()
-					&& !checkListFrmSeleccionado.isFrm6() && !checkListFrmSeleccionado.isFrm7()) {
+			if (!checkListFrmSeleccionado.isFrm0() && !checkListFrmSeleccionado.isFrm1() && !checkListFrmSeleccionado.isFrm2() && !checkListFrmSeleccionado.isFrm3() && !checkListFrmSeleccionado.isFrm4() && !checkListFrmSeleccionado.isFrm5() && !checkListFrmSeleccionado.isFrm6()
+					&& !checkListFrmSeleccionado.isFrm7()) {
 				mensaje = "Por favor Seleccionar mínimo una columna";
 				return mensaje;
 			}
@@ -831,8 +815,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		procesoFormulario3 = new ArrayList<>();
 
 		try {
-			List<CheckListProcesoFormularioEt> procesosFormulario = iCheckListProcesoFormularioDao
-					.getCheckListFormularioByProceso(checkProceso);
+			List<CheckListProcesoFormularioEt> procesosFormulario = iCheckListProcesoFormularioDao.getCheckListFormularioByProceso(checkProceso);
 
 			for (int i = 0; i < procesosFormulario.size(); i++) {
 
@@ -916,6 +899,15 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 			formulario.setEstado(EstadoEnum.INA);
 			iCheckListProcesoFormularioDao.guardarCheckListProcesoFormulario(formulario, usuario);
 			cargarFormulario(formulario.getCheckListProceso());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método modificarE " + " " + e.getMessage());
+		}
+	}
+
+	public void modificarP(CheckListProcesoEt checkListProceso) {
+		try {
+			checkListProcesoSeleccionado = checkListProceso;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método modificarE " + " " + e.getMessage());
@@ -1008,8 +1000,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 				checkListKpiSeleccionado.setSeccionReemplazo(reemplazarEtiqueta(checkListKpiSeleccionado.getSeccion()));
 			}
 			if (checkListKpiSeleccionado.getSeccion0() != null) {
-				checkListKpiSeleccionado
-						.setSeccion0Reemplazo(reemplazarEtiqueta(checkListKpiSeleccionado.getSeccion0()));
+				checkListKpiSeleccionado.setSeccion0Reemplazo(reemplazarEtiqueta(checkListKpiSeleccionado.getSeccion0()));
 			}
 			iCheckListKpiDao.guardarCheckListKpi(checkListKpiSeleccionado, usuario);
 			CheckListProcesoEt proceso = checkListKpiSeleccionado.getCheckListProceso();
@@ -1032,7 +1023,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 	public void imprimir() {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
-			guardarInformeDinamico();
+			// guardarInformeDinamico();
 			checkListImprimir = iCheckListDao.getCheckList(checkListSeleccionado.getIdCheckList());
 			checkListImprimir.setTituloReemplazo(reemplazarEtiqueta(checkListSeleccionado.getTitulo()));
 			checkListImprimir.setNombreReemplazo(reemplazarEtiqueta(checkListSeleccionado.getNombre()));
@@ -1161,6 +1152,16 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método guardarSeleccionI " + " " + e.getMessage());
+		}
+	}
+	
+	public void guardarProceso() {
+		try {
+			UsuarioEt usuario = appMain.getUsuario();
+			iCheckListProcesoDao.guardarCheckListProceso(checkListProcesoSeleccionado, usuario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método guardarProceso " + " " + e.getMessage());
 		}
 	}
 

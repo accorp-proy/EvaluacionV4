@@ -482,9 +482,9 @@
 							action="#{PlantillaCriterioEspecificoBn.guardarInformeDinamico()}"></p:commandButton>
 						<p:spacer width="5"></p:spacer>
 						<p:commandButton value="Previa" icon="ui-icon-print"
-							title="Generar Vista Previa Informe Dinámico" process="@this frm_pla_002"
-							update=":frm_pla_rpt_002" styleClass="secondary"
-							oncomplete="PF('dlg_pla_rpt_002').show()"
+							title="Generar Vista Previa Informe Dinámico"
+							process="@this frm_pla_002" update=":frm_pla_rpt_002"
+							styleClass="secondary" oncomplete="PF('dlg_pla_rpt_002').show()"
 							action="#{PlantillaCriterioEspecificoBn.imprimir()}"></p:commandButton>
 					</div>
 					<p:fieldset id="filCabeceraTop" legend="Encabezado Top"
@@ -856,7 +856,7 @@
 							</p:dataTable>
 						</p:fieldset>
 					</p:fieldset>
-					<p:fieldset legend="Tabla Administrativa" toggleable="true"
+					<p:fieldset id="filTablaAdm" legend="Tabla Administrativa" toggleable="true"
 						toggleSpeed="500">
 						<p:panelGrid columns="4" styleClass="fullsize sinborde"
 							layout="grid">
@@ -884,6 +884,20 @@
 							<p:column headerText="Visualizar Tabla">
 								<div align="center">
 									<p:selectBooleanCheckbox value="#{proceso.visualizarTabla}"></p:selectBooleanCheckbox>
+								</div>
+							</p:column>
+							<p:column headerText="Visualizar Tabla">
+								<div align="center">
+									<h:outputText
+										value="#{proceso.visualizarTabla eq true ? 'SI' : 'NO'}" />
+								</div>
+							</p:column>
+							<p:column>
+								<div align="center">
+									<p:commandButton id="btnAdm" title="Editar"
+										icon="ui-icon-pencil" oncomplete="PF('dialog_002_7').show()"
+										update=":frm_pla_002_7"
+										action="#{PlantillaCriterioEspecificoBn.modificarP(proceso)}"></p:commandButton>
 								</div>
 							</p:column>
 						</p:dataTable>
@@ -958,6 +972,7 @@
 		<ui:include src="/pages/plantilla/pla_002_4.xhtml"></ui:include>
 		<ui:include src="/pages/plantilla/pla_002_5.xhtml"></ui:include>
 		<ui:include src="/pages/plantilla/pla_002_6.xhtml"></ui:include>
+		<ui:include src="/pages/plantilla/pla_002_7.xhtml"></ui:include>
 		<ui:include src="/pages/plantilla/pla_005.xhtml"></ui:include>
 		<ui:include src="/pages/plantilla/pla_006.xhtml"></ui:include>
 		<ui:include src="/pages/reporte/plantilla/pla_rpt_002.xhtml"></ui:include>
