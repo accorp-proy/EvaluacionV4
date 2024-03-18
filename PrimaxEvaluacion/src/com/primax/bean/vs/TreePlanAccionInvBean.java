@@ -269,10 +269,10 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
-	public void adjuntoTienda(Long id, Long idTipoInv) {
+	public void adjuntoTienda(Long id) {
 		try {
 			plnAccionCategoriasT = new ArrayList<>();
-			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id, idTipoInv);
+			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id);
 			PlanAccionInventarioTipoEt tipo = iPlanAccionInventarioTipoDao.getPlanAccionInventarioTipoDif(tipoN.getIdPlanAccionInventarioTipo());
 			if (tipo != null && tipo.getPlanAccionInvCategoria() != null && !tipo.getPlanAccionInvCategoria().isEmpty()) {
 				for (PlanAccionInvCategoriaEt categoria : tipo.getPlanAccionInvCategoria()) {
@@ -287,10 +287,10 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 
 	}
 
-	public void adjuntoCombustible(Long id, Long idTipoInv) {
+	public void adjuntoCombustible(Long id) {
 		try {
 			plnAccionCategoriasC = new ArrayList<>();
-			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id, idTipoInv);
+			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id);
 			PlanAccionInventarioTipoEt tipo = iPlanAccionInventarioTipoDao.getPlanAccionInventarioTipoDif(tipoN.getIdPlanAccionInventarioTipo());
 			if (tipo != null && tipo.getPlanAccionInvCategoria() != null && !tipo.getPlanAccionInvCategoria().isEmpty()) {
 				for (PlanAccionInvCategoriaEt categoria : tipo.getPlanAccionInvCategoria()) {
@@ -305,10 +305,10 @@ public class TreePlanAccionInvBean extends BaseBean implements Serializable {
 
 	}
 
-	public void adjuntoPromocion(Long id, Long idTipoInv) {
+	public void adjuntoPromocion(Long id) {
 		try {
 			plnAccionCategoriasP = new ArrayList<>();
-			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id, idTipoInv);
+			PlanAccionInventarioTipoEt tipoN = iPlanAccionInventarioTipoDao.getPlanAccionInvTipo(id);
 			PlanAccionInventarioTipoEt tipo = iPlanAccionInventarioTipoDao.getPlanAccionInventarioTipoDif(tipoN.getIdPlanAccionInventarioTipo());
 			if (tipo != null && tipo.getPlanAccionInvCategoria() != null && !tipo.getPlanAccionInvCategoria().isEmpty()) {
 				for (PlanAccionInvCategoriaEt categoria : tipo.getPlanAccionInvCategoria()) {

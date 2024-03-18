@@ -804,6 +804,24 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		return mensaje;
 	}
 
+	public void cargarFormularioP() {
+		try {
+			cargarFormulario(checkListProcesoSeleccionado);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método cargarFormularioP " + " " + e.getMessage());
+		}
+	}
+
+	public void cargarFormularioT() {
+		try {
+			cargarFormulario(checkListProcesoSeleccionadoT);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error :Método cargarFormularioT " + " " + e.getMessage());
+		}
+	}
+
 	public void cargarFormulario(CheckListProcesoEt checkProceso) {
 
 		frm1 = false;
@@ -815,8 +833,30 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		procesoFormulario3 = new ArrayList<>();
 
 		try {
+			iCheckListProcesoFormularioDao.clear();
 			List<CheckListProcesoFormularioEt> procesosFormulario = iCheckListProcesoFormularioDao.getCheckListFormularioByProceso(checkProceso);
-
+//			for (CheckListProcesoFormularioEt frmOjb : procesosFormulario) {
+//				frm1 = true;
+//				procesoFormulario1.add(frmOjb);
+//				nombreFrm_1 = frmOjb.getNombreFrm();
+//				frm0_1 = frmOjb.isFrm0();
+//				frm1_1 = frmOjb.isFrm1();
+//				frm2_1 = frmOjb.isFrm2();
+//				frm3_1 = frmOjb.isFrm3();
+//				frm4_1 = frmOjb.isFrm4();
+//				frm5_1 = frmOjb.isFrm5();
+//				frm6_1 = frmOjb.isFrm6();
+//				frm7_1 = frmOjb.isFrm7();
+//				nombFrm0_1 = frmOjb.getNombFrm0();
+//				nombFrm1_1 = frmOjb.getNombFrm1();
+//				nombFrm2_1 = frmOjb.getNombFrm2();
+//				nombFrm3_1 = frmOjb.getNombFrm3();
+//				nombFrm4_1 = frmOjb.getNombFrm4();
+//				nombFrm5_1 = frmOjb.getNombFrm5();
+//				nombFrm6_1 = frmOjb.getNombFrm6();
+//				nombFrm7_1 = frmOjb.getNombFrm7();
+//				break;
+//			}
 			for (int i = 0; i < procesosFormulario.size(); i++) {
 
 				if (i == 0) {
@@ -1003,6 +1043,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 				checkListKpiSeleccionado.setSeccion0Reemplazo(reemplazarEtiqueta(checkListKpiSeleccionado.getSeccion0()));
 			}
 			iCheckListKpiDao.guardarCheckListKpi(checkListKpiSeleccionado, usuario);
+			checkListKpiSeleccionado = iCheckListKpiDao.getCheckListKpi(checkListKpiSeleccionado.getIdCheckListKpi());
 			CheckListProcesoEt proceso = checkListKpiSeleccionado.getCheckListProceso();
 			List<CheckListKpiEt> kpis = iCheckListKpiDao.getCheckListByVisualizar(proceso);
 			if (kpis == null || kpis.isEmpty()) {
@@ -1012,6 +1053,8 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 			}
 			iCheckListProcesoDao.guardarCheckListProceso(proceso, usuario);
 			RequestContext.getCurrentInstance().execute("PF('dialog_002_4').hide();");
+			iCheckListDao.clear();
+			checkListSeleccionado = iCheckListDao.getCheckList(proceso.getCheckList().getIdCheckList());
 			checkListKpiSeleccionado = null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1115,6 +1158,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
 			checkListSeleccionado.setParametroLogo(parEmpresaSelecciona);
+			iCheckListDao.clear();
 			iCheckListDao.guardarCheckList(checkListSeleccionado, usuario);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1154,7 +1198,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 			System.out.println("Error :Método guardarSeleccionI " + " " + e.getMessage());
 		}
 	}
-	
+
 	public void guardarProceso() {
 		try {
 			UsuarioEt usuario = appMain.getUsuario();
@@ -1167,9 +1211,10 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 
 	public void modificarF(CheckListProcesoFormularioEt formulario) {
 		try {
+			checkListFrmSeleccionadoM = null;
+			checkListProcesoSeleccionado = null;
 			checkListFrmSeleccionadoM = formulario;
 			checkListProcesoSeleccionado = formulario.getCheckListProceso();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error :Método modificarF " + " " + e.getMessage());
@@ -1760,7 +1805,8 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 	}
 
 	public void setCheckListProcesoSeleccionado(CheckListProcesoEt checkListProcesoSeleccionado) {
-		cargarFormulario(checkListProcesoSeleccionado);
+//		cargarFormulario(checkListProcesoSeleccionado);
+//		this.checkListProcesoSeleccionado = null;
 		this.checkListProcesoSeleccionado = checkListProcesoSeleccionado;
 	}
 
@@ -1777,7 +1823,7 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 	}
 
 	public void setCheckListProcesoSeleccionadoT(CheckListProcesoEt checkListProcesoSeleccionadoT) {
-		cargarFormulario(checkListProcesoSeleccionadoT);
+		// cargarFormulario(checkListProcesoSeleccionadoT);
 		this.checkListProcesoSeleccionadoT = checkListProcesoSeleccionadoT;
 	}
 
@@ -1884,8 +1930,8 @@ public class PlantillaCriterioEspecificoBean extends BaseBean implements Seriali
 		iCheckListProcesoDao.remove();
 		iCheckListEtiquetaDao.remove();
 		iParametrolGeneralDao.remove();
-		iCriterioEvaluacionDao.remove();
 		iCheckListPieFirmaDao.remove();
+		iCriterioEvaluacionDao.remove();
 		iCheckListInformeCabeceraDao.remove();
 		iCheckListProcesoFormularioDao.remove();
 	}

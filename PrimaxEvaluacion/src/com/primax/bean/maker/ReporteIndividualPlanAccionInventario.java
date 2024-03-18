@@ -66,21 +66,15 @@ public class ReporteIndividualPlanAccionInventario extends BaseReport {
 					for (ResponsableEt responsable : responsables) {
 						if (responsable.getTipoCargo().getDescripcion().equals("GERENTE")) {
 							nombreGerente = responsable.getPersona().getNombreCompleto();
-							cargoEstacion = responsable.getTipoCargo().getFirma();
+							cargoEstacion = responsable.getTipoCargo().getFirma() + " " + ":";
 						}
 					}
 					if (nombreGerente != null && nombreGerente.equals("N/A")) {
 						for (ResponsableEt responsable : responsables) {
-							if (responsable.getTipoCargo().getDescripcion().equals("RESPONSABLE TIENDA")) {
-								nombreGerente = responsable.getPersona().getNombreCompleto();
-								cargoEstacion = responsable.getTipoCargo().getFirma();
+							if (responsable.getTipoCargo().getDescripcion().equals("SOPORTE OPERATIVO")) {
+								nombreSoporteO = responsable.getPersona().getNombreCompleto();
+								cargoEstacion = responsable.getTipoCargo().getFirma() + " " + ":";
 							}
-						}
-					}
-					for (ResponsableEt responsable : responsables) {
-						if (responsable.getTipoCargo().getDescripcion().contains("SOPORTE OPERATIVO")) {
-							nombreSoporteO = responsable.getPersona().getNombreCompleto();
-							cargoEstacion = responsable.getTipoCargo().getFirma();
 						}
 					}
 				}

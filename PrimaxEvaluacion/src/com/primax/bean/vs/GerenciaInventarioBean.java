@@ -146,6 +146,10 @@ public class GerenciaInventarioBean extends BaseBean implements Serializable {
 	public String validarguardar() {
 		String mensaje = "";
 		try {
+			if (planAccionInvTipo.getPlanAccionInvCategoria() == null || planAccionInvTipo.getPlanAccionInvCategoria().isEmpty()) {
+				mensaje = "Por favor agregar categorías al plan de acción";
+				return mensaje;
+			}
 			for (PlanAccionInvCategoriaEt planAccionInvCat : planAccionInvTipo.getPlanAccionInvCategoria()) {
 				if (planAccionInvCat.getComentarioPlanAccion() == null) {
 					mensaje = "Por favor ingresar plan de acción de la categoría " + " " + planAccionInvCat.getCategoriaInventario().getDescripcion();

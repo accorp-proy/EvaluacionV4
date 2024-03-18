@@ -253,6 +253,7 @@
 										var="proceso" itemValue="#{proceso}"
 										itemLabel="#{proceso.descripcion}" />
 									<p:ajax
+										listener="#{PlantillaCriterioEspecificoBn.cargarFormularioP()}"
 										update="frm_pla_002:tabWiwe0:fil02,frm_pla_002:tabWiwe0:btnFormulario"></p:ajax>
 								</p:selectOneMenu>
 							</p:column>
@@ -477,8 +478,8 @@
 				</p:tab>
 				<p:tab id="tab02" title="Informe">
 					<div align="right">
-						<p:commandButton value="Guardar" process="@this frm_pla_002"
-							title="Guardar Informe Dinámico"
+						<p:commandButton value="Guardar" process="@form frm_pla_002"
+							title="Guardar Informe Dinámico" update="frm_pla_002"
 							action="#{PlantillaCriterioEspecificoBn.guardarInformeDinamico()}"></p:commandButton>
 						<p:spacer width="5"></p:spacer>
 						<p:commandButton value="Previa" icon="ui-icon-print"
@@ -623,7 +624,7 @@
 											value="#{kpi.visualizarTabla eq true ? 'SI' : 'NO'}"></h:outputText>
 									</div>
 								</p:column>
-								<p:column width="30" headerText="Accióon">
+								<p:column width="30" headerText="Acción">
 									<p:commandButton icon="ui-icon-pencil" title="Editar"
 										process="@this dtbKpi"
 										action="#{PlantillaCriterioEspecificoBn.kpiSeleccionadoModificar(kpi)}"
@@ -648,7 +649,8 @@
 										value="#{PlantillaCriterioEspecificoBn.procesosA}"
 										var="proceso" itemValue="#{proceso}"
 										itemLabel="#{proceso.descripcion}" />
-									<p:ajax update="frm_pla_002:tabWiwe0:filFormulario"></p:ajax>
+									<p:ajax update="frm_pla_002:tabWiwe0:filFormulario"
+										listener="#{PlantillaCriterioEspecificoBn.cargarFormularioT()}"></p:ajax>
 								</p:selectOneMenu>
 							</p:panelGrid>
 						</p:fieldset>
@@ -856,8 +858,8 @@
 							</p:dataTable>
 						</p:fieldset>
 					</p:fieldset>
-					<p:fieldset id="filTablaAdm" legend="Tabla Administrativa" toggleable="true"
-						toggleSpeed="500">
+					<p:fieldset id="filTablaAdm" legend="Tabla Administrativa"
+						toggleable="true" toggleSpeed="500">
 						<p:panelGrid columns="4" styleClass="fullsize sinborde"
 							layout="grid">
 							<p:row>
@@ -879,11 +881,6 @@
 							<p:column headerText="Nombre Proceso">
 								<div align="center">
 									<p:outputLabel value="#{proceso.proceso.nombreProceso}"></p:outputLabel>
-								</div>
-							</p:column>
-							<p:column headerText="Visualizar Tabla">
-								<div align="center">
-									<p:selectBooleanCheckbox value="#{proceso.visualizarTabla}"></p:selectBooleanCheckbox>
 								</div>
 							</p:column>
 							<p:column headerText="Visualizar Tabla">

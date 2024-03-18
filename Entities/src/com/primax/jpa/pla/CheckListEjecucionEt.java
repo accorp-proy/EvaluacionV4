@@ -1,6 +1,7 @@
 package com.primax.jpa.pla;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -199,6 +200,13 @@ public class CheckListEjecucionEt extends EntityBase implements Serializable {
 		this.visualizarPeso = false;
 		this.visualizarComentario = false;
 		this.estadoPlanAccion = EstadoPlanAccionEnum.PENDIENTE;
+		this.checkListEjecucionFirma = new ArrayList<>();
+		this.checkListProcesoEjecucion = new ArrayList<>();
+		this.checkListEjecucionAdjunto = new ArrayList<>();
+		this.checkListEjecucionReporte = new ArrayList<>();
+		this.checkListPieFirmaEjecucion= new ArrayList<>();
+		this.checkListEjecucionPlnAdjunto= new ArrayList<>();
+		this.checkListInformeCabeceraEjecucion= new ArrayList<>();
 	}
 
 	public Long getOrden() {

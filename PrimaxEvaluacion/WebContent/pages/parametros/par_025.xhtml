@@ -27,7 +27,8 @@
 					<f:facet name="header">
 						<p:column colspan="7">
 							<div align="left">
-								<p:outputLabel value="Informacion de inventarios, planes de accion y evidencias" />
+								<p:outputLabel
+									value="Informacion de inventarios, planes de accion y evidencias" />
 							</div>
 						</p:column>
 					</f:facet>
@@ -117,20 +118,20 @@
 								</p:commandButton>
 								<p:spacer></p:spacer>
 								<p:commandButton
-									rendered="#{document.tipo eq 'Plan' and document.id1.toString() eq '1'}"
-									value="#{TreePlanAccionInvBn.adjuntoTienda(document.id0,document.id1)}"
+									rendered="#{document.tipo eq 'Plan' and document.nombre eq 'TIENDA'}"
+									value="#{TreePlanAccionInvBn.adjuntoTienda(document.id0)}"
 									oncomplete="PF('dlg_par_025_1').show();"
 									title="Evidencias del Plan de Acción" update=":frm_par_025_1"
 									icon="fa fa-file-archive-o"></p:commandButton>
 								<p:commandButton
-									rendered="#{document.tipo eq 'Plan' and document.id1.toString() eq '2'}"
-									value="#{TreePlanAccionInvBn.adjuntoCombustible(document.id0,document.id1)}"
+									rendered="#{document.tipo eq 'Plan' and document.nombre eq 'COMBUSTIBLE'}"
+									value="#{TreePlanAccionInvBn.adjuntoCombustible(document.id0)}"
 									oncomplete="PF('dlg_par_025_2').show();"
 									title="Evidencias del Plan de Acción" update=":frm_par_025_2"
 									icon="fa fa-file-archive-o"></p:commandButton>
 								<p:commandButton
-									rendered="#{document.tipo eq 'Plan' and document.id1.toString() eq '3'}"
-									value="#{TreePlanAccionInvBn.adjuntoPromocion(document.id0,document.id1)}"
+									rendered="#{document.tipo eq 'Plan' and document.nombre eq 'PROMOCIONES Y LUBRICANTES'}"
+									value="#{TreePlanAccionInvBn.adjuntoPromocion(document.id0)}"
 									oncomplete="PF('dlg_par_025_3').show();"
 									title="Evidencias del Plan de Acción" update=":frm_par_025_3"
 									icon="fa fa-file-archive-o"></p:commandButton>

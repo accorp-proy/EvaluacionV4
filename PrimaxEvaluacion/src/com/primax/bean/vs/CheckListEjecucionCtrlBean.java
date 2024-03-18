@@ -2970,18 +2970,21 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro01Frm01List = new ArrayList<>();
 			}
 			if (orden == 1) {
 				if (pro01Frm02List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro01Frm02List = new ArrayList<>();
 			}
 			if (orden == 2) {
 				if (pro01Frm03List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro01Frm03List = new ArrayList<>();
 			}
 			UsuarioEt usuario = appMain.getUsuario();
 			checkListProFrm.setEstado(EstadoEnum.INA);
@@ -3006,18 +3009,21 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro02Frm01List = new ArrayList<>();
 			}
 			if (orden == 1) {
 				if (pro02Frm02List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro02Frm02List = new ArrayList<>();
 			}
 			if (orden == 2) {
 				if (pro02Frm03List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro02Frm03List = new ArrayList<>();
 			}
 			UsuarioEt usuario = appMain.getUsuario();
 			Date fechaRegistro = UtilEnum.FECHA_REGISTRO.getValue();
@@ -3042,18 +3048,21 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro03Frm01List = new ArrayList<>();
 			}
 			if (orden == 1) {
 				if (pro03Frm02List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro03Frm02List = new ArrayList<>();
 			}
 			if (orden == 2) {
 				if (pro03Frm03List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro03Frm03List = new ArrayList<>();
 			}
 			UsuarioEt usuario = appMain.getUsuario();
 			Date fechaRegistro = UtilEnum.FECHA_REGISTRO.getValue();
@@ -3078,18 +3087,21 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro04Frm01List = new ArrayList<>();
 			}
 			if (orden == 1) {
 				if (pro04Frm02List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro04Frm02List = new ArrayList<>();
 			}
 			if (orden == 2) {
 				if (pro04Frm03List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro04Frm03List = new ArrayList<>();
 			}
 			UsuarioEt usuario = appMain.getUsuario();
 			Date fechaRegistro = UtilEnum.FECHA_REGISTRO.getValue();
@@ -3114,18 +3126,21 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro05Frm01List = new ArrayList<>();
 			}
 			if (orden == 1) {
 				if (pro05Frm02List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro05Frm02List = new ArrayList<>();
 			}
 			if (orden == 2) {
 				if (pro05Frm03List.size() == 1) {
 					showInfo("Item no puede ser eliminado ", FacesMessage.SEVERITY_INFO);
 					return;
 				}
+				pro05Frm03List = new ArrayList<>();
 			}
 			UsuarioEt usuario = appMain.getUsuario();
 			Date fechaRegistro = UtilEnum.FECHA_REGISTRO.getValue();
@@ -3388,7 +3403,7 @@ public class CheckListEjecucionCtrlBean extends BaseBean implements Serializable
 					iCheckListInfoCabEjeDao.guardarCheckListInfoCabEje(cabecera, usuario);
 				}
 				if (cabecera.getContenido().contains("{")) {
-					cabecera.setTitulo(reemplazarEtiqueta(cabecera.getTitulo(), checkListEjecucion));
+					//cabecera.setTitulo(reemplazarEtiqueta(cabecera.getTitulo(), checkListEjecucion));
 					cabecera.setContenido(reemplazarEtiqueta(cabecera.getContenido(), checkListEjecucion));
 					iCheckListInfoCabEjeDao.guardarCheckListInfoCabEje(cabecera, usuario);
 				}

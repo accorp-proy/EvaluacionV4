@@ -130,6 +130,13 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 			query.setParameter("estadoCheckList", estadoCheckList);
 		}
 		List<CheckListEjecucionEt> result = query.getResultList();
+		for (CheckListEjecucionEt consultado : result) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
 		return result;
 	}
 
@@ -198,6 +205,13 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 			query.setParameter("estadoCheckList", estadoCheckList);
 		}
 		List<CheckListEjecucionEt> result = query.getResultList();
+		for (CheckListEjecucionEt consultado : result) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
 		return result;
 	}
 
@@ -211,6 +225,13 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 		query.setParameter("estado", EstadoEnum.ACT);
 		query.setParameter("estadoCheckList", estadoCheckList);
 		List<CheckListEjecucionEt> result = query.getResultList();
+		for (CheckListEjecucionEt consultado : result) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
 		return result;
 	}
 
@@ -265,6 +286,13 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 			query.setParameter("nivelEvaluacion", nivelEvaluacion);
 		}
 		List<CheckListEjecucionEt> result = query.getResultList();
+		for (CheckListEjecucionEt consultado : result) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
 		return result;
 	}
 
@@ -322,6 +350,13 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 			query.setParameter("nivelEvaluacion", nivelEvaluacion);
 		}
 		List<CheckListEjecucionEt> result = query.getResultList();
+		for (CheckListEjecucionEt consultado : result) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
 		return result;
 	}
 
@@ -344,6 +379,10 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 		CheckListEjecucionEt consultado = getUnique(result);
 		if (consultado != null) {
 			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
 		}
 		return consultado;
 	}
@@ -365,7 +404,15 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 		query.setParameter("fechaEjecucion", fechaEjecucion, TemporalType.DATE);
 		query.setMaxResults(1);
 		List<CheckListEjecucionEt> result = query.getResultList();
-		return getUnique(result);
+		CheckListEjecucionEt consultado = getUnique(result);
+		if (consultado != null) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
+		return consultado;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -392,6 +439,10 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 		CheckListEjecucionEt consultado = getUnique(result);
 		if (consultado != null) {
 			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
 			for (CheckListProcesoEjecucionEt checkListProcesoEjecucion : consultado.getCheckListProcesoEjecucion()) {
 				checkListProcesoEjecucion.getCheckListKpiEjecucion().size();
 				for (CheckListKpiEjecucionEt checkListKpiEjecucion : checkListProcesoEjecucion.getCheckListKpiEjecucion()) {
@@ -460,6 +511,13 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 		query.setParameter("usuario", usuario);
 		query.setParameter("ejecutando", true);
 		List<CheckListEjecucionEt> result = query.getResultList();
+		for (CheckListEjecucionEt consultado : result) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
 		return result;
 	}
 
@@ -474,6 +532,13 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 		query.setParameter("usuario", usuario);
 		query.setParameter("planAccion", true);
 		List<CheckListEjecucionEt> result = query.getResultList();
+		for (CheckListEjecucionEt consultado : result) {
+			consultado.getCheckListProcesoEjecucion().size();
+			consultado.getCheckListEjecucionReporte().size();
+			consultado.getCheckListEjecucionAdjunto().size();
+			consultado.getCheckListEjecucionPlnAdjunto().size();
+			consultado.getCheckListInformeCabeceraEjecucion().size();
+		}
 		return result;
 	}
 
@@ -483,6 +548,10 @@ public class CheckListEjecucionDao extends GenericDao<CheckListEjecucionEt, Long
 		try {
 			CheckListEjecucionEt checkListEjecucion = recuperar(id);
 			checkListEjecucion.getCheckListProcesoEjecucion().size();
+			checkListEjecucion.getCheckListEjecucionReporte().size();
+			checkListEjecucion.getCheckListEjecucionAdjunto().size();
+			checkListEjecucion.getCheckListEjecucionPlnAdjunto().size();
+			checkListEjecucion.getCheckListInformeCabeceraEjecucion().size();
 			return checkListEjecucion;
 		} catch (EntidadNoEncontradaException e) {
 			e.printStackTrace();
