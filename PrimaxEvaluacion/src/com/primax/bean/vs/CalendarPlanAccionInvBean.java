@@ -230,10 +230,6 @@ public class CalendarPlanAccionInvBean extends BaseBean implements Serializable 
 				iPlanAccionInventarioTipoDao.guardarPlanAccionInvTipo(tipo, usuario);
 			}
 			planAccionInvSeleccionado.setPlanAccion(true);
-			if (planAccionInvSeleccionado.getFechaEjecucion() == null) {
-				planAccionInvSeleccionado.setFechaInicio(new Date());
-				planAccionInvSeleccionado.setFechaEjecucion(new Date());
-			}
 			iPlanAccionInventarioDao.guardarPlanAccionInventario(planAccionInvSeleccionado, usuario);
 			PlanAccionInventarioTipoEt tipoSele = tipoInventarioSeleccionados.get(0);
 			tipoSele.setEnEjecucion(true);

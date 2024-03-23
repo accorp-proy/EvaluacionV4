@@ -73,6 +73,7 @@ public class PlanAccionInventarioEt extends EntityBase implements Serializable {
 
 	public PlanAccionInventarioEt() {
 		this.planAccion = false;
+		this.fechaEjecucion = null;
 	}
 
 	public Long getIdPlanAccionInventario() {

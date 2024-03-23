@@ -157,7 +157,7 @@ public class PlanAccionInventarioTipoDao extends GenericDao<PlanAccionInventario
 			throws EntidadNoEncontradaException {
 		sql = new StringBuilder("FROM PlanAccionInventarioTipoEt o  ");
 		sql.append(" WHERE o.estado        = :estado   ");
-		sql.append(" AND date_trunc('day',o.planAccionInventario.fechaEjecucion) BETWEEN :fDesde AND :fHasta ");
+		sql.append(" AND date_trunc('day',o.planificacionInventarioTipo.planificacionInventario.fechaEjecucion) BETWEEN :fDesde AND :fHasta ");
 		sql.append(" AND o.planAccionInventario.planificacionInventario.estadoInventario = :estadoCheckList ");
 		if (!usuario.getZonaUsuario().isEmpty()) {
 			sql.append(" AND o.planAccionInventario.planificacionInventario.agencia.zona in (:zonas) ");
@@ -171,7 +171,7 @@ public class PlanAccionInventarioTipoDao extends GenericDao<PlanAccionInventario
 		if (estadoPlanAccion != null && !estadoPlanAccion.getDescripcion().equals("Todos")) {
 			sql.append(" AND o.estadoPlanAccionInv = :estadoPlanAccion ");
 		}
-		sql.append(" ORDER BY o.planAccionInventario.fechaEjecucion ");
+		sql.append(" ORDER BY o.planificacionInventarioTipo.planificacionInventario.fechaEjecucion ");
 		TypedQuery<PlanAccionInventarioTipoEt> query = em.createQuery(sql.toString(), PlanAccionInventarioTipoEt.class);
 		query.setParameter("estado", EstadoEnum.ACT);
 		List<ZonaEt> zonas = new ArrayList<ZonaEt>();
@@ -202,7 +202,7 @@ public class PlanAccionInventarioTipoDao extends GenericDao<PlanAccionInventario
 			throws EntidadNoEncontradaException {
 		sql = new StringBuilder("FROM PlanAccionInventarioTipoEt o ");
 		sql.append(" WHERE o.estado = :estado   ");
-		sql.append(" AND date_trunc('day',o.planAccionInventario.fechaEjecucion) BETWEEN :fDesde AND :fHasta ");
+		sql.append(" AND date_trunc('day',o.planificacionInventarioTipo.planificacionInventario.fechaEjecucion) BETWEEN :fDesde AND :fHasta ");
 		sql.append(" AND o.planAccionInventario.planificacionInventario.estadoInventario = :estadoCheckList ");
 		if (zona != null) {
 			sql.append(" AND o.planAccionInventario.planificacionInventario.agencia.zona = :zona ");
@@ -216,7 +216,7 @@ public class PlanAccionInventarioTipoDao extends GenericDao<PlanAccionInventario
 		if (estadoPlanAccion != null && !estadoPlanAccion.getDescripcion().equals("Todos")) {
 			sql.append(" AND o.estadoPlanAccionInv = :estadoPlanAccion ");
 		}
-		sql.append(" ORDER BY o.planificacion.fechaPlanificacion ");
+		sql.append(" ORDER BY o.planificacionInventarioTipo.planificacionInventario.fechaEjecucion ");
 		TypedQuery<PlanAccionInventarioTipoEt> query = em.createQuery(sql.toString(), PlanAccionInventarioTipoEt.class);
 		query.setParameter("estado", EstadoEnum.ACT);
 		query.setParameter("fDesde", fechaDesde, TemporalType.DATE);

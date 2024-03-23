@@ -90,6 +90,12 @@
 						<h:outputText
 							value="#{plnAccTip.planAccionInventario.planificacionInventario.agencia.nombreAgencia}"></h:outputText>
 					</p:column>
+					<p:column headerText="Fecha Planificación">
+						<h:outputText
+							value="#{plnAccTip.planificacionInventarioTipo.planificacionInventario.fechaPlanificacion}">
+							<f:convertDateTime pattern="dd-MM-yyyy" />
+						</h:outputText>
+					</p:column>
 					<p:column headerText="Fecha Ejecución">
 						<h:outputText
 							value="#{plnAccTip.planAccionInventario.fechaEjecucion}">
